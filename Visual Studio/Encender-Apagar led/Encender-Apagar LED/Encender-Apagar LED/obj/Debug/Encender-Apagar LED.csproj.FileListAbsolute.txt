@@ -1,0 +1,8 @@
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Encender-Apagar led\Encender-Apagar LED\Encender-Apagar LED\bin\Debug\Encender-Apagar LED.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Encender-Apagar led\Encender-Apagar LED\Encender-Apagar LED\bin\Debug\Encender-Apagar LED.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Encender-Apagar led\Encender-Apagar LED\Encender-Apagar LED\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Encender-Apagar led\Encender-Apagar LED\Encender-Apagar LED\obj\Debug\Encender_Apagar_LED.Form1.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Encender-Apagar led\Encender-Apagar LED\Encender-Apagar LED\obj\Debug\Encender_Apagar_LED.Properties.Resources.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Encender-Apagar led\Encender-Apagar LED\Encender-Apagar LED\obj\Debug\Encender-Apagar LED.csproj.GenerateResource.Cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Encender-Apagar led\Encender-Apagar LED\Encender-Apagar LED\obj\Debug\Encender-Apagar LED.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Encender-Apagar led\Encender-Apagar LED\Encender-Apagar LED\obj\Debug\Encender-Apagar LED.pdb
