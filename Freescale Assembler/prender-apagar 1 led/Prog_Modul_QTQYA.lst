@@ -1,0 +1,18 @@
+
+Prog_Modul_QTQYA.inc   Assembled with CASM08Z  10/08/2013  19:50:58  PAGE 1
+
+
+
+                        1  ****************************************************
+                                                    ***************************
+                        2  *                    PROG_MODUL_QTQYA - ARCHIVO 
+                                                                        INCLUDE
+                        3  * Contiene la Programacion de los Modulos del 
+                                                           MC68HC908QTxxA/QYxxA
+                        4  ****************************************************
+                                                    ***************************
+                        5  prog_modulos:
+                        6  ;-------------- Programo el CONFIG -----------------
+                                                    ---------------------------
+ ***** FATAL ERROR ***** ASSEMBLY ABORTED *****
+error  second parameter unknown.
