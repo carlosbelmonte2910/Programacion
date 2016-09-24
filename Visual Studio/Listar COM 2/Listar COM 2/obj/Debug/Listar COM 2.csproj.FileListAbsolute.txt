@@ -1,0 +1,8 @@
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM 2\Listar COM 2\bin\Debug\Listar COM 2.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM 2\Listar COM 2\bin\Debug\Listar COM 2.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM 2\Listar COM 2\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM 2\Listar COM 2\obj\Debug\WindowsFormsApplication2.Form1.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM 2\Listar COM 2\obj\Debug\WindowsFormsApplication2.Properties.Resources.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM 2\Listar COM 2\obj\Debug\Listar COM 2.csproj.GenerateResource.Cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM 2\Listar COM 2\obj\Debug\Listar COM 2.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM 2\Listar COM 2\obj\Debug\Listar COM 2.pdb

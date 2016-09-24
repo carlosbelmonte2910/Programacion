@@ -1,0 +1,10 @@
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\CSharpArduino\bin\Debug\CSharpArduino.exe
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\CSharpArduino\bin\Debug\CSharpArduino.pdb
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\CSharpArduino\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\CSharpArduino\obj\Debug\CSharpArduino.exe
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\CSharpArduino\obj\Debug\CSharpArduino.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Arduino y usb\CSharpArduino\CSharpArduino\obj\Debug\CSharpArduino.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Arduino y usb\CSharpArduino\CSharpArduino\obj\Debug\CSharpArduino.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Arduino y usb\CSharpArduino\CSharpArduino\bin\Debug\CSharpArduino.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Arduino y usb\CSharpArduino\CSharpArduino\bin\Debug\CSharpArduino.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Arduino y usb\CSharpArduino\CSharpArduino\obj\Debug\ResolveAssemblyReference.cache

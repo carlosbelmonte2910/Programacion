@@ -1,0 +1,5 @@
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar COM en consola\listar COM en consola\bin\Debug\listar COM en consola.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar COM en consola\listar COM en consola\bin\Debug\listar COM en consola.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar COM en consola\listar COM en consola\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar COM en consola\listar COM en consola\obj\Debug\listar COM en consola.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar COM en consola\listar COM en consola\obj\Debug\listar COM en consola.pdb
