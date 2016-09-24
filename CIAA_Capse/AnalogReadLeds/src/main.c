@@ -1,3 +1,7 @@
+/*Alumno: Carlos Mariano Belmonte*/
+/*Curso: CAPSE                   */
+/*Año: 2016                      */
+
 #include "main.h"         /* <= own header */
 #include "sAPI.h"         /* <= sAPI header */
 
