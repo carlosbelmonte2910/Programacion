@@ -1,3 +1,7 @@
+/*Alumno: Carlos Mariano Belmonte*/
+/*Curso: CAPSE                   */
+/*Año: 2016                      */
+
 #include "Estados.h"      /*Diferentes estados del semaforo*/
 #include "main.h"         /* <= own header */
 #include "sAPI.h"         /* <= sAPI header */
