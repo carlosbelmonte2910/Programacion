@@ -1,0 +1,8 @@
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar com\listar com\bin\Debug\listar com.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar com\listar com\bin\Debug\listar com.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar com\listar com\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar com\listar com\obj\Debug\WindowsFormsApplication1.Form1.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar com\listar com\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar com\listar com\obj\Debug\listar com.csproj.GenerateResource.Cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar com\listar com\obj\Debug\listar com.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\listar com\listar com\obj\Debug\listar com.pdb
