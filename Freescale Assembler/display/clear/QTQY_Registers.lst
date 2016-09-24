@@ -1,0 +1,395 @@
+
+QTQY_Registers.inc     Assembled with CASM08Z  10/08/2013  19:45:53  PAGE 1
+
+
+
+                        1  ;***************************************************
+                                                    ***************************
+                        2  ;                    QTQY_REGISTERS.INC - ARCHIVO 
+                                                                        INCLUDE
+                        3  ; Contiene las Definiciones de los Registros del 
+                                                       MC68HC908QTA/QYA/8/4/2/1
+                        4  ;
+                        5  ;                    SyHDe - Soft y Hard Desarrollos
+                        6  ;***************************************************
+                                                    ***************************
+                        7  
+                        8  ;***************************************************
+                                                    ***************************
+                        9  ;---------------REGISTROS DE PUERTOS ENT/SAL--------
+                                                    ---------------------------
+                       10  ;---------------PUERTO A----------------------------
+                                                    ---------------------------
+ 0000                  11  PTA  EQU     $0000   ; Port A Data register
+ 0000                  12  PORTA        EQU     $0000   ; "
+ 0000                  13  DDRA EQU     $0004   ; Port A Data Direction 
+                                                                       Register
+ 0000                  14  PTAPUE  EQU  $000B   ; Port A Pull Ups Enable
+                       15  
+                       16  ;---------------PUERTO B----------------------------
+                                                    ---------------------------
+ 0000                  17  PTB  EQU     $0001   ; Port B Data register
+ 0000                  18  PORTB        EQU     $0001   ; "
+ 0000                  19  DDRB EQU     $0005   ; Port B Data Direction 
+                                                                       Register
+ 0000                  20  PTBPUE  EQU  $000C   ; Port B Pull Ups Enable
+                       21  
+                       22  ;***************************************************
+                                                    ***************************
+                       23  ;---------------REGISTROS DEL MODULO KEYBOARD-------
+                                                    ---------------------------
+ 0000                  24  KBSCR        EQU     $001A   ; Keyboard Status & 
+                                                               Control register
+ 0000                  25  keyf equ     3       ;
+ 0000                  26  ackk equ     2       ;
+ 0000                  27  imaskk       equ     1       ;
+ 0000                  28  modek        equ     0       ;
+                       29  
+ 0000                  30  KBIER        EQU     $001B   ; Keyboard interrupt 
+                                                                enable register
+                       31  
+                       32  ;***************************************************
+                                                    ***************************
+                       33  ;---------------REGISTROS DE INTERRUPCION EXTERNA 
+                                                  1----------------------------
+ 0000                  34  INTSCR       EQU     $001D   ; IRQ Status & Control 
+                                                                       Register
+ 0000                  35  irqf equ     3       ;
+ 0000                  36  ack  equ     2       ;
+ 0000                  37  imask        equ     1       ;
+ 0000                  38  mode equ     0       ;
+                       39  
+                       40  ;***************************************************
+                                                    ***************************
+
+
+QTQY_Registers.inc     Assembled with CASM08Z  10/08/2013  19:45:53  PAGE 2
+
+
+
+                       41  ;---------------REGISTROS DE CONFIGURACION----------
+                                                    ---------------------------
+ 0000                  42  CONFIG1      EQU     $001F   ; Configuration 
+                                                                     Register 1
+                       43  
+ 0000                  44  CONFIG2      EQU     $001E   ; Configuration 
+                                                                     Register 2
+                       45  
+                       46  ;***************************************************
+                                                    ***************************
+                       47  ;---------------REGISTROS DEL TIMER ----------------
+                                                    ---------------------------
+ 0000                  48  TSC  EQU     $0020   ; Timer Status & Control 
+                                                                       Register
+ 0000                  49  tof  equ     7       ;
+ 0000                  50  toie equ     6       ;
+ 0000                  51  tstop        equ     5       ;
+ 0000                  52  trst equ     4       ;
+                       53  
+ 0000                  54  TCNTH        EQU     $0021   ; Timer Counter 
+                                                                  Register High
+ 0000                  55  TCNTL        EQU     $0022   ; Timer Counter 
+                                                                   Register Low
+ 0000                  56  TMODH        EQU     $0023   ; Timer Counter Modulo 
+                                                                  Register High
+ 0000                  57  TMODL        EQU     $0024   ; Timer Counter Modulo 
+                                                                   Register Low
+                       58  
+ 0000                  59  TSC0 EQU     $0025   ; Timer Channel 0 Status & 
+                                                               Control Register
+ 0000                  60  ch0f equ     7
+ 0000                  61  ch0ie        equ     6       ;
+ 0000                  62  ms0b equ     5       ;
+ 0000                  63  ms0a equ     4       ;
+ 0000                  64  els0b        equ     3       ;
+ 0000                  65  els0a        equ     2       ;
+ 0000                  66  tov0 equ     1       ;
+ 0000                  67  ch0max       equ     0       ;
+                       68  
+ 0000                  69  TCH0H        EQU     $0026   ; Timer Channel 0 
+                                                                  Register High
+ 0000                  70  TCH0L        EQU     $0027   ; Timer Channel 0 
+                                                                   Register Low
+                       71  
+ 0000                  72  TSC1 EQU     $0028   ; Timer Channel 1 Status & 
+                                                               Control Register
+ 0000                  73  ch1f equ     7
+ 0000                  74  ch1ie        equ     6       ;
+ 0000                  75  ms1b equ     5       ;
+ 0000                  76  ms1a equ     4       ;
+ 0000                  77  els1b        equ     3       ;
+ 0000                  78  els1a        equ     2       ;
+ 0000                  79  tov1 equ     1       ;
+ 0000                  80  ch1max       equ     0       ;
+                       81  
+ 0000                  82  TCH1H        EQU     $0029   ; Timer Channel 1 
+                                                                  Register High
+ 0000                  83  TCH1L        EQU     $002A   ; Timer Channel 1 
+
+
+QTQY_Registers.inc     Assembled with CASM08Z  10/08/2013  19:45:53  PAGE 3
+
+
+
+                                                                   Register Low
+                       84  
+                       85  ;***************************************************
+                                                    ***************************
+                       86  ;---------------REGISTROS DEL OSCILADOR-------------
+                                                    ---------------------------
+ 0000                  87  OSCSC        EQU     $0036   ;Oscillator Status and 
+                                                               Control Register
+ 0000                  88  ecgst        equ     0       ;Read Only!!!!
+ 0000                  89  ecgon        equ     1       ;
+ 0000                  90  ecfs0        equ     2       ;
+ 0000                  91  ecfs1        equ     3       ;
+ 0000                  92  icfs0        equ     4       ;
+ 0000                  93  icfs1        equ     5       ;
+ 0000                  94  oscopt0      equ     6       ;
+ 0000                  95  oscopt1      equ     7       ;
+                       96  
+ 0000                  97  OSCTRIM      EQU     $0038   ;Oscillator Trim 
+                                                                       Register
+                       98  
+ 0000                  99  OSCSTAT EQU  $0036   ;Oscillator Status and Control 
+                                                         (No Vers A Solo QY/QT)
+                      100  
+                      101  ;***************************************************
+                                                    ***************************
+                      102  ;---------------REGISTROS DEL ADC-------------------
+                                                    ---------------------------
+ 0000                 103  ADSCR        EQU     $003C   ; ADC Status & Control 
+                                                                       Register
+ 0000                 104  coco equ     7       ;
+ 0000                 105  aien equ     6       ;
+ 0000                 106  adco equ     5       ;
+                      107  
+ 0000                 108  ADRH EQU     $003D   ; ADC10 Data Register High
+ 0000                 109  ADRL EQU     $003E   ; ADC10 Data Register Low
+ 0000                 110  ADICLK       EQU     $003F   ; ADC10 Clock Control 
+                                                                       Register
+                      111  
+                      112  ;***************************************************
+                                                    ***************************
+                      113  ;---------------REGISTROS DEL MODULO SIM------------
+                                                    ---------------------------
+ 0000                 114  BSR  EQU     $FE00   ; Break Status Register
+ 0000                 115  sbsw equ     1       ; break wait bit
+                      116  
+ 0000                 117  SRSR EQU     $FE01   ; SIM Reset Status Register
+ 0000                 118  por  equ     7       ;
+ 0000                 119  pin  equ     6       ;
+ 0000                 120  cop  equ     5       ;
+ 0000                 121  ilop equ     4       ;
+ 0000                 122  ilad equ     3       ;
+ 0000                 123  modrst       equ     2       ;
+ 0000                 124  lvi  equ     1       ;
+                      125  
+ 0000                 126  BRKAR        EQU     $FE02   ; Break Auxiliary 
+                                                                       Register
+ 0000                 127  bdcop        equ     0
+                      128  
+
+
+QTQY_Registers.inc     Assembled with CASM08Z  10/08/2013  19:45:53  PAGE 4
+
+
+
+ 0000                 129  BFCR EQU     $FE03   ; Break Flag Control Register
+ 0000                 130  bcfe equ     7       ;
+                      131  
+ 0000                 132  INT1 EQU     $FE04   ; Interrupt Status Register 1
+                      133  
+ 0000                 134  INT2 EQU     $FE05   ; Interrupt Status Register 2
+                      135  
+ 0000                 136  INT3 EQU     $FE06   ; Interrupt Status Register 3
+                      137  
+                      138  ;***************************************************
+                                                    ***************************
+                      139  ;---------------REGISTROS DE LA MEMORIA FLASH-------
+                                                    ---------------------------
+ 0000                 140  FLCR EQU     $FE08   ; FLASH Control Register
+                      141  
+ 0000                 142  FLBPR        EQU     $FFBE   ; FLASH Block Protect
+                      143  
+                      144  ;***************************************************
+                                                    ***************************
+                      145  ;---------------REGISTROS DEL MODULO BREAK----------
+                                                     --------------------------
+ 0000                 146  BRKH EQU     $FE09   ; Break address Hig Register
+                      147  
+ 0000                 148  BRKL EQU     $FE0A   ; Break Address Low Register
+                      149  
+ 0000                 150  BRKSCR       EQU     $FE0B   ; Break Status & 
+                                                               Control Register
+                      151  
+                      152  ;***************************************************
+                                                    ***************************
+                      153  ;---------------REGISTROS DEL MODULO LVI------------
+                                                    ---------------------------
+ 0000                 154  LVISR        EQU     $FE0C   ; LVI Status Register
+                      155  
+                      156  ;***************************************************
+                                                    ***************************
+                      157  ;---------------REGISTROS DEL MODULO OSCILLATOR-----
+                                                    ---------------------------
+ 0000                 158  IOSCTRM EQU  $FFC0   ; Internal Oscillator Trim 
+                                                  (Factory Prog Value Optional)
+                      159  
+                      160  ;***************************************************
+                                                    ***************************
+                      161  ;---------------REGISTROS DEL MODULO COP WATCHDOG---
+                                                    ---------------------------
+ 0000                 162  COPCTL       EQU     $FFFF   ; COP Control Register
+                      163  
+                      164  ;***************************************************
+                                                    ***************************
+                      165  ;***************************************************
+                                                    ***************************
+                      166  ; RUTINAS DE MANEJO DE LA MEMORIA FLASH SITUADAS EN 
+                                                    LA ROM MONITOR (HC908QTQYx)
+                      167  ;***************************************************
+                                                    ***************************
+                      168  
+ 0000                 169  PRGRNGE              EQU     $2809   ;Programa un 
+                                                  rango de direcciones de Flash
+
+
+QTQY_Registers.inc     Assembled with CASM08Z  10/08/2013  19:45:53  PAGE 5
+
+
+
+ 0000                 170  ERARNGE              EQU     $2806   ;Borra una 
+                                                        pagina de Memoria Flash
+ 0000                 171  GETBYTE              EQU     $2800   ;Recibe un 
+                                              Byte en Modo Monitordesde el Port
+ 0000                 172  RDVRRNG              EQU     $2803   ;Usa un Rango 
+                                               de la Flash y lo envia x el Port
+ 0000                 173  DELNUS               EQU     $280C   ;Rutina de 
+                                                  Demora (usa parametros[A][X])
+                      174  
+                      175  ;***************************************************
+                                                    ***************************
+                      176  ;       SyHDe - Soft y Hard Desarrollos, 2000  - 
+                                                          Derechos Reservados -
+                      177  ; Ud.uede usar este archivo gratuitamente mientras 
+                                                     incluya este pie de pagina
+                      178  ;***************************************************
+                                                    ***************************
+                      179  
+                      180   
+
+ Symbol Table 
+
+ACK              0002
+ACKK             0002
+ADCO             0005
+ADICLK           003F
+ADRH             003D
+ADRL             003E
+ADSCR            003C
+AIEN             0006
+BCFE             0007
+BDCOP            0000
+BFCR             FE03
+BRKAR            FE02
+BRKH             FE09
+BRKL             FE0A
+BRKSCR           FE0B
+BSR              FE00
+CH0F             0007
+CH0IE            0006
+CH0MAX           0000
+CH1F             0007
+CH1IE            0006
+CH1MAX           0000
+COCO             0007
+CONFIG1          001F
+CONFIG2          001E
+COP              0005
+COPCTL           FFFF
+DDRA             0004
+DDRB             0005
+DELNUS           280C
+ECFS0            0002
+ECFS1            0003
+ECGON            0001
+ECGST            0000
+ELS0A            0002
+ELS0B            0003
+
+
+QTQY_Registers.inc     Assembled with CASM08Z  10/08/2013  19:45:53  PAGE 6
+
+
+
+ELS1A            0002
+ELS1B            0003
+ERARNGE          2806
+FLBPR            FFBE
+FLCR             FE08
+GETBYTE          2800
+ICFS0            0004
+ICFS1            0005
+ILAD             0003
+ILOP             0004
+IMASK            0001
+IMASKK           0001
+INT1             FE04
+INT2             FE05
+INT3             FE06
+INTSCR           001D
+IOSCTRM          FFC0
+IRQF             0003
+KBIER            001B
+KBSCR            001A
+KEYF             0003
+LVI              0001
+LVISR            FE0C
+MODE             0000
+MODEK            0000
+MODRST           0002
+MS0A             0004
+MS0B             0005
+MS1A             0004
+MS1B             0005
+OSCOPT0          0006
+OSCOPT1          0007
+OSCSC            0036
+OSCSTAT          0036
+OSCTRIM          0038
+PIN              0006
+POR              0007
+PORTA            0000
+PORTB            0001
+PRGRNGE          2809
+PTA              0000
+PTAPUE           000B
+PTB              0001
+PTBPUE           000C
+RDVRRNG          2803
+SBSW             0001
+SRSR             FE01
+TCH0H            0026
+TCH0L            0027
+TCH1H            0029
+TCH1L            002A
+TCNTH            0021
+TCNTL            0022
+TMODH            0023
+TMODL            0024
+TOF              0007
+TOIE             0006
+TOV0             0001
+
+
+QTQY_Registers.inc     Assembled with CASM08Z  10/08/2013  19:45:53  PAGE 7
+
+
+
+TOV1             0001
+TRST             0004
+TSC              0020
+TSC0             0025
+TSC1             0028
+TSTOP            0005
