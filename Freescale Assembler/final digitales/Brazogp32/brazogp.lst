@@ -1,0 +1,859 @@
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 
+                                                                              1
+
+
+
+                        1  ;***************************************************
+                                                    ***************************
+                        2  ;                    Brazo robotico leonel brunet, 
+                                                          martin brunet (FINAL)
+                        3  ;***************************************************
+                                                    ***************************
+                        4  ;            DEFINICION DEL MAPA DE MEMORIA DEL 
+                                                                  MC68HC908GP32
+                        5  ;***************************************************
+                                                    ***************************
+ 0000                   6  RAM_INI              EQU     $0040           
+                                                         ;Inicio de la RAM GP32
+ 0000                   7  RAM_FIN              EQU     $023F           ;
+ 0000                   8  FLASH_INI    EQU     $8000           ;Inicio de la 
+                                                                     Flash GP32
+ 0000                   9  FLASH_END    EQU     $FDFF           ;
+ 0000                  10  VECTORES     EQU     $FFDC           ;Vectores de 
+                                                                   Interrupcion
+                       11  
+                       12  ;***************************************************
+                                                    ***************************
+                       13  ;                    ARCHIVOS DE DEFINICION 
+                                                                      INCLUIDOS
+                       14  ;***************************************************
+                                                    ***************************
+ 0000                  15  $base                10t                     ;Base 
+                                                            decimal por Default
+ 0000                  16  $Include        'includegp32.inc'    ;Definiciones 
+                                                            de Registros p/GP32
+                       17   ; 68HC908GT16/GP32 Equates
+                       18  
+ 0000                  19  PTA    EQU $0000     ; Ports and data direction
+ 0000                  20  PORTA  EQU $0000
+ 0000                  21  PTB    EQU $0001
+ 0000                  22  PORTB  EQU $0001
+ 0000                  23  PTC    EQU $0002
+ 0000                  24  PORTC  EQU $0002
+ 0000                  25  PTD    EQU $0003
+ 0000                  26  PORTD  EQU $0003
+ 0000                  27  DDRA   EQU $0004
+ 0000                  28  DDRB   EQU $0005
+ 0000                  29  DDRC   EQU $0006
+ 0000                  30  DDRD   EQU $0007
+ 0000                  31  PTE    EQU $0008
+ 0000                  32  PORTE  EQU $0008
+                       33  
+ 0000                  34  SCPSC   EQU $0009    ;GT16 Only - Enhanced SCI
+ 0000                  35  SCIACTL EQU $000A    ;GT16 Only
+ 0000                  36  SCIADAT EQU $000B    ;GT16 Only
+                       37  
+ 0000                  38  DDRE    EQU $000C    ; Ports and data direction
+                       39  
+ 0000                  40  PTAPUE  EQU $000D    ; Port pull-up enables
+ 0000                  41  PTCPUE  EQU $000E
+ 0000                  42  PTDPUE  EQU $000F
+                       43  
+ 0000                  44  SPCR    EQU $0010    ; SPI (Syncronous communication
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 2
+
+
+
+                                                                             s)
+ 0000                  45  SPSCR   EQU $0011
+ 0000                  46  SPDR    EQU $0012
+                       47  
+ 0000                  48  SCC1    EQU $0013    ; SCI (Asyncronous communicatio
+                                                                            ns)
+ 0000                  49  SCC2    EQU $0014
+ 0000                  50  SCC3    EQU $0015
+ 0000                  51  SCS1    EQU $0016
+ 0000                  52  SCS2    EQU $0017
+ 0000                  53  SCDR    EQU $0018
+ 0000                  54  SCBR    EQU $0019
+                       55  
+ 0000                  56  INTKBSCR EQU $001a   ; Keyboard interrupt control/st
+                                                                           atus
+ 0000                  57  INTKBIER EQU $001b
+                       58  
+ 0000                  59  TBCR    EQU $001c    ; Time base module
+                       60  
+ 0000                  61  INTSCR  EQU $001d    ; IRQ status/control
+                       62  
+ 0000                  63  CONFIG2 EQU $001e    ; System configuration
+ 0000                  64  CONFIG1 EQU $001f
+                       65  
+ 0000                  66  T1SC    EQU $0020    ; Timer 1
+ 0000                  67  T1CNTH  EQU $0021
+ 0000                  68  T1CNTL  EQU $0022
+ 0000                  69  T1MODH  EQU $0023
+ 0000                  70  T1MODL  EQU $0024
+ 0000                  71  T1SC0   EQU $0025
+ 0000                  72  T1CH0H  EQU $0026
+ 0000                  73  T1CH0L  EQU $0027
+ 0000                  74  T1SC1   EQU $0028
+ 0000                  75  T1CH1H  EQU $0029
+ 0000                  76  T1CH1L  EQU $002a
+                       77  
+ 0000                  78  T2SC    EQU $002b    ; Timer 2
+ 0000                  79  T2CNTH  EQU $002c
+ 0000                  80  T2CNTL  EQU $002d
+ 0000                  81  T2MODH  EQU $002e
+ 0000                  82  T2MODL  EQU $002f
+ 0000                  83  T2SC0   EQU $0030
+ 0000                  84  T2CH0H  EQU $0031
+ 0000                  85  T2CH0L  EQU $0032
+ 0000                  86  T2SC1   EQU $0033
+ 0000                  87  T2CH1H  EQU $0034
+ 0000                  88  T2CH1L  EQU $0035
+                       89  
+ 0000                  90  PCTL    EQU $0036    ; GP32 Only - Phase lock loop 
+                                                                 (for crystals)
+ 0000                  91  PBWC    EQU $0037    ; GP32 Only
+ 0000                  92  PMSH    EQU $0038    ; GP32 Only
+ 0000                  93  PMSL    EQU $0039    ; GP32 Only
+ 0000                  94  PMRS    EQU $003A    ; GP32 Only
+ 0000                  95  PMDS    EQU $003B    ; GP32 Only
+                       96  
+ 0000                  97  ICGCR   EQU $0036    ; GT16 Only - Internal Clock 
+                                                                      Generator
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 3
+
+
+
+ 0000                  98  ICGMR   EQU $0037    ; GT16 Only
+ 0000                  99  ICGTR   EQU $0038    ; GT16 Only
+ 0000                 100  ICGDVR  EQU $0039    ; GT16 Only
+ 0000                 101  ICGDSR  EQU $003A    ; GT16 Only
+ 0000                 102  ICGTR5  EQU $FF80    ; GT16 Only
+ 0000                 103  ICGTR3  EQU $FF81    ; GT16 Only
+                      104  
+ 0000                 105  ADSCR   EQU $003C    ; A to D converter
+ 0000                 106  ADR     EQU $003D
+ 0000                 107  ADCLK   EQU $003E
+                      108  
+ 0000                 109  SBSR    EQU $fe00    ; System integration
+ 0000                 110  SRSR    EQU $fe01
+ 0000                 111  SUBAR   EQU $fe02
+ 0000                 112  SBFCR   EQU $fe03
+                      113  
+ 0000                 114  INT1    EQU $fe04    ; Interrupt status
+ 0000                 115  INT2    EQU $fe05
+ 0000                 116  INT3    EQU $fe06
+                      117  
+ 0000                 118  FLTCR   EQU $fe07    ; Flash test/programming
+ 0000                 119  FLCR    EQU $fe08
+                      120  
+ 0000                 121  BRKH    EQU $fe09    ; Hardware breakpoint
+ 0000                 122  BRKL    EQU $fe0a
+ 0000                 123  BRKSCR  EQU $fe0b
+                      124  
+ 0000                 125  LVISR   EQU $fe0c    ; Low voltage detect
+                      126  
+ 0000                 127  FLBPR   EQU $ff7e    ; Flash boot protect
+                      128  
+ 0000                 129  COPCTL  EQU $ffff    ; COP (Computer operating 
+                                                              properly) control
+                      130  
+                      131  
+                      132  
+                      133  ; (C)opywrite P&E Microcomputer Systems, 1998, 2002
+                      134  ; http://www.pemicro.com
+                      135  
+                      136  
+                      137  ;***************************************************
+                                                    ***************************
+                      138  ;    DEFINICION DE LAS VARIABLES DE RAM DEL EQUIPO
+                      139  ;***************************************************
+                                                    ***************************
+ 0040                 140       org     RAM_INI
+ 0040                 141  RETARDO1           ds      1
+ 0041                 142  RETARDO2           ds      1
+                      143  
+                      144  ;***************************************************
+                                                    ***************************
+                      145  ;            INICIO del PROGRAMA PRINCIPAL
+                      146  ;***************************************************
+                                                    ***************************
+                      147  ;    Arranca AQUI cada vez que se APAGA el Equipo 
+                                                               (Power On Reset)
+                      148  ;---------------------------------------------------
+                                                    ---------------------------
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 4
+
+
+
+ 8000                 149       org     FLASH_INI
+                      150  
+ 8000 [03] 3F36       151          clr  PCTL                    ; PLL=OFF,
+ 8002 [04] 1E37       152          bset    7,pbwc                  ; Set Modo 
+                                                   Ancho de Banda en Automatico
+ 8004 [04] 6E0236     153          mov     #%00000010,pctl      ; Apago el 
+                                                        PLL,y cargo [P=0],[E=2]
+ 8007 [04] 6E0238     154          mov     #$02,pmsh            ; Multiplicador
+                                                           del PLL (parte alta)
+ 800A [04] 6E5839     155          mov     #$58,pmsl            ; Mult. del 
+                                                       PLL (parte baja)[N=$258]
+ 800D [04] 6E803A     156          mov     #$80,pmrs            ; Cargo el 
+                                                   rango de sel del VCO [L=$80]
+ 8010 [04] 6E013B     157          mov     #$01,pmds            ; Cargo el 
+                                                   divisor de referencia [R=$1]
+ 8013 [04] 1F36       158          bclr    7,pctl               ; Desabilito 
+                                                         Interrupciones del PLL
+ 8015 [03] B636       159          lda     pctl                 ; Borro las 
+                                                            Interrup pendientes
+ 8017 [04] 1A36       160          bset    5,pctl               ; Enciendo el 
+                                                                     Modulo PLL
+                      161  volver:
+ 8019 [05] 0D37FD     162       brclr   6,PBWC,volver           ; Espero que 
+                                                             se enganche LOCK=1
+ 801C [04] 1836       163       bset    4,PCTL                  ; Cambio a PLL
+                      164  
+                      165  
+                      166  
+                      167  start:
+ 801E [01] 9C         168       rsp
+ 801F [01] 4F         169       clra                            ;Inicializo 
+                                                          los Registros del CPU
+ 8020 [01] 5F         170       clrx                            ;
+ 8021 [01] 8C         171       clrh                            ;
+ 8022 [02] 9B         172       sei                             ;Desabilito 
+                                                                 Interrupciones
+                      173                                       ;resetea stank 
+                                                                        pointer
+                      174  ;Prpgramacion de los modulos
+                      175  
+ 8023 [04] 6E0B1F     176          mov  #%00001011,CONFIG1
+ 8026 [04] 6E031E     177       mov     #%00000011,CONFIG2
+ 8029 [01] 9D         178          nop
+ 802A [01] 9D         179          nop
+                      180  
+ 802B [01] 4F         181          CLRA
+                      182  
+                      183  
+                      184  
+                      185    ; Programacion de los modulos de salida
+ 802C [04] 6EFF01     186          mov  #%11111111,PORTB
+                      187    ;Borro los bytes declaradas
+                      188  
+ 802F [03] 3F40       189           clr          RETARDO1
+ 8031 [03] 3F41       190           clr          RETARDO2
+                      191  
+                      192  ;***************************************************
+                                                    ***************************
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 5
+
+
+
+                      193  ;                    PROGRAMA PRINCIPAL
+                      194  ;***************************************************
+                                                    ***************************
+                      195  
+                      196  
+                      197  start_00:
+                      198  
+ 8033 [04] 1001       199          bset    0,PORTB
+                      200     
+ 8035 [03] 20FC       201       bra     start_00
+                      202  
+                      203  
+                      204  
+                      205  
+                      206  
+                      207  
+                      208  ;***************************************************
+                                                    ***************************
+                      209  ;                    RETARDO GP32  Fclok=32Mhz 
+                                                             Fbus=8Mhz  0,125us
+                      210  ;***************************************************
+                                                    ***************************
+                      211  
+                      212  
+                      213  retardo_01ms:
+                      214  
+ 8037 [04] 6E0340     215       mov     #$03,RETARDO1         ;[4]
+                      216  ret_1:
+ 803A [04] 6E1341     217       mov     #$13,RETARDO2         ;[4]
+                      218  ret_2:
+ 803D [04] 3A41       219       dec     RETARDO2              ;[4]
+ 803F [01] 4F         220       clra                          ;[1]
+ 8040 [05] 314102     221       cbeq    RETARDO2,ret_1a       ;[5]4+4+[((4+1+5+
+                                                        3)x019)+4+4+1+5+3)x003]
+ 8043 [03] 20F8       222       bra     ret_2                 ;[3](((13)x019)+1
+                                                                 7)x003)+8=800c
+                      223  ret_1a                                     ;     
+                                                       3200 x 0,125useg = 100us
+ 8045 [04] 3A40       224       dec     RETARDO1              ;[4]  0,1ms
+ 8047 [01] 4F         225       clra                          ;[1]
+ 8048 [05] 314102     226       cbeq    RETARDO2,finret       ;[5]
+ 804B [03] 20ED       227       bra     ret_1                 ;[3]
+                      228  finret:
+ 804D [04] 81         229       rts
+                      230  
+                      231  
+                      232  
+                      233  retardo_1ms:
+ 804E [05] CD8037     234       jsr     retardo_01ms
+ 8051 [05] CD8037     235       jsr     retardo_01ms
+ 8054 [05] CD8037     236       jsr     retardo_01ms
+ 8057 [05] CD8037     237       jsr     retardo_01ms
+ 805A [05] CD8037     238       jsr     retardo_01ms
+ 805D [05] CD8037     239       jsr     retardo_01ms
+ 8060 [05] CD8037     240       jsr     retardo_01ms
+ 8063 [05] CD8037     241       jsr     retardo_01ms
+ 8066 [05] CD8037     242       jsr     retardo_01ms
+ 8069 [05] CD8037     243       jsr     retardo_01ms
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 6
+
+
+
+ 806C [04] 81         244       rts
+                      245  
+                      246  retardo_10ms:
+ 806D [05] CD804E     247       jsr     retardo_1ms
+ 8070 [05] CD804E     248       jsr     retardo_1ms
+ 8073 [05] CD804E     249       jsr     retardo_1ms
+ 8076 [05] CD804E     250       jsr     retardo_1ms
+ 8079 [05] CD804E     251       jsr     retardo_1ms
+ 807C [05] CD804E     252       jsr     retardo_1ms
+ 807F [05] CD804E     253       jsr     retardo_1ms
+ 8082 [05] CD804E     254       jsr     retardo_1ms
+ 8085 [05] CD804E     255       jsr     retardo_1ms
+ 8088 [05] CD804E     256       jsr     retardo_1ms
+ 808B [04] 81         257       rts
+                      258  
+                      259  
+                      260  
+                      261  retardo_100ms:
+                      262  
+ 808C [05] CD806D     263       jsr     retardo_10ms
+ 808F [05] CD806D     264       jsr     retardo_10ms
+ 8092 [05] CD806D     265       jsr     retardo_10ms
+ 8095 [05] CD806D     266       jsr     retardo_10ms
+ 8098 [05] CD806D     267       jsr     retardo_10ms
+ 809B [05] CD806D     268       jsr     retardo_10ms
+ 809E [05] CD806D     269       jsr     retardo_10ms
+ 80A1 [05] CD806D     270       jsr     retardo_10ms
+ 80A4 [05] CD806D     271       jsr     retardo_10ms
+ 80A7 [05] CD806D     272       jsr     retardo_10ms
+ 80AA [04] 81         273       rts
+                      274  
+                      275  retardo_1s:
+ 80AB [05] CD808C     276       jsr     retardo_100ms
+ 80AE [05] CD808C     277       jsr     retardo_100ms
+ 80B1 [05] CD808C     278       jsr     retardo_100ms
+ 80B4 [05] CD808C     279       jsr     retardo_100ms
+ 80B7 [05] CD808C     280       jsr     retardo_100ms
+ 80BA [05] CD808C     281       jsr     retardo_100ms
+ 80BD [05] CD808C     282       jsr     retardo_100ms
+ 80C0 [05] CD808C     283       jsr     retardo_100ms
+ 80C3 [05] CD808C     284       jsr     retardo_100ms
+ 80C6 [05] CD808C     285       jsr     retardo_100ms
+ 80C9 [04] 81         286       rts
+                      287  
+                      288  
+                      289  
+                      290  ;***************************************************
+                                                    ***************************
+                      291  ; CLR_RAM - Borro toda la RAM desde donde apunta HX 
+                                                                 hasta el final
+                      292  ;***************************************************
+                                                    ***************************
+                      293  clr_all_ram:
+ 80CA [03] 450040     294       ldhx    #RAM_INI                ;\ Inicializo 
+                                                              Totalmente la RAM
+                      295  clr_a_ram_0:
+ 80CD [03] 6F00       296          clr     0,x
+ 80CF [02] AF01       297          aix     #$01
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 7
+
+
+
+ 80D1 [03] 650072     298          cphx    #{RAM_INI + 50}              ;Borro 
+                                                        50 Bytes de Memoria RAM
+ 80D4 [03] 26F7       299          bne     clr_a_ram_0          ;menos los 
+                                                      ultimos bytes porque sino
+ 80D6 [04] 81         300       rts                             ;no puedo 
+                                                               volver de la JSR
+                      301  
+                      302  
+                      303  
+                      304  ;***************************************************
+                                                    ***************************
+                      305  ;***************************************************
+                                                    ***************************
+                      306  
+                      307  ;***************************************************
+                                                    ***************************
+                      308  ;***************************************************
+                                                    ***************************
+                      309  ;                    RUTINAS DE INTERUPCION
+                      310  ;***************************************************
+                                                    ***************************
+                      311  ;***************************************************
+                                                    ***************************
+                      312  
+                      313  
+                      314  
+                      315  tim_base_isr:
+ 80D7 [01] 9D         316               nop
+ 80D8 [07] 80         317               rti
+                      318  
+                      319  ;***************************************************
+                                                    ***************************
+                      320  ; SPI_TX_ISR - Rutina de Interrupcion del Tx del SPI
+                      321  ;***************************************************
+                                                    ***************************
+                      322  spi_tx_isr:
+                      323  
+ 80D9 [01] 9D         324       nop
+                      325  
+ 80DA [07] 80         326       rti
+                      327  
+                      328  ;***************************************************
+                                                    ***************************
+                      329  ; SPI_RX_ISR - Rutina de Interrupcion del Rx del SPI
+                      330  ;***************************************************
+                                                    ***************************
+                      331  spi_rx_isr:
+                      332  
+ 80DB [01] 9D         333       nop
+                      334  
+ 80DC [07] 80         335       rti
+                      336  
+                      337  ;***************************************************
+                                                    ***************************
+                      338  ; ADC_ISR - Rutina de Interrupcion del ADC
+                      339  ;***************************************************
+                                                    ***************************
+                      340  adc_isr:
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 8
+
+
+
+                      341  
+ 80DD [01] 9D         342       nop
+                      343  
+ 80DE [07] 80         344       rti
+                      345  
+                      346  ;***************************************************
+                                                    ***************************
+                      347  ; KEYB_ISR - Rutina de Interrupcion del KBI
+                      348  ;***************************************************
+                                                    ***************************
+                      349  keyb_isr:
+                      350  
+ 80DF [01] 9D         351       nop
+                      352  
+ 80E0 [07] 80         353       rti
+                      354  
+                      355  ;***************************************************
+                                                    ***************************
+                      356  ; SCI_TX_ISR - Rutina de Interrupcion del Tx del SCI
+                      357  ;***************************************************
+                                                    ***************************
+                      358  sci_tx_isr:
+                      359  
+ 80E1 [01] 9D         360       nop
+                      361  
+ 80E2 [07] 80         362       rti
+                      363  
+                      364  ;***************************************************
+                                                    ***************************
+                      365  ; SCI_RX_ISR - Rutina de Interrupcion del Rx del SCI
+                      366  ;***************************************************
+                                                    ***************************
+                      367  sci_rx_isr:
+                      368  
+ 80E3 [07] 80         369       rti
+                      370  
+                      371  ;***************************************************
+                                                    ***************************
+                      372  ; SCI_ERROR_ISR - Rutina de Interrupcion por Error 
+                                                                      en el SCI
+                      373  ;***************************************************
+                                                    ***************************
+                      374  sci_error_isr:
+                      375  
+ 80E4 [01] 9D         376       nop
+                      377  
+ 80E5 [07] 80         378       rti
+                      379  
+                      380  ;***************************************************
+                                                    ***************************
+                      381  ; MMIIC_ISR - Rutina de Interrupcion del I2C
+                      382  ;***************************************************
+                                                    ***************************
+                      383  mmiic_isr:
+                      384  
+ 80E6 [01] 9D         385       nop
+                      386  
+ 80E7 [07] 80         387       rti
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 9
+
+
+
+                      388  
+                      389  ;***************************************************
+                                                    ***************************
+                      390  ; TIM2_OV_ISR - Rutina de Interrupcion por Overflow 
+                                                                    del Timer 2
+                      391  ; Actualmente esta Interrupcion entra cada 4 mseg
+                      392  ;***************************************************
+                                                    ***************************
+                      393  tim2_ov_isr:
+                      394  
+ 80E8 [01] 9D         395       nop
+                      396  
+ 80E9 [07] 80         397       rti
+                      398  
+                      399  ;***************************************************
+                                                    ***************************
+                      400  ; TIM2_1_ISR - Rutina de Interrupcion del Canal 1 
+                                                                    del Timer 2
+                      401  ;***************************************************
+                                                    ***************************
+                      402  tim2_1_isr:
+                      403  
+ 80EA [01] 9D         404       nop
+                      405  
+ 80EB [07] 80         406       rti
+                      407  
+                      408  ;***************************************************
+                                                    ***************************
+                      409  ; TIM2_0_ISR - Rutina de Interrupcion del Canal 0 
+                                                                    del Timer 2
+                      410  ;***************************************************
+                                                    ***************************
+                      411  tim2_0_isr:
+                      412  
+ 80EC [01] 9D         413       nop
+                      414  
+ 80ED [07] 80         415       rti
+                      416  
+                      417  ;***************************************************
+                                                    ***************************
+                      418  ; TIM1_OV_ISR - Rutina de Interrupcion por Overflow 
+                                                                    del Timer 1
+                      419  ;***************************************************
+                                                    ***************************
+                      420  tim1_ov_isr:
+                      421  
+ 80EE [01] 9D         422       nop
+                      423  
+ 80EF [07] 80         424       rti
+                      425  
+                      426  ;***************************************************
+                                                    ***************************
+                      427  ; TIM1_1_ISR - Rutina de Interrupcion del Canal 1 
+                                                                    del Timer 1
+                      428  ;***************************************************
+                                                    ***************************
+                      429  tim1_1_isr:
+                      430  
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 10
+
+
+
+ 80F0 [01] 9D         431       nop
+                      432  
+ 80F1 [07] 80         433       rti
+                      434  
+                      435  ;***************************************************
+                                                    ***************************
+                      436  ; TIM1_0_ISR - Rutina de Interrupcion del Canal 0 
+                                                                    del Timer 1
+                      437  ;***************************************************
+                                                    ***************************
+                      438  tim1_0_isr:
+                      439  
+ 80F2 [01] 9D         440       nop
+                      441  
+ 80F3 [07] 80         442       rti
+                      443  
+                      444  ;***************************************************
+                                                    ***************************
+                      445  ; PLL_ISR - Rutina de Interrupcion del PLL
+                      446  ;***************************************************
+                                                    ***************************
+                      447  pll_isr:
+                      448  
+ 80F4 [01] 9D         449       nop
+                      450  
+ 80F5 [07] 80         451       rti
+                      452  
+                      453  
+                      454  ;***************************************************
+                                                    ***************************
+                      455  ; IRQ1ISR - Rutina de Interrupcion Externa 1
+                      456  ;***************************************************
+                                                    ***************************
+                      457  irq_isr:
+                      458  
+ 80F6 [01] 9D         459       nop
+                      460  
+ 80F7 [07] 80         461       rti
+                      462  
+                      463  ;***************************************************
+                                                    ***************************
+                      464  ; SWI_ISR - Rutina de Interrupcion por Software
+                      465  ;***************************************************
+                                                    ***************************
+                      466  swi_isr:
+                      467  
+ 80F8 [01] 9D         468       nop
+                      469  
+ 80F9 [07] 80         470          rti                          ;retorna
+                      471  
+                      472  ;***************************************************
+                                                    ***************************
+                      473  ; DUMMY_ISR - Dummy Interrupt Service Routine
+                      474  ; Rutina de servicio de Interupcion Fantasma, se 
+                                                  pone por razones de seguridad
+                      475  ;***************************************************
+                                                    ***************************
+                      476  dummy_isr:
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 11
+
+
+
+                      477  
+ 80FA [01] 9D         478       nop
+                      479  
+ 80FB [07] 80         480          rti                          ; vuelve sin 
+                                                                     hacer nada
+                      481  
+                      482  
+                      483  
+                      484  ;***************************************************
+                                                    ***************************
+                      485  ; FLASH BLOCK PROTECT - Grabacion del Mismo
+                      486  ;***************************************************
+                                                    ***************************
+                      487  ;    Org     FLBPR
+                      488  ;    fcb     $ff                     ;Toda!!! la 
+                                                      memoria esta desprotegida
+                      489  ;
+                      490  ;***************************************************
+                                                    ***************************
+                      491  ; VECTORES - Definicion de Vectores del Sistema
+                      492  ;***************************************************
+                                                    ***************************
+ FFDC                 493       org     VECTORES
+                      494  
+ FFDC      80D7       495       fdb     tim_base_isr    ; Time Base            
+                                                                  ($FFDC-$FFDD)
+ FFDE      80DD       496       fdb     adc_isr         ; ADC Vector           
+                                                                  ($FFDE-$FFDF)
+ FFE0      80DF       497       fdb     keyb_isr        ; KEYBOARD Vector      
+                                                                  ($FFE0-$FFE1)
+ FFE2      80E1       498       fdb     sci_tx_isr      ; SCI TX Vector        
+                                                                  ($FFE2-$FFE3)
+ FFE4      80E3       499       fdb     sci_rx_isr      ; SCI RX Vector        
+                                                                  ($FFE4-$FFE5)
+ FFE6      80E4       500       fdb     sci_error_isr   ; SCI Error Vector     
+                                                                  ($FFE6-$FFE7)
+ FFE8      80D9       501       fdb     spi_tx_isr      ; PCI TX vector        
+                                                                  ($FFE8-$FFE9)
+ FFEA      80DB       502          fdb     spi_rx_isr   ; PCI RX vector        
+                                                                  ($FFEA-$FFEB)
+ FFEC      80E8       503       fdb     tim2_ov_isr     ; TIM2 Overflow Vector 
+                                                                  ($FFEC-$FFED)
+ FFEE      80EA       504       fdb     tim2_1_isr      ; TIM2 Channel 1 
+                                                   Vector         ($FFEE-$FFEF)
+ FFF0      80EC       505       fdb     tim2_0_isr      ; TIM2 Channel 0 
+                                                   Vector         ($FFE0-$FFE1)
+ FFF2      80EE       506       fdb     tim1_ov_isr     ; TIM1 Overflow Vector 
+                                                                  ($FFF2-$FFF3)
+ FFF4      80F0       507       fdb     tim1_1_isr      ; TIM1 Channel 1 
+                                                   Vector         ($FFF4-$FFF5)
+ FFF6      80F2       508       fdb     tim1_0_isr      ; TIM1 Channel 0 
+                                                   Vector         ($FFF6-$FFF7)
+ FFF8      80F4       509       fdb     pll_isr         ; PLL Vector           
+                                                                  ($FFF8-$FFF9)
+ FFFA      80F6       510       fdb     irq_isr         ; IRQ Vector           
+                                                                  ($FFFA-$FFFB)
+ FFFC      80F8       511       fdb     swi_isr         ; SWI Vector           
+                                                                  ($FFFC-$FFFD)
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 12
+
+
+
+ FFFE      801E       512       fdb     start           ; Reset Vector         
+                                                                  ($FFFE-$FFFF)
+                      513  end
+                      514   
+
+ Symbol Table 
+
+ADCLK            003E
+ADC_ISR          80DD
+ADR              003D
+ADSCR            003C
+BRKH             FE09
+BRKL             FE0A
+BRKSCR           FE0B
+CLR_ALL_RAM      80CA
+CLR_A_RAM_0      80CD
+CONFIG1          001F
+CONFIG2          001E
+COPCTL           FFFF
+DDRA             0004
+DDRB             0005
+DDRC             0006
+DDRD             0007
+DDRE             000C
+DUMMY_ISR        80FA
+END              0000
+FINRET           804D
+FLASH_END        FDFF
+FLASH_INI        8000
+FLBPR            FF7E
+FLCR             FE08
+FLTCR            FE07
+ICGCR            0036
+ICGDSR           003A
+ICGDVR           0039
+ICGMR            0037
+ICGTR            0038
+ICGTR3           FF81
+ICGTR5           FF80
+INT1             FE04
+INT2             FE05
+INT3             FE06
+INTKBIER         001B
+INTKBSCR         001A
+INTSCR           001D
+IRQ_ISR          80F6
+KEYB_ISR         80DF
+LVISR            FE0C
+MMIIC_ISR        80E6
+PBWC             0037
+PCTL             0036
+PLL_ISR          80F4
+PMDS             003B
+PMRS             003A
+PMSH             0038
+PMSL             0039
+PORTA            0000
+PORTB            0001
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 13
+
+
+
+PORTC            0002
+PORTD            0003
+PORTE            0008
+PTA              0000
+PTAPUE           000D
+PTB              0001
+PTC              0002
+PTCPUE           000E
+PTD              0003
+PTDPUE           000F
+PTE              0008
+RAM_FIN          023F
+RAM_INI          0040
+RETARDO1         0040
+RETARDO2         0041
+RETARDO_01MS     8037
+RETARDO_100MS    808C
+RETARDO_10MS     806D
+RETARDO_1MS      804E
+RETARDO_1S       80AB
+RET_1            803A
+RET_1A           8045
+RET_2            803D
+SBFCR            FE03
+SBSR             FE00
+SCBR             0019
+SCC1             0013
+SCC2             0014
+SCC3             0015
+SCDR             0018
+SCIACTL          000A
+SCIADAT          000B
+SCI_ERROR_ISR    80E4
+SCI_RX_ISR       80E3
+SCI_TX_ISR       80E1
+SCPSC            0009
+SCS1             0016
+SCS2             0017
+SPCR             0010
+SPDR             0012
+SPI_RX_ISR       80DB
+SPI_TX_ISR       80D9
+SPSCR            0011
+SRSR             FE01
+START            801E
+START_00         8033
+SUBAR            FE02
+SWI_ISR          80F8
+T1CH0H           0026
+T1CH0L           0027
+T1CH1H           0029
+T1CH1L           002A
+T1CNTH           0021
+T1CNTL           0022
+T1MODH           0023
+T1MODL           0024
+T1SC             0020
+T1SC0            0025
+
+
+brazogp.asm            Assembled with CASM08Z  21/06/2013  08:28:57 p.m.  PAGE 14
+
+
+
+T1SC1            0028
+T2CH0H           0031
+T2CH0L           0032
+T2CH1H           0034
+T2CH1L           0035
+T2CNTH           002C
+T2CNTL           002D
+T2MODH           002E
+T2MODL           002F
+T2SC             002B
+T2SC0            0030
+T2SC1            0033
+TBCR             001C
+TIM1_0_ISR       80F2
+TIM1_1_ISR       80F0
+TIM1_OV_ISR      80EE
+TIM2_0_ISR       80EC
+TIM2_1_ISR       80EA
+TIM2_OV_ISR      80E8
+TIM_BASE_ISR     80D7
+VECTORES         FFDC
+VOLVER           8019

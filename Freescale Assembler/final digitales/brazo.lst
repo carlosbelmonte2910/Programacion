@@ -1,0 +1,1478 @@
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 
+                                                                              1
+
+
+
+                        1  ;***************************************************
+                                                    ***************************
+                        2  ;                    Brazo robotico leonel brunet, 
+                                                                  martin brunet
+                        3  ;***************************************************
+                                                    ***************************
+                        4  ;            DEFINICION DEL MAPA DE MEMORIA DEL 
+                                                                   MC68HC908QY4
+                        5  ;***************************************************
+                                                    ***************************
+ 0000                   6  RAM_INI              EQU     $0080           
+                                                 ;Direccion de Inicio de la RAM
+ 0000                   7  RAM_FIN              EQU     $0100           ;(+1) 
+                                                                128 Bytes.p/QY4
+ 0000                   8  FLASH_INI    EQU     $F800           ;Dir.de Inicio 
+                                                         de FLASH ($F800 p/QY1)
+ 0000                   9  FLASH_END    EQU     $FDFF           ;4 KBytes 
+                                                          p/QY4 - 1 KByte p/QY1
+ 0000                  10  VECTORES     EQU     $FFDE           ;Vectores de 
+                                                                   Interrupcion
+                       11  
+                       12  ;***************************************************
+                                                    ***************************
+                       13  ;                    ARCHIVOS DE DEFINICION 
+                                                                      INCLUIDOS
+                       14  ;***************************************************
+                                                    ***************************
+ 0000                  15  $base                10t                     ;Base 
+                                                            decimal por Default
+ 0000                  16  $Include        'REGISTRO_QY4A_1.inc'        
+                                              ;Definiciones de Registros p/QTxx
+                       17  ;***************************************************
+                                                    ***************************
+                       18  ;                    REGISTRO_QY4A_1.INC - ARCHIVO 
+                                                                        INCLUDE
+                       19  ; Contiene las Definiciones de los Registros del 
+                                                       MC68HC908QTA/QYA/8/4/2/1
+                       20  ;
+                       21  ;                    SyHDe - Soft y Hard Desarrollos
+                       22  ;***************************************************
+                                                    ***************************
+                       23  
+                       24  ;***************************************************
+                                                    ***************************
+                       25  ;---------------REGISTROS DE PUERTOS ENT/SAL--------
+                                                    ---------------------------
+                       26  ;---------------PUERTO A----------------------------
+                                                    ---------------------------
+ 0000                  27  PTA  EQU     $0000   ; Port A Data register
+ 0000                  28  PORTA        EQU     $0000   ; "
+ 0000                  29  DDRA EQU     $0004   ; Port A Data Direction 
+                                                                       Register
+ 0000                  30  PTAPUE  EQU  $000B   ; Port A Pull Ups Enable
+                       31  
+                       32  ;---------------PUERTO B----------------------------
+                                                    ---------------------------
+ 0000                  33  PTB  EQU     $0001   ; Port B Data register
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 2
+
+
+
+ 0000                  34  PORTB        EQU     $0001   ; "
+ 0000                  35  DDRB EQU     $0005   ; Port B Data Direction 
+                                                                       Register
+ 0000                  36  PTBPUE  EQU  $000C   ; Port B Pull Ups Enable
+                       37  
+                       38  ;***************************************************
+                                                    ***************************
+                       39  ;---------------REGISTROS DEL MODULO KEYBOARD-------
+                                                    ---------------------------
+ 0000                  40  KBSCR        EQU     $001A   ; Keyboard Status & 
+                                                               Control register
+ 0000                  41  keyf equ     3       ;
+ 0000                  42  ackk equ     2       ;
+ 0000                  43  imaskk       equ     1       ;
+ 0000                  44  modek        equ     0       ;
+                       45  
+ 0000                  46  KBIER        EQU     $001B   ; Keyboard interrupt 
+                                                                enable register
+                       47  
+                       48  ;***************************************************
+                                                    ***************************
+                       49  ;---------------REGISTROS DE INTERRUPCION EXTERNA 
+                                                  1----------------------------
+ 0000                  50  INTSCR       EQU     $001D   ; IRQ Status & Control 
+                                                                       Register
+ 0000                  51  irqf equ     3       ;
+ 0000                  52  ack  equ     2       ;
+ 0000                  53  imask        equ     1       ;
+ 0000                  54  mode equ     0       ;
+                       55  
+                       56  ;***************************************************
+                                                    ***************************
+                       57  ;---------------REGISTROS DE CONFIGURACION----------
+                                                    ---------------------------
+ 0000                  58  CONFIG1      EQU     $001F   ; Configuration 
+                                                                     Register 1
+                       59  
+ 0000                  60  CONFIG2      EQU     $001E   ; Configuration 
+                                                                     Register 2
+                       61  
+                       62  ;***************************************************
+                                                    ***************************
+                       63  ;---------------REGISTROS DEL TIMER ----------------
+                                                    ---------------------------
+ 0000                  64  TSC  EQU     $0020   ; Timer Status & Control 
+                                                                       Register
+ 0000                  65  tof  equ     7       ;
+ 0000                  66  toie equ     6       ;
+ 0000                  67  tstop        equ     5       ;
+ 0000                  68  trst equ     4       ;
+                       69  
+ 0000                  70  TCNTH        EQU     $0021   ; Timer Counter 
+                                                                  Register High
+ 0000                  71  TCNTL        EQU     $0022   ; Timer Counter 
+                                                                   Register Low
+ 0000                  72  TMODH        EQU     $0023   ; Timer Counter Modulo 
+                                                                  Register High
+ 0000                  73  TMODL        EQU     $0024   ; Timer Counter Modulo 
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 3
+
+
+
+                                                                   Register Low
+                       74  
+ 0000                  75  TSC0 EQU     $0025   ; Timer Channel 0 Status & 
+                                                               Control Register
+ 0000                  76  ch0f equ     7
+ 0000                  77  ch0ie        equ     6       ;
+ 0000                  78  ms0b equ     5       ;
+ 0000                  79  ms0a equ     4       ;
+ 0000                  80  els0b        equ     3       ;
+ 0000                  81  els0a        equ     2       ;
+ 0000                  82  tov0 equ     1       ;
+ 0000                  83  ch0max       equ     0       ;
+                       84  
+ 0000                  85  TCH0H        EQU     $0026   ; Timer Channel 0 
+                                                                  Register High
+ 0000                  86  TCH0L        EQU     $0027   ; Timer Channel 0 
+                                                                   Register Low
+                       87  
+ 0000                  88  TSC1 EQU     $0028   ; Timer Channel 1 Status & 
+                                                               Control Register
+ 0000                  89  ch1f equ     7
+ 0000                  90  ch1ie        equ     6       ;
+ 0000                  91  ms1b equ     5       ;
+ 0000                  92  ms1a equ     4       ;
+ 0000                  93  els1b        equ     3       ;
+ 0000                  94  els1a        equ     2       ;
+ 0000                  95  tov1 equ     1       ;
+ 0000                  96  ch1max       equ     0       ;
+                       97  
+ 0000                  98  TCH1H        EQU     $0029   ; Timer Channel 1 
+                                                                  Register High
+ 0000                  99  TCH1L        EQU     $002A   ; Timer Channel 1 
+                                                                   Register Low
+                      100  
+                      101  ;***************************************************
+                                                    ***************************
+                      102  ;---------------REGISTROS DEL OSCILADOR-------------
+                                                    ---------------------------
+ 0000                 103  OSCSC        EQU     $0036   ;Oscillator Status and 
+                                                               Control Register
+ 0000                 104  ecgst        equ     0       ;Read Only!!!!
+ 0000                 105  ecgon        equ     1       ;
+ 0000                 106  ecfs0        equ     2       ;
+ 0000                 107  ecfs1        equ     3       ;
+ 0000                 108  icfs0        equ     4       ;
+ 0000                 109  icfs1        equ     5       ;
+ 0000                 110  oscopt0      equ     6       ;
+ 0000                 111  oscopt1      equ     7       ;
+                      112  
+ 0000                 113  OSCTRIM      EQU     $0038   ;Oscillator Trim 
+                                                                       Register
+                      114  
+ 0000                 115  OSCSTAT EQU  $0036   ;Oscillator Status and Control 
+                                                         (No Vers A Solo QY/QT)
+                      116  
+                      117  ;***************************************************
+                                                    ***************************
+                      118  ;---------------REGISTROS DEL ADC-------------------
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 4
+
+
+
+                                                    ---------------------------
+ 0000                 119  ADSCR        EQU     $003C   ; ADC Status & Control 
+                                                                       Register
+ 0000                 120  coco equ     7       ;
+ 0000                 121  aien equ     6       ;
+ 0000                 122  adco equ     5       ;
+                      123  
+ 0000                 124  ADRH EQU     $003D   ; ADC10 Data Register High
+ 0000                 125  ADRL EQU     $003E   ; ADC10 Data Register Low
+ 0000                 126  ADICLK       EQU     $003F   ; ADC10 Clock Control 
+                                                                       Register
+                      127  
+                      128  ;***************************************************
+                                                    ***************************
+                      129  ;---------------REGISTROS DEL MODULO SIM------------
+                                                    ---------------------------
+ 0000                 130  BSR  EQU     $FE00   ; Break Status Register
+ 0000                 131  sbsw equ     1       ; break wait bit
+                      132  
+ 0000                 133  SRSR EQU     $FE01   ; SIM Reset Status Register
+ 0000                 134  por  equ     7       ;
+ 0000                 135  pin  equ     6       ;
+ 0000                 136  cop  equ     5       ;
+ 0000                 137  ilop equ     4       ;
+ 0000                 138  ilad equ     3       ;
+ 0000                 139  modrst       equ     2       ;
+ 0000                 140  lvi  equ     1       ;
+                      141  
+ 0000                 142  BRKAR        EQU     $FE02   ; Break Auxiliary 
+                                                                       Register
+ 0000                 143  bdcop        equ     0
+                      144  
+ 0000                 145  BFCR EQU     $FE03   ; Break Flag Control Register
+ 0000                 146  bcfe equ     7       ;
+                      147  
+ 0000                 148  INT1 EQU     $FE04   ; Interrupt Status Register 1
+                      149  
+ 0000                 150  INT2 EQU     $FE05   ; Interrupt Status Register 2
+                      151  
+ 0000                 152  INT3 EQU     $FE06   ; Interrupt Status Register 3
+                      153  
+                      154  ;***************************************************
+                                                    ***************************
+                      155  ;---------------REGISTROS DE LA MEMORIA FLASH-------
+                                                    ---------------------------
+ 0000                 156  FLCR EQU     $FE08   ; FLASH Control Register
+                      157  
+ 0000                 158  FLBPR        EQU     $FFBE   ; FLASH Block Protect
+                      159  
+                      160  ;***************************************************
+                                                    ***************************
+                      161  ;---------------REGISTROS DEL MODULO BREAK----------
+                                                     --------------------------
+ 0000                 162  BRKH EQU     $FE09   ; Break address Hig Register
+                      163  
+ 0000                 164  BRKL EQU     $FE0A   ; Break Address Low Register
+                      165  
+ 0000                 166  BRKSCR       EQU     $FE0B   ; Break Status & 
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 5
+
+
+
+                                                               Control Register
+                      167  
+                      168  ;***************************************************
+                                                    ***************************
+                      169  ;---------------REGISTROS DEL MODULO LVI------------
+                                                    ---------------------------
+ 0000                 170  LVISR        EQU     $FE0C   ; LVI Status Register
+                      171  
+                      172  ;***************************************************
+                                                    ***************************
+                      173  ;---------------REGISTROS DEL MODULO OSCILLATOR-----
+                                                    ---------------------------
+ 0000                 174  IOSCTRM EQU  $FFC0   ; Internal Oscillator Trim 
+                                                  (Factory Prog Value Optional)
+                      175  
+                      176  ;***************************************************
+                                                    ***************************
+                      177  ;---------------REGISTROS DEL MODULO COP WATCHDOG---
+                                                    ---------------------------
+ 0000                 178  COPCTL       EQU     $FFFF   ; COP Control Register
+                      179  
+                      180  ;***************************************************
+                                                    ***************************
+                      181  ;***************************************************
+                                                    ***************************
+                      182  ; RUTINAS DE MANEJO DE LA MEMORIA FLASH SITUADAS EN 
+                                                    LA ROM MONITOR (HC908QTQYx)
+                      183  ;***************************************************
+                                                    ***************************
+                      184  
+ 0000                 185  PRGRNGE              EQU     $2809   ;Programa un 
+                                                  rango de direcciones de Flash
+ 0000                 186  ERARNGE              EQU     $2806   ;Borra una 
+                                                        pagina de Memoria Flash
+ 0000                 187  GETBYTE              EQU     $2800   ;Recibe un 
+                                              Byte en Modo Monitordesde el Port
+ 0000                 188  RDVRRNG              EQU     $2803   ;Usa un Rango 
+                                               de la Flash y lo envia x el Port
+ 0000                 189  DELNUS               EQU     $280C   ;Rutina de 
+                                                  Demora (usa parametros[A][X])
+                      190  
+                      191  ;***************************************************
+                                                    ***************************
+                      192  ;       SyHDe - Soft y Hard Desarrollos, 2000  - 
+                                                          Derechos Reservados -
+                      193  ; Ud.uede usar este archivo gratuitamente mientras 
+                                                     incluya este pie de pagina
+                      194  ;***************************************************
+                                                    ***************************
+                      195  
+                      196  
+                      197  ;***************************************************
+                                                    ***************************
+                      198  ;    DEFINICION DE LAS VARIABLES DE RAM DEL EQUIPO
+                      199  ;***************************************************
+                                                    ***************************
+ 0080                 200       org     RAM_INI
+ 0080                 201  CONT0                   ds      1
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 6
+
+
+
+ 0081                 202  RETARDO1           ds      1
+ 0082                 203  RETARDO2           ds      1
+ 0083                 204  aumento1        ds      1
+ 0084                 205  simulacion         ds           1
+                      206  
+                      207  ;***************************************************
+                                                    ***************************
+                      208  ;            INICIO del PROGRAMA PRINCIPAL
+                      209  ;***************************************************
+                                                    ***************************
+                      210  ;    Arranca AQUI cada vez que se APAGA el Equipo 
+                                                               (Power On Reset)
+                      211  ;---------------------------------------------------
+                                                    ---------------------------
+ F800                 212       org     FLASH_INI
+                      213  
+ F800      000F1E2D   214  tabla        db      $0,15t,30t,45t,75t,90t,105t,120
+                                                                           t,$0
+           4B5A6978 
+           00 
+                      215  
+                      216  start:
+ F809 [01] 9C         217       rsp
+ F80A [01] 4F         218       clra                            ;Inicializo 
+                                                          los Registros del CPU
+ F80B [01] 5F         219       clrx                            ;
+ F80C [01] 8C         220       clrh                            ;
+ F80D [02] 9B         221       sei                             ;Desabilito 
+                                                                 Interrupciones
+                      222                                       ;resetea stank 
+                                                                        pointer
+                      223  
+                      224  ;---------------------------------------;
+ F80E [05] CDFB71     225       jsr     prog_modulos            ;> Programo 
+                                                              TODOS los Modulos
+                      226  ;---------------------------------------;
+                      227  
+                      228  ;-------------- Programo el TIMER-------;-----------
+                                                    ---------------------------
+                      229  ;Fclock=12.8 MHz -> Fbus=3.2 MHz -> Ciclo T =312.50 
+                                                                           nseg
+                      230  ;
+ F811 [04] 6E3620     231       mov     #$36,TSC
+                      232  
+ F814 [04] 6E0323     233       mov     #$03,TMODH
+ F817 [04] 6EFF24     234       mov     #$FF,TMODL              ;20mS
+ F81A [04] 6E0026     235       mov     #$00,TCH0H
+ F81D [04] 6E6927     236       mov     #$69,TCH0L
+ F820 [04] 6E6A25     237       mov     #%01101010,TSC0
+ F823 [04] 6E0620     238       mov     #$06,TSC                ;Arranca el 
+                                                                          TIMER
+ F826 [01] 9D         239       nop
+ F827 [01] 9D         240       nop
+ F828 [02] 9A         241       cli
+                      242  
+                      243  ;-------------- Programo el KBI-------;-------------
+                                                      -------------------------
+                      244  
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 7
+
+
+
+                      245  ;    mov     #%00000001,KBSCR
+                      246  ;    mov     #%00010000,KBIER
+                      247  ;    nop
+                      248  ;    nop
+                      249  
+                      250  ;***************************************************
+                                                    ***************************
+                      251  ;                    PROGRAMA PRINCIPAL
+                      252  ;***************************************************
+                                                    ***************************
+                      253  
+                      254  
+                      255  ;*************************************TECLADO*******
+                                                    ***************************
+ F829 [03] 3F80       256       clr     CONT0
+                      257  start_00:
+ F82B [04] 1001       258       bset    0,PORTB
+ F82D [05] CDFA97     259       jsr     demora_1s
+ F830 [04] 1101       260       bclr    0,PORTB
+ F832 [05] CDFA97     261       jsr     demora_1s
+                      262  
+ F835 [03] 20F4       263       bra     start_00
+                      264  
+                      265  
+                      266  
+                      267  
+                      268  
+                      269  
+                      270  
+                      271  ;---------------------------------------;-----------
+                                                    ---------------------------
+                      272  ;***************************************************
+                                                    ***************************
+                      273  
+                      274  
+                      275  
+                      276  
+                      277  
+                      278  retardo_1ms:
+                      279  
+ F837 [04] 6E0181     280       mov     #$01,RETARDO1         ;[4]
+                      281  ret_1:
+ F83A [04] 6EF482     282       mov     #$F4,RETARDO2         ;[4]
+                      283  ret_2:
+ F83D [04] 3A82       284       dec     RETARDO2              ;[4]
+ F83F [01] 4F         285       clra                          ;[1]
+ F840 [05] 318202     286       cbeq    RETARDO2,ret_1a       ;[5]4+4+[((4+1+5+
+                                                        3)x244)+4+4+1+5+3)x001]
+ F843 [03] 20F8       287       bra     ret_2                 ;[3](((13)x244)+1
+                                                              7)x001)+8+3=3200c
+                      288  ret_1a                                     ;     
+                                                 3200 x 312,5nseg = 1.000.000ns
+ F845 [04] 3A81       289       dec     RETARDO1              ;[4]  1ms
+ F847 [01] 4F         290       clra                          ;[1]
+ F848 [05] 318202     291       cbeq    RETARDO2,finret       ;[5]
+ F84B [03] 20ED       292       bra     ret_1                 ;[3]
+                      293  finret:
+ F84D [01] 9D         294       nop
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 8
+
+
+
+ F84E [01] 9D         295       nop
+ F84F [01] 9D         296       nop
+ F850 [04] 81         297       rts
+                      298  
+                      299  retardo_10ms:
+ F851 [05] CDF837     300       jsr     retardo_1ms
+ F854 [05] CDF837     301       jsr     retardo_1ms
+ F857 [05] CDF837     302       jsr     retardo_1ms
+ F85A [05] CDF837     303       jsr     retardo_1ms
+ F85D [05] CDF837     304       jsr     retardo_1ms
+ F860 [05] CDF837     305       jsr     retardo_1ms
+ F863 [05] CDF837     306       jsr     retardo_1ms
+ F866 [05] CDF837     307       jsr     retardo_1ms
+ F869 [05] CDF837     308       jsr     retardo_1ms
+ F86C [05] CDF837     309       jsr     retardo_1ms
+ F86F [04] 81         310       rts
+                      311  
+                      312  retardo_100ms:
+                      313  
+ F870 [05] CDF851     314       jsr     retardo_10ms
+ F873 [05] CDF851     315       jsr     retardo_10ms
+ F876 [05] CDF851     316       jsr     retardo_10ms
+ F879 [05] CDF851     317       jsr     retardo_10ms
+ F87C [05] CDF851     318       jsr     retardo_10ms
+ F87F [05] CDF851     319       jsr     retardo_10ms
+ F882 [05] CDF851     320       jsr     retardo_10ms
+ F885 [05] CDF851     321       jsr     retardo_10ms
+ F888 [05] CDF851     322       jsr     retardo_10ms
+ F88B [05] CDF851     323       jsr     retardo_10ms
+ F88E [04] 81         324       rts
+                      325  
+                      326  retardo_1s:
+ F88F [05] CDF870     327       jsr     retardo_100ms
+ F892 [05] CDF870     328       jsr     retardo_100ms
+ F895 [05] CDF870     329       jsr     retardo_100ms
+ F898 [05] CDF870     330       jsr     retardo_100ms
+ F89B [05] CDF870     331       jsr     retardo_100ms
+ F89E [05] CDF870     332       jsr     retardo_100ms
+ F8A1 [05] CDF870     333       jsr     retardo_100ms
+ F8A4 [05] CDF870     334       jsr     retardo_100ms
+ F8A7 [05] CDF870     335       jsr     retardo_100ms
+ F8AA [05] CDF870     336       jsr     retardo_100ms
+ F8AD [04] 81         337       rts
+                      338  
+                      339  
+                      340  
+                      341  
+                      342  
+                      343  motor1antihorario:
+ F8AE [04] 6E0380     344       mov     #$03,CONT0
+                      345  salida_1a:
+ F8B1 [04] 3A80       346       dec     CONT0
+ F8B3 [04] 1001       347       bset    motor1,PORTB
+ F8B5 [05] CDFA2E     348       jsr     demora_01ms
+ F8B8 [05] CDFA2E     349       jsr     demora_01ms
+ F8BB [05] CDFA2E     350       jsr     demora_01ms
+ F8BE [04] 1101       351       bclr    motor1,PORTB
+ F8C0 [05] CDFA59     352       jsr     demora_10ms
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 9
+
+
+
+ F8C3 [05] CDFA59     353       jsr     demora_10ms
+ F8C6 [05] CDFA59     354       jsr     demora_10ms
+ F8C9 [01] 4F         355       clra
+ F8CA [05] 318002     356       cbeq    CONT0,seguir_1a
+ F8CD [03] 20E2       357       bra     salida_1a
+                      358  seguir_1a:
+ F8CF [04] 81         359       rts
+                      360  
+                      361  
+                      362  motor1horario:
+ F8D0 [04] 6E0380     363       mov     #$03,CONT0
+                      364  salida_1h:
+ F8D3 [04] 3A80       365       dec     CONT0
+ F8D5 [04] 1001       366       bset    motor1,PORTB
+ F8D7 [05] CDFA36     367       jsr     demora_05ms
+ F8DA [05] CDFA46     368       jsr     demora_1ms
+ F8DD [05] CDFA46     369       jsr     demora_1ms
+ F8E0 [04] 1101       370       bclr    motor1,PORTB
+ F8E2 [05] CDFA59     371       jsr     demora_10ms
+ F8E5 [05] CDFA59     372       jsr     demora_10ms
+ F8E8 [05] CDFA46     373       jsr     demora_1ms
+ F8EB [01] 4F         374       clra
+ F8EC [05] 318002     375       cbeq    CONT0,seguir_1h
+ F8EF [03] 20E2       376       bra     salida_1h
+                      377  seguir_1h:
+ F8F1 [04] 81         378       rts
+                      379  
+                      380  
+                      381  motor2antihorario:
+ F8F2 [04] 6E0A80     382       mov     #$0A,CONT0
+                      383  salida_2a:
+ F8F5 [04] 3A80       384       dec     CONT0
+ F8F7 [04] 1201       385       bset    motor2,PORTB
+ F8F9 [05] CDFA36     386       jsr     demora_05ms
+ F8FC [04] 1301       387       bclr    motor2,PORTB
+ F8FE [05] CDFA59     388       jsr     demora_10ms
+ F901 [05] CDFA36     389       jsr     demora_05ms
+ F904 [05] CDFA46     390       jsr     demora_1ms
+ F907 [05] CDFA46     391       jsr     demora_1ms
+ F90A [05] CDFA46     392       jsr     demora_1ms
+ F90D [05] CDFA46     393       jsr     demora_1ms
+ F910 [05] CDFA46     394       jsr     demora_1ms
+ F913 [05] CDFA46     395       jsr     demora_1ms
+ F916 [05] CDFA46     396       jsr     demora_1ms
+ F919 [05] CDFA46     397       jsr     demora_1ms
+ F91C [01] 4F         398       clra
+ F91D [05] 318002     399       cbeq    CONT0,seguir_2a
+ F920 [03] 20D3       400       bra     salida_2a
+                      401  seguir_2a:
+ F922 [04] 81         402       rts
+                      403  
+                      404  
+                      405  motor2horario:
+ F923 [04] 6E0A80     406       mov     #$0A,CONT0
+                      407  salida_2h:
+ F926 [04] 3A80       408       dec     CONT0
+ F928 [04] 1201       409       bset    motor2,PORTB
+ F92A [05] CDFA36     410       jsr     demora_05ms
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 10
+
+
+
+ F92D [05] CDFA46     411       jsr     demora_1ms
+ F930 [05] CDFA46     412       jsr     demora_1ms
+ F933 [05] CDFA46     413       jsr     demora_1ms
+ F936 [04] 1301       414       bclr    motor2,PORTB
+ F938 [05] CDFA59     415       jsr     demora_10ms
+ F93B [05] CDFA36     416       jsr     demora_05ms
+ F93E [05] CDFA46     417       jsr     demora_1ms
+ F941 [05] CDFA46     418       jsr     demora_1ms
+ F944 [05] CDFA46     419       jsr     demora_1ms
+ F947 [05] CDFA46     420       jsr     demora_1ms
+ F94A [05] CDFA46     421       jsr     demora_1ms
+ F94D [05] CDFA46     422       jsr     demora_1ms
+ F950 [01] 4F         423       clra
+ F951 [05] 318002     424       cbeq    CONT0,seguir_2h
+ F954 [03] 20D0       425       bra     salida_2h
+                      426  seguir_2h:
+ F956 [04] 81         427       rts
+                      428  
+                      429  
+                      430  motor3antihorario:
+ F957 [04] 6E0A80     431       mov     #$0A,CONT0
+                      432  salida_3a:
+ F95A [04] 3A80       433       dec     CONT0
+ F95C [04] 1401       434       bset    motor3,PORTB
+ F95E [05] CDFA36     435       jsr     demora_05ms
+ F961 [04] 1501       436       bclr    motor3,PORTB
+ F963 [05] CDFA59     437       jsr     demora_10ms
+ F966 [05] CDFA36     438       jsr     demora_05ms
+ F969 [05] CDFA46     439       jsr     demora_1ms
+ F96C [05] CDFA46     440       jsr     demora_1ms
+ F96F [05] CDFA46     441       jsr     demora_1ms
+ F972 [05] CDFA46     442       jsr     demora_1ms
+ F975 [05] CDFA46     443       jsr     demora_1ms
+ F978 [05] CDFA46     444       jsr     demora_1ms
+ F97B [05] CDFA46     445       jsr     demora_1ms
+ F97E [05] CDFA46     446       jsr     demora_1ms
+ F981 [01] 4F         447       clra
+ F982 [05] 318002     448       cbeq    CONT0,seguir_3a
+ F985 [03] 20D3       449       bra     salida_3a
+                      450  seguir_3a:
+ F987 [04] 81         451       rts
+                      452  
+                      453  
+                      454  motor3horario:
+ F988 [04] 6E0A80     455       mov     #$0A,CONT0
+                      456  salida_3h:
+ F98B [04] 3A80       457       dec     CONT0
+ F98D [04] 1401       458       bset    motor3,PORTB
+ F98F [05] CDFA36     459       jsr     demora_05ms
+ F992 [05] CDFA46     460       jsr     demora_1ms
+ F995 [05] CDFA46     461       jsr     demora_1ms
+ F998 [05] CDFA46     462       jsr     demora_1ms
+ F99B [04] 1501       463       bclr    motor3,PORTB
+ F99D [05] CDFA59     464       jsr     demora_10ms
+ F9A0 [05] CDFA36     465       jsr     demora_05ms
+ F9A3 [05] CDFA46     466       jsr     demora_1ms
+ F9A6 [05] CDFA46     467       jsr     demora_1ms
+ F9A9 [05] CDFA46     468       jsr     demora_1ms
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 11
+
+
+
+ F9AC [05] CDFA46     469       jsr     demora_1ms
+ F9AF [05] CDFA46     470       jsr     demora_1ms
+ F9B2 [05] CDFA46     471       jsr     demora_1ms
+ F9B5 [01] 4F         472       clra
+ F9B6 [05] 318002     473       cbeq    CONT0,seguir_3h
+ F9B9 [03] 20D0       474       bra     salida_3h
+                      475  seguir_3h:
+ F9BB [04] 81         476       rts
+                      477  
+                      478  
+                      479  
+                      480  motor4antihorario:
+ F9BC [04] 6E0580     481       mov     #$05,CONT0
+                      482  salida_4a:
+ F9BF [04] 3A80       483       dec     CONT0
+ F9C1 [04] 1601       484       bset    motor4,PORTB
+ F9C3 [05] CDFA36     485       jsr     demora_05ms
+ F9C6 [04] 1701       486       bclr    motor4,PORTB
+ F9C8 [05] CDFA59     487       jsr     demora_10ms
+ F9CB [05] CDFA36     488       jsr     demora_05ms
+ F9CE [05] CDFA46     489       jsr     demora_1ms
+ F9D1 [05] CDFA46     490       jsr     demora_1ms
+ F9D4 [05] CDFA46     491       jsr     demora_1ms
+ F9D7 [05] CDFA46     492       jsr     demora_1ms
+ F9DA [05] CDFA46     493       jsr     demora_1ms
+ F9DD [05] CDFA46     494       jsr     demora_1ms
+ F9E0 [05] CDFA46     495       jsr     demora_1ms
+ F9E3 [05] CDFA46     496       jsr     demora_1ms
+ F9E6 [01] 4F         497       clra
+ F9E7 [05] 318002     498       cbeq    CONT0,seguir_4a
+ F9EA [03] 20D3       499       bra     salida_4a
+                      500  seguir_4a:
+ F9EC [04] 81         501       rts
+                      502  
+                      503  
+                      504  motor4horario:
+ F9ED [04] 6E0A80     505       mov     #$0A,CONT0
+                      506  salida_4h:
+ F9F0 [04] 3A80       507       dec     CONT0
+ F9F2 [04] 6E0201     508       mov     #%00000010,PORTB
+ F9F5 [05] CDFA36     509       jsr     demora_05ms
+ F9F8 [05] CDFA46     510       jsr     demora_1ms
+ F9FB [05] CDFA46     511       jsr     demora_1ms
+ F9FE [05] CDFA46     512       jsr     demora_1ms
+ FA01 [04] 6E0001     513       mov     #%00000000,PORTB
+ FA04 [05] CDFA59     514       jsr     demora_10ms
+ FA07 [05] CDFA36     515       jsr     demora_05ms
+ FA0A [05] CDFA46     516       jsr     demora_1ms
+ FA0D [05] CDFA46     517       jsr     demora_1ms
+ FA10 [05] CDFA46     518       jsr     demora_1ms
+ FA13 [05] CDFA46     519       jsr     demora_1ms
+ FA16 [05] CDFA46     520       jsr     demora_1ms
+ FA19 [05] CDFA46     521       jsr     demora_1ms
+ FA1C [01] 4F         522       clra
+ FA1D [05] 318002     523       cbeq    CONT0,seguir_4h
+ FA20 [03] 20CE       524       bra     salida_4h
+                      525  seguir_4h:
+ FA22 [04] 81         526       rts
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 12
+
+
+
+                      527  
+                      528  
+                      529  
+                      530  ;---------------------------------------;-----------
+                                                    ---------------------------
+                      531  ;***************************************************
+                                                    ***************************
+                      532  ; DEMORA_QY - Demora de 81,761 mseg segun el calculo
+                      533  ; Fclock=12.8 MHz -> Fbus=3.2 MHz -> Ciclo T=312,50 
+                                                                           nseg
+                      534  ;***************************************************
+                                                    ***************************
+                      535  
+                      536  
+                      537  
+                      538  
+                      539  demora_qy:
+ FA23 [02] AEFF       540       ldx     #$ff                    ;[2]\
+                      541  dem_2:
+ FA25 [02] A6FF       542       lda     #$ff                    ;[2] |
+                      543  dem_1:
+ FA27 [01] 4A         544       deca                            ;[1] |(((4x255)
+                                                         +4+2)x255)+2+4=261636d
+ FA28 [03] 26FD       545       bne     dem_1                   ;[3] |  261636 
+                                                                  x 312,5nseg =
+ FA2A [01] 5A         546       decx                            ;[1] |  Total= 
+                                                                    81,761 mseg
+ FA2B [03] 26F8       547       bne     dem_2                   ;[3]/
+ FA2D [04] 81         548       rts
+                      549  
+                      550  demora_01ms:
+ FA2E [02] A64F       551       lda     #$4f                    ;[2] |
+                      552  dem_1a:
+ FA30 [01] 4A         553       deca                            ;[1] |((4x79)+2
+                                                                        +2=320d
+ FA31 [03] 26FD       554       bne     dem_1a                  ;[3] |  320 x 
+                                                          312,5nseg = 100.000ns
+ FA33 [01] 9D         555       nop
+ FA34 [01] 9D         556       nop                             ;    |  Total= 
+                                                                       0,1 mseg
+ FA35 [04] 81         557       rts
+                      558  
+                      559  
+                      560  demora_05ms:
+                      561  
+ FA36 [05] CDFA2E     562       jsr     demora_01ms
+ FA39 [05] CDFA2E     563       jsr     demora_01ms
+ FA3C [05] CDFA2E     564       jsr     demora_01ms
+ FA3F [05] CDFA2E     565       jsr     demora_01ms
+ FA42 [05] CDFA2E     566       jsr     demora_01ms
+ FA45 [04] 81         567       rts
+                      568  
+                      569  
+                      570  
+                      571  
+                      572  demora_1ms:
+ FA46 [02] AE47       573       ldx     #$47                    ;[2]\
+                      574  dem_22:
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 13
+
+
+
+ FA48 [02] A60B       575       lda     #$0b                    ;[2] |
+                      576  dem_11:
+ FA4A [01] 4A         577       deca
+ FA4B [02] A100       578       cmp     #$00                    ;[1] |(((4x71)+
+                                                           4+2)x11)+2+4+4=3200d
+ FA4D [03] 26FB       579       bne     dem_11                  ;[3] |  3200 x 
+                                                        312,5nseg = 1.000.000ns
+ FA4F [01] 5A         580       decx
+ FA50 [02] A300       581               cpx     #$00                    ;[1] | 
+                                                                     Total= 1ms
+ FA52 [03] 26F4       582       bne     dem_22                  ;[3]/
+ FA54 [01] 9D         583       nop
+ FA55 [01] 9D         584       nop
+ FA56 [01] 9D         585       nop
+ FA57 [01] 9D         586       nop
+ FA58 [04] 81         587       rts
+                      588  
+                      589  demora_10ms:
+ FA59 [05] CDFA46     590       jsr     demora_1ms
+ FA5C [05] CDFA46     591       jsr     demora_1ms
+ FA5F [05] CDFA46     592       jsr     demora_1ms
+ FA62 [05] CDFA46     593       jsr     demora_1ms
+ FA65 [05] CDFA46     594       jsr     demora_1ms
+ FA68 [05] CDFA46     595       jsr     demora_1ms
+ FA6B [05] CDFA46     596       jsr     demora_1ms
+ FA6E [05] CDFA46     597       jsr     demora_1ms
+ FA71 [05] CDFA46     598       jsr     demora_1ms
+ FA74 [05] CDFA46     599       jsr     demora_1ms
+ FA77 [04] 81         600       rts
+                      601  
+                      602  demora_100ms:
+ FA78 [05] CDFA59     603       jsr     demora_10ms
+ FA7B [05] CDFA59     604       jsr     demora_10ms
+ FA7E [05] CDFA59     605       jsr     demora_10ms
+ FA81 [05] CDFA59     606       jsr     demora_10ms
+ FA84 [05] CDFA59     607       jsr     demora_10ms
+ FA87 [05] CDFA59     608       jsr     demora_10ms
+ FA8A [05] CDFA59     609       jsr     demora_10ms
+ FA8D [05] CDFA59     610       jsr     demora_10ms
+ FA90 [05] CDFA59     611       jsr     demora_10ms
+ FA93 [05] CDFA59     612       jsr     demora_10ms
+ FA96 [04] 81         613       rts
+                      614  
+                      615  demora_1s:
+ FA97 [05] CDFA78     616       jsr     demora_100ms
+ FA9A [05] CDFA78     617       jsr     demora_100ms
+ FA9D [05] CDFA78     618       jsr     demora_100ms
+ FAA0 [05] CDFA78     619       jsr     demora_100ms
+ FAA3 [05] CDFA78     620       jsr     demora_100ms
+ FAA6 [05] CDFA78     621       jsr     demora_100ms
+ FAA9 [05] CDFA78     622       jsr     demora_100ms
+ FAAC [05] CDFA78     623       jsr     demora_100ms
+ FAAF [05] CDFA78     624       jsr     demora_100ms
+ FAB2 [05] CDFA78     625       jsr     demora_100ms
+ FAB5 [04] 81         626       rts
+                      627  
+                      628  demora_10s:
+ FAB6 [05] CDFA97     629       jsr     demora_1s
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 14
+
+
+
+ FAB9 [05] CDFA97     630       jsr     demora_1s
+ FABC [05] CDFA97     631       jsr     demora_1s
+ FABF [05] CDFA97     632       jsr     demora_1s
+ FAC2 [05] CDFA97     633       jsr     demora_1s
+ FAC5 [05] CDFA97     634       jsr     demora_1s
+ FAC8 [05] CDFA97     635       jsr     demora_1s
+ FACB [05] CDFA97     636       jsr     demora_1s
+ FACE [05] CDFA97     637       jsr     demora_1s
+ FAD1 [05] CDFA97     638       jsr     demora_1s
+ FAD4 [04] 81         639       rts
+                      640  
+                      641  demora_1min:
+ FAD5 [05] CDFAB6     642       jsr     demora_10s
+ FAD8 [05] CDFAB6     643       jsr     demora_10s
+ FADB [05] CDFAB6     644       jsr     demora_10s
+ FADE [05] CDFAB6     645       jsr     demora_10s
+ FAE1 [05] CDFAB6     646       jsr     demora_10s
+ FAE4 [05] CDFAB6     647       jsr     demora_10s
+ FAE7 [04] 81         648       rts
+                      649  
+                      650  demora_10min:
+ FAE8 [05] CDFAD5     651       jsr     demora_1min
+ FAEB [05] CDFAD5     652       jsr     demora_1min
+ FAEE [05] CDFAD5     653       jsr     demora_1min
+ FAF1 [05] CDFAD5     654       jsr     demora_1min
+ FAF4 [05] CDFAD5     655       jsr     demora_1min
+ FAF7 [05] CDFAD5     656       jsr     demora_1min
+ FAFA [05] CDFAD5     657       jsr     demora_1min
+ FAFD [05] CDFAD5     658       jsr     demora_1min
+ FB00 [05] CDFAD5     659       jsr     demora_1min
+ FB03 [05] CDFAD5     660       jsr     demora_1min
+ FB06 [04] 81         661       rts
+                      662  
+                      663  demora_1h:
+                      664  
+ FB07 [05] CDFAE8     665       jsr     demora_10min
+ FB0A [05] CDFAE8     666       jsr     demora_10min
+ FB0D [05] CDFAE8     667       jsr     demora_10min
+ FB10 [05] CDFAE8     668       jsr     demora_10min
+ FB13 [05] CDFAE8     669       jsr     demora_10min
+ FB16 [05] CDFAE8     670       jsr     demora_10min
+ FB19 [04] 81         671       rts
+                      672  
+                      673  demora_12h:
+                      674  
+ FB1A [05] CDFB07     675       jsr     demora_1h
+ FB1D [05] CDFB07     676       jsr     demora_1h
+ FB20 [05] CDFB07     677       jsr     demora_1h
+ FB23 [05] CDFB07     678       jsr     demora_1h
+ FB26 [05] CDFB07     679       jsr     demora_1h
+ FB29 [05] CDFB07     680       jsr     demora_1h
+ FB2C [05] CDFB07     681       jsr     demora_1h
+ FB2F [05] CDFB07     682       jsr     demora_1h
+ FB32 [05] CDFB07     683       jsr     demora_1h
+ FB35 [05] CDFB07     684       jsr     demora_1h
+ FB38 [05] CDFB07     685       jsr     demora_1h
+ FB3B [05] CDFB07     686       jsr     demora_1h
+ FB3E [04] 81         687       rts
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 15
+
+
+
+                      688  
+                      689  ;***************************************************
+                                                    ***************************
+                      690  ; DEMORA_1000MS - demora de 1 seg aproximadamente 
+                                                               para usos varios
+                      691  ; DEMORA_500MS - demora de 500 mseg aproximadamente 
+                                                               para usos varios
+                      692  ; DEMORA_320MS - demora de 320 mseg aproximadamente 
+                                                               para usos varios
+                      693  ; DEMORA_240MS - demora de 240 mseg aproximadamente 
+                                                               para usos varios
+                      694  ;***************************************************
+                                                    ***************************
+                      695  demora_1000ms:
+ FB3F [05] CDFA23     696       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB42 [05] CDFA23     697       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB45 [05] CDFA23     698       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB48 [05] CDFA23     699       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB4B [05] CDFA23     700       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB4E [05] CDFA23     701       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+                      702  demora_500ms:
+ FB51 [05] CDFA23     703       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB54 [05] CDFA23     704       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+                      705  demora_320ms:
+ FB57 [05] CDFA23     706       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+                      707  demora_240ms:
+ FB5A [05] CDFA23     708       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+                      709  demora_rapida:
+ FB5D [05] CDFA23     710       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB60 [05] CDFA23     711       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB63 [04] 81         712       rts
+                      713  
+                      714  
+                      715  ;***************************************************
+                                                    ***************************
+                      716  ; CLR_RAM - Borro toda la RAM desde donde apunta HX 
+                                                                 hasta el final
+                      717  ;***************************************************
+                                                    ***************************
+                      718  clr_all_ram:
+ FB64 [03] 450080     719       ldhx    #RAM_INI                ;\ Inicializo 
+                                                              Totalmente la RAM
+                      720  clr_a_ram_0:
+ FB67 [03] 6F00       721          clr     0,x
+ FB69 [02] AF01       722          aix     #$01
+ FB6B [03] 6500B2     723          cphx    #{RAM_INI + 50}              ;Borro 
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 16
+
+
+
+                                                        50 Bytes de Memoria RAM
+ FB6E [03] 26F7       724          bne     clr_a_ram_0          ;menos los 
+                                                      ultimos bytes porque sino
+ FB70 [04] 81         725       rts                             ;no puedo 
+                                                               volver de la JSR
+                      726  
+                      727  
+                      728  
+                      729  ;***************************************************
+                                                    ***************************
+                      730  ;***************************************************
+                                                    ***************************
+                      731  ;                    ARCHIVOS INCLUIDOS
+                      732  ;***************************************************
+                                                    ***************************
+                      733  ;***************************************************
+                                                    ***************************
+ FB71                 734  $Include     'PROG_MOD_QY4A_1.inc'   ;Programacion 
+                                                        de los Modulos de QT/QY
+                      735  ****************************************************
+                                                    ***************************
+                      736  *                    PROG_MODUL_QTQYA - ARCHIVO 
+                                                                        INCLUDE
+                      737  * Contiene la Programacion de los Modulos del 
+                                                           MC68HC908QTxxA/QYxxA
+                      738  ****************************************************
+                                                    ***************************
+                      739  prog_modulos:
+                      740  ;-------------- Programo el CONFIG -----------------
+                                                    ---------------------------
+ FB71 [04] 6E801E     741       mov     #%10000000,CONFIG2      ;Configuracion 
+                                                                   del registro
+                      742  ;               \\\\\\\\_____________;RSTEN= 0 
+                                                        Funcion inactiva en pin
+                      743  ;                \\\\\\\_____________;OSCENINSTOP= 
+                                                      0 Oscilador desab en STOP
+                      744  ;                 \\\\\\_____________;none
+                      745  ;                  \\\\\_____________;none
+                      746  ;                   \\\\_____________;none
+                      747  ;                    \\\_____________;none
+                      748  ;                     \\_____________;IRQEN= 0 IRQ 
+                                                                   desabilitada
+                      749  ;                      \_____________;IRQPUD= 1 
+                                                           Pull Up desconectada
+                      750  
+                      751  
+ FB74 [04] 6E0D1F     752          mov  #%00001101,CONFIG1      ;Configuracion 
+                                                                   del registro
+                      753  ;                  \\\\\\\\_____________;COPD= 1 
+                                                               COP desabilitado
+                      754  ;                   \\\\\\\_____________;STOP= 0 
+                                                  instruccion STOP desabilitada
+                      755  ;                    \\\\\\_____________;SSREC= 1 
+                                                   Recup de modo STOP 32 ciclos
+                      756  ;                     \\\\\_____________;LVITRIP= 1 
+                                                              LVI operate en 5V
+                      757  ;                      \\\\_____________;LVIPWRD= 0 
+                                                                 LVI habilitado
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 17
+
+
+
+                      758  ;                       \\\_____________;LVIRSTD= 0 
+                                                     Reset desde LVI habilitado
+                      759  ;                        \\_____________;LVISTOP= 0 
+                                                       LVI desabilitado en STOP
+                      760  ;                         \_____________;COPRS= 0 
+                                                           COP reset long cycle
+                      761  
+ FB77 [01] 9D         762       nop                             ; aseguran la 
+                                                                  configuracion
+ FB78 [01] 9D         763       nop                             ;
+ FB79 [01] 9D         764       nop                             ;
+                      765  
+                      766  ;-------------- Programacion del OSCILADOR QTA/QYA--
+                                                    ---------------------------
+                      767  ; Fclock=12.8 MHz -> Fbus=3.2 MHz -> Ciclo T=312,50 
+                                                                           nseg
+                      768  ;---------------------------------------------------
+                                                    ---------------------------
+ FB7A [04] 6E2036     769       mov     #%00100000,OSCSC        ; OSCILLATOR 
+                                                      STATUS & CONTROL REGISTER
+                      770  ;               \\\\\\\\_____________;ECGST= Read 
+                                                                           Only
+                      771  ;                \\\\\\\_____________;ECGON= 0 
+                                                 Oscilador Externo desabilitado
+                      772  ;                 \\\\\\_____________;ECFS0= 0 \ 
+                                                      00= Xtal Externo 8-32 MHz
+                      773  ;                  \\\\\_____________;ECFS1= 0 /
+                      774  ;                   \\\\_____________;ICFS0= 0 \ 
+                                                               10= Osc 12.8 MHz
+                      775  ;                    \\\_____________;ICSF1= 1 /
+                      776  ;                     \\_____________;OSCOPT0= 0 \ 
+                                                          00= Oscilador Interno
+                      777  ;                      \_____________;OSCOPT1= 0 /
+                      778  
+ FB7D [04] 6E8138     779       mov     #$81,OSCTRIM            ;Ajuste Fino 
+                                                                  del Oscilador
+                      780  
+                      781  ;-------------- Programacion del OSCILADOR No 
+                                              Version A -----------------------
+                      782  ;    mov     #%00000000,OSCSTAT      ; OSCILLATOR 
+                                                                STATUS REGISTER
+                      783  ;
+                      784  ;---------------------------------------------------
+                                                    ---------------------------
+ FB80 [05] CDFA23     785       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB83 [05] CDFA23     786       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB86 [05] CDFA23     787       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB89 [05] CDFA23     788       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB8C [05] CDFA23     789       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+ FB8F [05] CDFA23     790       jsr     demora_qy               ;Demora de 
+                                                                    81,761 mseg
+                      791  
+                      792  ;***************************************************
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 18
+
+
+
+                                                    ***************************
+                      793  ;    DEFINICION DE LOS PINES DE ENTRADA/SALIDA DEL 
+                                                                         EQUIPO
+                      794  ;***************************************************
+                                                    ***************************
+                      795  ;---------------------- Puerto B
+ FB92                 796  motor1               equ     0               
+                                                       ;Salida Control de Led 1
+ FB92                 797  motor2               equ     1               
+                                                       ;Salida Control de Led 2
+ FB92                 798  motor3               equ     2               
+                                                       ;Salida Control de Led 3
+ FB92                 799  motor4               equ     3               
+                                                       ;Salida Control de Led 4
+ FB92                 800  led_5                equ     4               
+                                                       ;Salida Control de Led 5
+ FB92                 801  led_6                equ     5               
+                                                       ;Salida Control de Led 6
+ FB92                 802  led_7                equ     6               
+                                                       ;Salida Control de Led 7
+ FB92                 803  led_8                equ     7               
+                                                       ;Salida Control de Led 8
+                      804  
+                      805  ;-------------- Programo los PUERTOS I/O -----------
+                                                    ---------------------------
+ FB92 [04] 6EE600     806          mov     #%11100110,PORTA             
+                                               ;Programo el PTA y luego el DDRA
+ FB95 [04] 6E0104     807          mov     #%00000001,DDRA              ;
+ FB98 [04] 6EE600     808          mov     #%11100110,PORTA             
+                                                   ;Escribo Valores por default
+                      809  
+ FB9B [04] 6E0001     810          mov     #%00000000,PORTB             
+                                               ;Programo el PTA y luego el DDRA
+ FB9E [04] 6EFF05     811          mov     #%11111111,DDRB              ;
+ FBA1 [04] 6E0001     812          mov     #%00000000,PORTB             
+                                                   ;Escribo Valores por default
+                      813  
+                      814  ;---------------------------------------;-----------
+                                                    ---------------------------
+                      815  
+ FBA4 [04] 81         816       rts
+                      817  
+                      818  
+                      819  ;***************************************************
+                                                    ***************************
+                      820  ;***************************************************
+                                                    ***************************
+                      821  ;                    RUTINAS DE INTERUPCION
+                      822  ;***************************************************
+                                                    ***************************
+                      823  ;***************************************************
+                                                    ***************************
+                      824  
+                      825  ;***************************************************
+                                                    ***************************
+                      826  ; ADC_ISR - Rutina de Interrupcion del ADC
+                      827  ;***************************************************
+                                                    ***************************
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 19
+
+
+
+                      828  adc_isr:
+ FBA5 [07] 80         829       rti                             ;
+                      830  
+                      831  ;***************************************************
+                                                    ***************************
+                      832  ; KEYB_ISR - Rutina de Interrupcion del KBI
+                      833  ;***************************************************
+                                                    ***************************
+                      834  keyb_isr:
+ FBA6 [07] 80         835       rti
+                      836  
+                      837  
+                      838  ;***************************************************
+                                                    ***************************
+                      839  ; TIM1_OV_ISR - Rutina de Interrupcion por Overflow 
+                                                                    del Timer 1
+                      840  ;***************************************************
+                                                    ***************************
+                      841  tim1_ov_isr:
+                      842  
+ FBA7 [07] 80         843       rti
+                      844  ;***************************************************
+                                                    ***************************
+                      845  ; TIM1_1_ISR - Rutina de Interrupcion del Canal 1 
+                                                                    del Timer 1
+                      846  ;***************************************************
+                                                    ***************************
+                      847  tim1_1_isr:
+ FBA8 [07] 80         848       rti                             ;
+                      849  
+                      850  
+                      851  ;***************************************************
+                                                    ***************************
+                      852  ; TIM1_0_ISR - Rutina de Interrupcion del Canal 0 
+                                                                    del Timer 1
+                      853  ;***************************************************
+                                                    ***************************
+                      854  tim1_0_isr:
+ FBA9 [04] 1F25       855       bclr    7,TSC0
+ FBAB [07] 80         856       rti                             ;
+                      857  
+                      858  ;***************************************************
+                                                    ***************************
+                      859  ; IRQ_ISR - Rutina de Interrupcion Externa
+                      860  ;***************************************************
+                                                    ***************************
+                      861  irq_isr:
+ FBAC [01] 9D         862       nop                             ;
+ FBAD [07] 80         863       rti                             ;
+                      864  
+                      865  ;***************************************************
+                                                    ***************************
+                      866  ; SWI_ISR - Rutina de Interrupcion por Software
+                      867  ;***************************************************
+                                                    ***************************
+                      868  swi_isr:
+ FBAE [01] 9D         869          nop                          ;
+ FBAF [07] 80         870          rti                          ;
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 20
+
+
+
+                      871  
+                      872  ;***************************************************
+                                                    ***************************
+                      873  ; DUMMY_ISR - Dummy Interrupt Service Routine
+                      874  ; Rutina de servicio de Interupcion Fantasma, se 
+                                                  pone por razones de seguridad
+                      875  ;***************************************************
+                                                    ***************************
+                      876  dummy_isr:
+ FBB0 [01] 9D         877          nop                          ;
+ FBB1 [07] 80         878          rti                          ; vuelve sin 
+                                                                     hacer nada
+                      879  
+                      880  ;***************************************************
+                                                    ***************************
+                      881  ; FLASH BLOCK PROTECT - Grabacion del Mismo
+                      882  ;***************************************************
+                                                    ***************************
+                      883  ;    Org     FLBPR
+                      884  ;    fcb     $ff                     ;Toda!!! la 
+                                                      memoria esta desprotegida
+                      885  ;
+                      886  ;***************************************************
+                                                    ***************************
+                      887  ; VECTORES - Definicion de Vectores del Sistema
+                      888  ;***************************************************
+                                                    ***************************
+ FFDE                 889       org     VECTORES
+ FFDE      FBA5       890       fdb     adc_isr         ; ADC Vector
+ FFE0      FBA6       891       fdb     keyb_isr        ; KEYBOARD Vector
+                      892  
+ FFF2                 893       org     $FFF2
+ FFF2      FBA7       894       fdb     tim1_ov_isr     ; TIM1 Overflow Vector
+ FFF4      FBA8       895       fdb     tim1_1_isr      ; TIM1 Channel 1 Vector
+ FFF6      FBA9       896       fdb     tim1_0_isr      ; TIM1 Channel 0 Vector
+                      897  
+ FFFA                 898       org     $FFFA
+ FFFA      FBAC       899       fdb     irq_isr         ; IRQ1  Vector
+ FFFC      FBAE       900       fdb     swi_isr         ; SWI Vector
+ FFFE      F809       901       fdb     Start           ; Reset
+                      902  
+                      903  end
+                      904   
+
+ Symbol Table 
+
+ACK              0002
+ACKK             0002
+ADCO             0005
+ADC_ISR          FBA5
+ADICLK           003F
+ADRH             003D
+ADRL             003E
+ADSCR            003C
+AIEN             0006
+AUMENTO1         0083
+BCFE             0007
+BDCOP            0000
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 21
+
+
+
+BFCR             FE03
+BRKAR            FE02
+BRKH             FE09
+BRKL             FE0A
+BRKSCR           FE0B
+BSR              FE00
+CH0F             0007
+CH0IE            0006
+CH0MAX           0000
+CH1F             0007
+CH1IE            0006
+CH1MAX           0000
+CLR_ALL_RAM      FB64
+CLR_A_RAM_0      FB67
+COCO             0007
+CONFIG1          001F
+CONFIG2          001E
+CONT0            0080
+COP              0005
+COPCTL           FFFF
+DDRA             0004
+DDRB             0005
+DELNUS           280C
+DEMORA_01MS      FA2E
+DEMORA_05MS      FA36
+DEMORA_1000MS    FB3F
+DEMORA_100MS     FA78
+DEMORA_10MIN     FAE8
+DEMORA_10MS      FA59
+DEMORA_10S       FAB6
+DEMORA_12H       FB1A
+DEMORA_1H        FB07
+DEMORA_1MIN      FAD5
+DEMORA_1MS       FA46
+DEMORA_1S        FA97
+DEMORA_240MS     FB5A
+DEMORA_320MS     FB57
+DEMORA_500MS     FB51
+DEMORA_QY        FA23
+DEMORA_RAPIDA    FB5D
+DEM_1            FA27
+DEM_11           FA4A
+DEM_1A           FA30
+DEM_2            FA25
+DEM_22           FA48
+DUMMY_ISR        FBB0
+ECFS0            0002
+ECFS1            0003
+ECGON            0001
+ECGST            0000
+ELS0A            0002
+ELS0B            0003
+ELS1A            0002
+ELS1B            0003
+END              0000
+ERARNGE          2806
+FINRET           F84D
+FLASH_END        FDFF
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 22
+
+
+
+FLASH_INI        F800
+FLBPR            FFBE
+FLCR             FE08
+GETBYTE          2800
+ICFS0            0004
+ICFS1            0005
+ILAD             0003
+ILOP             0004
+IMASK            0001
+IMASKK           0001
+INT1             FE04
+INT2             FE05
+INT3             FE06
+INTSCR           001D
+IOSCTRM          FFC0
+IRQF             0003
+IRQ_ISR          FBAC
+KBIER            001B
+KBSCR            001A
+KEYB_ISR         FBA6
+KEYF             0003
+LED_5            0004
+LED_6            0005
+LED_7            0006
+LED_8            0007
+LVI              0001
+LVISR            FE0C
+MODE             0000
+MODEK            0000
+MODRST           0002
+MOTOR1           0000
+MOTOR1ANTIHORARI F8AE
+MOTOR1HORARIO    F8D0
+MOTOR2           0001
+MOTOR2ANTIHORARI F8F2
+MOTOR2HORARIO    F923
+MOTOR3           0002
+MOTOR3ANTIHORARI F957
+MOTOR3HORARIO    F988
+MOTOR4           0003
+MOTOR4ANTIHORARI F9BC
+MOTOR4HORARIO    F9ED
+MS0A             0004
+MS0B             0005
+MS1A             0004
+MS1B             0005
+OSCOPT0          0006
+OSCOPT1          0007
+OSCSC            0036
+OSCSTAT          0036
+OSCTRIM          0038
+PIN              0006
+POR              0007
+PORTA            0000
+PORTB            0001
+PRGRNGE          2809
+PROG_MODULOS     FB71
+PTA              0000
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 23
+
+
+
+PTAPUE           000B
+PTB              0001
+PTBPUE           000C
+RAM_FIN          0100
+RAM_INI          0080
+RDVRRNG          2803
+RETARDO1         0081
+RETARDO2         0082
+RETARDO_100MS    F870
+RETARDO_10MS     F851
+RETARDO_1MS      F837
+RETARDO_1S       F88F
+RET_1            F83A
+RET_1A           F845
+RET_2            F83D
+SALIDA_1A        F8B1
+SALIDA_1H        F8D3
+SALIDA_2A        F8F5
+SALIDA_2H        F926
+SALIDA_3A        F95A
+SALIDA_3H        F98B
+SALIDA_4A        F9BF
+SALIDA_4H        F9F0
+SBSW             0001
+SEGUIR_1A        F8CF
+SEGUIR_1H        F8F1
+SEGUIR_2A        F922
+SEGUIR_2H        F956
+SEGUIR_3A        F987
+SEGUIR_3H        F9BB
+SEGUIR_4A        F9EC
+SEGUIR_4H        FA22
+SIMULACION       0084
+SRSR             FE01
+START            F809
+START_00         F82B
+SWI_ISR          FBAE
+TABLA            F800
+TCH0H            0026
+TCH0L            0027
+TCH1H            0029
+TCH1L            002A
+TCNTH            0021
+TCNTL            0022
+TIM1_0_ISR       FBA9
+TIM1_1_ISR       FBA8
+TIM1_OV_ISR      FBA7
+TMODH            0023
+TMODL            0024
+TOF              0007
+TOIE             0006
+TOV0             0001
+TOV1             0001
+TRST             0004
+TSC              0020
+TSC0             0025
+TSC1             0028
+TSTOP            0005
+
+
+brazo.asm              Assembled with CASM08Z  22/06/2013  01:25:26 a.m.  PAGE 24
+
+
+
+VECTORES         FFDE

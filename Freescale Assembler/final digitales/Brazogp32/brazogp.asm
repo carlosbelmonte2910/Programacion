@@ -1,0 +1,395 @@
+;******************************************************************************
+; 			Brazo robotico leonel brunet, martin brunet (FINAL)
+;******************************************************************************
+; 		DEFINICION DEL MAPA DE MEMORIA DEL MC68HC908GP32
+;******************************************************************************
+RAM_INI		EQU	$0040		;Inicio de la RAM GP32
+RAM_FIN		EQU	$023F		;
+FLASH_INI	EQU	$8000		;Inicio de la Flash GP32
+FLASH_END	EQU	$FDFF		;
+VECTORES	EQU	$FFDC		;Vectores de Interrupcion
+
+;******************************************************************************
+; 			ARCHIVOS DE DEFINICION INCLUIDOS
+;******************************************************************************
+$base		10t			;Base decimal por Default
+$Include        'includegp32.inc'	;Definiciones de Registros p/GP32
+
+;******************************************************************************
+; 	DEFINICION DE LAS VARIABLES DE RAM DEL EQUIPO
+;******************************************************************************
+	org	RAM_INI
+RETARDO1           ds      1
+RETARDO2           ds      1
+
+;******************************************************************************
+; 		INICIO del PROGRAMA PRINCIPAL
+;******************************************************************************
+; 	Arranca AQUI cada vez que se APAGA el Equipo (Power On Reset)
+;------------------------------------------------------------------------------
+	org	FLASH_INI
+
+        clr	PCTL			; PLL=OFF,
+        bset    7,pbwc                  ; Set Modo Ancho de Banda en Automatico
+        mov     #%00000010,pctl 	; Apago el PLL,y cargo [P=0],[E=2]
+        mov     #$02,pmsh       	; Multiplicador del PLL (parte alta)
+        mov     #$58,pmsl       	; Mult. del PLL (parte baja)[N=$258]
+        mov     #$80,pmrs       	; Cargo el rango de sel del VCO [L=$80]
+        mov     #$01,pmds       	; Cargo el divisor de referencia [R=$1]
+        bclr    7,pctl           	; Desabilito Interrupciones del PLL
+        lda     pctl            	; Borro las Interrup pendientes
+        bset    5,pctl      	        ; Enciendo el Modulo PLL
+volver:
+	brclr   6,PBWC,volver          	; Espero que se enganche LOCK=1
+	bset    4,PCTL        	        ; Cambio a PLL
+
+
+
+start:
+	rsp
+	clra				;Inicializo los Registros del CPU
+	clrx				;
+	clrh				;
+	sei				;Desabilito Interrupciones
+					;resetea stank pointer
+;Prpgramacion de los modulos
+
+        mov	#%00001
+        011,CONFIG1
+	mov	#%00000011,CONFIG2
+        nop
+        nop
+
+        CLRA
+
+
+
+  ; Programacion de los modulos de salida
+        mov	#%11111111,PORTB
+  ;Borro los bytes declaradas
+
+         clr          RETARDO1
+         clr          RETARDO2
+
+;******************************************************************************
+; 			PROGRAMA PRINCIPAL
+;******************************************************************************
+
+
+start_00:
+
+        bset    0,PORTB
+   
+	bra	start_00
+
+
+
+
+
+
+;******************************************************************************
+; 			RETARDO GP32  Fclok=32Mhz Fbus=8Mhz  0,125us
+;******************************************************************************
+
+
+retardo_01ms:
+
+	mov     #$03,RETARDO1	      ;[4]
+ret_1:
+	mov     #$13,RETARDO2	      ;[4]
+ret_2:
+	dec	RETARDO2	      ;[4]
+	clra			      ;[1]
+    	cbeq    RETARDO2,ret_1a	      ;[5]4+4+[((4+1+5+3)x019)+4+4+1+5+3)x003]
+	bra	ret_2		      ;[3](((13)x019)+17)x003)+8=800c
+ret_1a				      ;     3200 x 0,125useg = 100us
+	dec	RETARDO1	      ;[4]  0,1ms
+	clra		              ;[1]
+   	cbeq    RETARDO2,finret	      ;[5]
+	bra	ret_1		      ;[3]
+finret:
+	rts
+
+
+
+retardo_1ms:
+	jsr	retardo_01ms
+	jsr	retardo_01ms
+	jsr	retardo_01ms
+	jsr	retardo_01ms
+	jsr	retardo_01ms
+	jsr	retardo_01ms
+	jsr	retardo_01ms
+	jsr	retardo_01ms
+	jsr	retardo_01ms
+	jsr	retardo_01ms
+	rts
+
+retardo_10ms:
+	jsr	retardo_1ms
+	jsr	retardo_1ms
+	jsr	retardo_1ms
+	jsr	retardo_1ms
+	jsr	retardo_1ms
+	jsr	retardo_1ms
+	jsr	retardo_1ms
+	jsr	retardo_1ms
+	jsr	retardo_1ms
+	jsr	retardo_1ms
+	rts
+
+
+
+retardo_100ms:
+
+	jsr	retardo_10ms
+	jsr	retardo_10ms
+	jsr	retardo_10ms
+	jsr	retardo_10ms
+	jsr	retardo_10ms
+	jsr	retardo_10ms
+	jsr	retardo_10ms
+	jsr	retardo_10ms
+	jsr	retardo_10ms
+	jsr	retardo_10ms
+	rts
+
+retardo_1s:
+	jsr	retardo_100ms
+	jsr	retardo_100ms
+	jsr	retardo_100ms
+	jsr	retardo_100ms
+	jsr	retardo_100ms
+	jsr	retardo_100ms
+	jsr	retardo_100ms
+	jsr	retardo_100ms
+	jsr	retardo_100ms
+	jsr	retardo_100ms
+	rts
+
+
+
+;******************************************************************************
+; CLR_RAM - Borro toda la RAM desde donde apunta HX hasta el final
+;******************************************************************************
+clr_all_ram:
+	ldhx	#RAM_INI		;\ Inicializo Totalmente la RAM
+clr_a_ram_0:
+        clr     0,x
+        aix     #$01
+        cphx    #{RAM_INI + 50}		;Borro 50 Bytes de Memoria RAM
+        bne     clr_a_ram_0		;menos los ultimos bytes porque sino
+	rts				;no puedo volver de la JSR
+
+
+
+;******************************************************************************
+;******************************************************************************
+
+;******************************************************************************
+;******************************************************************************
+;			RUTINAS DE INTERUPCION
+;******************************************************************************
+;******************************************************************************
+
+
+
+tim_base_isr:
+             nop
+             rti
+
+;******************************************************************************
+; SPI_TX_ISR - Rutina de Interrupcion del Tx del SPI
+;******************************************************************************
+spi_tx_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; SPI_RX_ISR - Rutina de Interrupcion del Rx del SPI
+;******************************************************************************
+spi_rx_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; ADC_ISR - Rutina de Interrupcion del ADC
+;******************************************************************************
+adc_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; KEYB_ISR - Rutina de Interrupcion del KBI
+;******************************************************************************
+keyb_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; SCI_TX_ISR - Rutina de Interrupcion del Tx del SCI
+;******************************************************************************
+sci_tx_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; SCI_RX_ISR - Rutina de Interrupcion del Rx del SCI
+;******************************************************************************
+sci_rx_isr:
+
+	rti
+
+;******************************************************************************
+; SCI_ERROR_ISR - Rutina de Interrupcion por Error en el SCI
+;******************************************************************************
+sci_error_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; MMIIC_ISR - Rutina de Interrupcion del I2C
+;******************************************************************************
+mmiic_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; TIM2_OV_ISR - Rutina de Interrupcion por Overflow del Timer 2
+; Actualmente esta Interrupcion entra cada 4 mseg
+;******************************************************************************
+tim2_ov_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; TIM2_1_ISR - Rutina de Interrupcion del Canal 1 del Timer 2
+;******************************************************************************
+tim2_1_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; TIM2_0_ISR - Rutina de Interrupcion del Canal 0 del Timer 2
+;******************************************************************************
+tim2_0_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; TIM1_OV_ISR - Rutina de Interrupcion por Overflow del Timer 1
+;******************************************************************************
+tim1_ov_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; TIM1_1_ISR - Rutina de Interrupcion del Canal 1 del Timer 1
+;******************************************************************************
+tim1_1_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; TIM1_0_ISR - Rutina de Interrupcion del Canal 0 del Timer 1
+;******************************************************************************
+tim1_0_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; PLL_ISR - Rutina de Interrupcion del PLL
+;******************************************************************************
+pll_isr:
+
+	nop
+
+	rti
+
+
+;******************************************************************************
+; IRQ1ISR - Rutina de Interrupcion Externa 1
+;******************************************************************************
+irq_isr:
+
+	nop
+
+	rti
+
+;******************************************************************************
+; SWI_ISR - Rutina de Interrupcion por Software
+;******************************************************************************
+swi_isr:
+
+	nop
+
+        rti                     	;retorna
+
+;******************************************************************************
+; DUMMY_ISR - Dummy Interrupt Service Routine
+; Rutina de servicio de Interupcion Fantasma, se pone por razones de seguridad
+;******************************************************************************
+dummy_isr:
+
+	nop
+
+        rti                     	; vuelve sin hacer nada
+
+
+
+;******************************************************************************
+; FLASH BLOCK PROTECT - Grabacion del Mismo
+;******************************************************************************
+;	Org	FLBPR
+;	fcb	$ff			;Toda!!! la memoria esta desprotegida
+;
+;******************************************************************************
+; VECTORES - Definicion de Vectores del Sistema
+;******************************************************************************
+	org	VECTORES
+
+	fdb	tim_base_isr	; Time Base			($FFDC-$FFDD)
+	fdb	adc_isr		; ADC Vector			($FFDE-$FFDF)
+	fdb	keyb_isr	; KEYBOARD Vector		($FFE0-$FFE1)
+	fdb	sci_tx_isr	; SCI TX Vector			($FFE2-$FFE3)
+	fdb	sci_rx_isr	; SCI RX Vector			($FFE4-$FFE5)
+	fdb	sci_error_isr	; SCI Error Vector		($FFE6-$FFE7)
+	fdb	spi_tx_isr	; PCI TX vector 		($FFE8-$FFE9)
+        fdb     spi_rx_isr	; PCI RX vector 		($FFEA-$FFEB)
+	fdb	tim2_ov_isr	; TIM2 Overflow Vector		($FFEC-$FFED)
+	fdb	tim2_1_isr	; TIM2 Channel 1 Vector         ($FFEE-$FFEF)
+	fdb	tim2_0_isr	; TIM2 Channel 0 Vector         ($FFE0-$FFE1)
+	fdb	tim1_ov_isr	; TIM1 Overflow Vector		($FFF2-$FFF3)
+	fdb	tim1_1_isr	; TIM1 Channel 1 Vector         ($FFF4-$FFF5)
+	fdb	tim1_0_isr	; TIM1 Channel 0 Vector         ($FFF6-$FFF7)
+	fdb	pll_isr		; PLL Vector			($FFF8-$FFF9)
+	fdb	irq_isr	        ; IRQ Vector			($FFFA-$FFFB)
+	fdb	swi_isr		; SWI Vector			($FFFC-$FFFD)
+	fdb	start		; Reset Vector			($FFFE-$FFFF)
+end
