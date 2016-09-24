@@ -1,0 +1,81 @@
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include "inc/hw_memmap.h"
+#include "driverlib/interrupt.h"
+#include "driverlib/gpio.h"
+#include "driverlib/sysctl.h"
+
+const unsigned int COL_1 = 0x01;
+const unsigned int COL_2 = 0x02;
+const unsigned int COL_3 = 0x04;
+const unsigned int COL_4 = 0x08;
+const unsigned int COL_5 = 0x10;
+const unsigned int COL_6 = 0x20;
+const unsigned int COL_7 = 0x40;
+const unsigned int COL_8 = 0x80;
+const unsigned int COL_9 = 0x10;//PORT C4
+
+const unsigned int FIL_1 = 0x20;
+const unsigned int FIL_2 = 0x40;
+const unsigned int FIL_3 = 0x80;
+
+const unsigned int COL_ALL = 0x01 | 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40 | 0x80;
+const unsigned int FIL_ALL = 0x20 | 0x40 | 0x80;
+
+void PortIntHandler(void);
+
+void apagar(){
+	GPIOPinWrite(GPIO_PORTB_BASE, COL_ALL, 0);
+	GPIOPinWrite(GPIO_PORTC_BASE, COL_9, 0);
+	GPIOPinWrite(GPIO_PORTC_BASE, FIL_ALL, FIL_ALL);}
+
+void tercer_efecto(){
+	apagar();
+	GPIOPinWrite(GPIO_PORTB_BASE, COL_ALL, COL_ALL);
+	GPIOPinWrite(GPIO_PORTC_BASE, COL_9, COL_9);
+	GPIOPinWrite(GPIO_PORTC_BASE, FIL_1, 0);
+	SysCtlDelay(12000000);
+
+	apagar();
+	GPIOPinWrite(GPIO_PORTB_BASE, COL_ALL, COL_ALL);
+	GPIOPinWrite(GPIO_PORTC_BASE, COL_9, COL_9);
+	GPIOPinWrite(GPIO_PORTC_BASE, FIL_2, 0);
+	SysCtlDelay(12000000);
+
+	apagar();
+	GPIOPinWrite(GPIO_PORTB_BASE, COL_ALL, COL_ALL);
+	GPIOPinWrite(GPIO_PORTC_BASE, COL_9, COL_9);
+	GPIOPinWrite(GPIO_PORTC_BASE, FIL_3, 0);
+	SysCtlDelay(12000000);}
+
+void PortIntHandler(void){
+	uint32_t status=0;
+	status = GPIOIntStatus(GPIO_PORTF_BASE,true);
+	GPIOIntClear(GPIO_PORTF_BASE,status);
+
+	if(status & ButtonInt == ButtonInt){
+		uint8_t value=0;
+		value = GPIOPinRead(GPIO_PORTF_BASE,GPIO_PIN_4);
+
+		if(value == 0){
+			apagar();
+			tercer_efecto();}
+
+		SysCtlDelay(7000000);
+		GPIOIntTypeSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_RISING_EDGE);//Configure PF4 for rising edge trigger
+		GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_4);}}//Clear interrupt flag
+
+int main(void){
+	SysCtlClockSet(SYSCTL_SYSDIV_2_5| SYSCTL_USE_PLL | SYSCTL_OSC_INT | SYSCTL_XTAL_16MHZ);
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);//Enable port F
+	SysCtlDelay(3);
+
+	GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_4);//Init PF4 as input
+	GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);//Enable weak pullup resistor for PF4
+	GPIOIntTypeSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_FALLING_EDGE);//Configure PF4 for falling edge trigger
+	GPIOIntRegister(GPIO_PORTF_BASE, PortIntHandler);//Register our handler function for port F
+	GPIOIntEnable(GPIO_PORTF_BASE, GPIO_PIN_4);//Enable interrupt for PF4
+
+	
+}

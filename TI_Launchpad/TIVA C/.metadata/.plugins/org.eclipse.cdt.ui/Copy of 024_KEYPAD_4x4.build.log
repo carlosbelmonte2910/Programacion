@@ -1,0 +1,17 @@
+
+**** Build of configuration Debug for project Copy of 024_KEYPAD_4x4 ****
+
+"C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
+'Building file: ../main.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/Users/Carlos  Belmonte/Desktop/TIVA C/Proyectos/Copy of 024_KEYPAD_4x4" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs=â€?ccsâ€? --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="main.pp"  "../main.c"
+'Finished building: ../main.c'
+' '
+'Building target: Copy of 024_KEYPAD_4x4.out'
+'Invoking: ARM Linker'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --gcc --define=ccs=â€?ccsâ€? --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off -z --stack_size=512 -m"Copy of 024_KEYPAD_4x4.map" --heap_size=0 -i"C:/ti/ccsv5/tools/compiler/arm_5.0.4/lib" -i"C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="Copy of 024_KEYPAD_4x4_linkInfo.xml" --rom_model -o "Copy of 024_KEYPAD_4x4.out"  "./startup_ccs.obj" "./main.obj" "./Lcd.obj" "./KeyPad.obj" -l"libc.a" -l"C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib\ccs\Debug\driverlib.lib" "../tm4c123gh6pm.cmd" 
+<Linking>
+'Finished building target: Copy of 024_KEYPAD_4x4.out'
+' '
+
+**** Build Finished ****

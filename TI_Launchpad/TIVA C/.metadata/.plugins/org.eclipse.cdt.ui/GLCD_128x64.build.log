@@ -1,0 +1,32 @@
+
+**** Build of configuration Debug for project GLCD_128x64 ****
+
+"C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
+'Building file: ../KS0108-Stellaris.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --include_path="E:/002_PROYECTO FINAL CMB/Backup escritorio windows old/TIVA C/Proyectos/GLCD_128x64" --gcc --define=ccs=â€?ccsâ€? --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="KS0108-Stellaris.pp"  "../KS0108-Stellaris.c"
+'Finished building: ../KS0108-Stellaris.c'
+' '
+'Building file: ../KS0108.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --include_path="E:/002_PROYECTO FINAL CMB/Backup escritorio windows old/TIVA C/Proyectos/GLCD_128x64" --gcc --define=ccs=â€?ccsâ€? --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="KS0108.pp"  "../KS0108.c"
+'Finished building: ../KS0108.c'
+' '
+'Building file: ../main.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --include_path="E:/002_PROYECTO FINAL CMB/Backup escritorio windows old/TIVA C/Proyectos/GLCD_128x64" --gcc --define=ccs=â€?ccsâ€? --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="main.pp"  "../main.c"
+'Finished building: ../main.c'
+' '
+'Building file: ../startup_ccs.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --include_path="E:/002_PROYECTO FINAL CMB/Backup escritorio windows old/TIVA C/Proyectos/GLCD_128x64" --gcc --define=ccs=â€?ccsâ€? --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="startup_ccs.pp"  "../startup_ccs.c"
+'Finished building: ../startup_ccs.c'
+' '
+'Building target: GLCD_128x64.out'
+'Invoking: ARM Linker'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --gcc --define=ccs=â€?ccsâ€? --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off -z --stack_size=512 -m"GLCD_128x64.map" --heap_size=0 -i"C:/ti/ccsv5/tools/compiler/arm_5.0.4/lib" -i"C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="GLCD_128x64_linkInfo.xml" --rom_model -o "GLCD_128x64.out"  "./startup_ccs.obj" "./main.obj" "./KS0108.obj" "./KS0108-Stellaris.obj" -l"C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib\ccs\Debug\driverlib.lib" -l"libc.a" "../tm4c123gh6pm.cmd" 
+<Linking>
+'Finished building target: GLCD_128x64.out'
+' '
+
+**** Build Finished ****

@@ -1,0 +1,2 @@
+eclipse.preferences.version=1
+macros/workspace=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<macros>\r\n<stringMacro name\="TIVAWARE_INSTALL" type\="VALUE_PATH_DIR" value\="c\:/TI/TivaWare_C_Series-2.1.0.12573"/>\r\n</macros>\r\n

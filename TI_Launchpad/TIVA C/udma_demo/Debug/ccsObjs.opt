@@ -1,0 +1,1 @@
+"./utils/ustdlib.obj" "./utils/uartstdio.obj" "./utils/cpu_usage.obj" "./udma_demo.obj" "./startup_ccs.obj" -l"libc.a" -l"C:/ti/TivaWare_C_Series-2.1.0.12573/examples/boards/ek-tm4c123gxl/udma_demo/ccs/../../../../../driverlib/ccs/Debug/driverlib.lib" "../udma_demo_ccs.cmd" 

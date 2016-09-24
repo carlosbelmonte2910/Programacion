@@ -1,0 +1,9 @@
+
+**** Build of configuration Debug for project project0 ****
+
+"C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
+gmake: ../startup_ccs.c: Timestamp out of range; substituting 1969-12-31 21:00:00
+gmake: ../project0_ccs.cmd: Timestamp out of range; substituting 1969-12-31 21:00:00
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****

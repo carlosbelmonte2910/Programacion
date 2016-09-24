@@ -1,0 +1,173 @@
+
+**** Build of configuration Debug for project driverlib ****
+
+"C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/adc.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="adc.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/adc.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/adc.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/aes.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="aes.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/aes.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/aes.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/can.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="can.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/can.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/can.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/comp.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="comp.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/comp.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/comp.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/cpu.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="cpu.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/cpu.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/cpu.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/crc.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="crc.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/crc.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/crc.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/des.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="des.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/des.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/des.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/eeprom.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="eeprom.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/eeprom.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/eeprom.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/emac.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="emac.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/emac.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/emac.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/epi.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="epi.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/epi.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/epi.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/epi_workaround_ccs.s'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="epi_workaround_ccs.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/epi_workaround_ccs.s"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/epi_workaround_ccs.s'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/flash.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="flash.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/flash.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/flash.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/fpu.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="fpu.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/fpu.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/fpu.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/gpio.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="gpio.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/gpio.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/gpio.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/hibernate.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="hibernate.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/hibernate.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/hibernate.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/i2c.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="i2c.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/i2c.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/i2c.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/interrupt.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="interrupt.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/interrupt.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/interrupt.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/lcd.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="lcd.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/lcd.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/lcd.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/mpu.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="mpu.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/mpu.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/mpu.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/pwm.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="pwm.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/pwm.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/pwm.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/qei.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="qei.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/qei.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/qei.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/shamd5.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="shamd5.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/shamd5.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/shamd5.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/ssi.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="ssi.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/ssi.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/ssi.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/sw_crc.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="sw_crc.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/sw_crc.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/sw_crc.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/sysctl.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="sysctl.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/sysctl.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/sysctl.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/sysexc.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="sysexc.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/sysexc.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/sysexc.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/systick.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="systick.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/systick.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/systick.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/timer.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="timer.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/timer.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/timer.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/uart.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="uart.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/uart.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/uart.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/udma.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="udma.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/udma.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/udma.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/usb.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="usb.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/usb.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/usb.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/watchdog.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="watchdog.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/watchdog.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/driverlib/watchdog.c'
+' '
+'Building target: driverlib.lib'
+'Invoking: ARM Archiver'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armar" r "driverlib.lib"  "./watchdog.obj" "./usb.obj" "./udma.obj" "./uart.obj" "./timer.obj" "./systick.obj" "./sysexc.obj" "./sysctl.obj" "./sw_crc.obj" "./ssi.obj" "./shamd5.obj" "./qei.obj" "./pwm.obj" "./mpu.obj" "./lcd.obj" "./interrupt.obj" "./i2c.obj" "./hibernate.obj" "./gpio.obj" "./fpu.obj" "./flash.obj" "./epi_workaround_ccs.obj" "./epi.obj" "./emac.obj" "./eeprom.obj" "./des.obj" "./crc.obj" "./cpu.obj" "./comp.obj" "./can.obj" "./aes.obj" "./adc.obj" 
+  ==>  new archive 'driverlib.lib'
+  ==>  building archive 'driverlib.lib'
+'Finished building target: driverlib.lib'
+' '
+
+**** Build Finished ****

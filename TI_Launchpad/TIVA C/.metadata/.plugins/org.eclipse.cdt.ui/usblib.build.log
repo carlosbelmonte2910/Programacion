@@ -1,0 +1,163 @@
+
+**** Build of configuration Debug for project usblib ****
+
+"C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbbuffer.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="usbbuffer.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbbuffer.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbbuffer.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbdesc.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="usbdesc.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbdesc.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbdesc.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbdma.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="usbdma.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbdma.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbdma.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbkeyboardmap.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="usbkeyboardmap.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbkeyboardmap.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbkeyboardmap.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbmode.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="usbmode.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbmode.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbmode.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbringbuf.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="usbringbuf.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbringbuf.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbringbuf.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbtick.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="usbtick.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbtick.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbtick.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbulpi.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="usbulpi.pp"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbulpi.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/usbulpi.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhaudio.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="host/usbhaudio.pp" --obj_directory="host"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhaudio.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhaudio.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhhid.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="host/usbhhid.pp" --obj_directory="host"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhhid.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhhid.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhhidkeyboard.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="host/usbhhidkeyboard.pp" --obj_directory="host"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhhidkeyboard.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhhidkeyboard.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhhidmouse.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="host/usbhhidmouse.pp" --obj_directory="host"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhhidmouse.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhhidmouse.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhhub.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="host/usbhhub.pp" --obj_directory="host"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhhub.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhhub.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhmsc.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="host/usbhmsc.pp" --obj_directory="host"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhmsc.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhmsc.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhostenum.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="host/usbhostenum.pp" --obj_directory="host"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhostenum.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhostenum.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhscsi.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="host/usbhscsi.pp" --obj_directory="host"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhscsi.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/host/usbhscsi.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdaudio.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdaudio.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdaudio.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdaudio.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdbulk.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdbulk.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdbulk.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdbulk.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdcdc.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdcdc.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdcdc.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdcdc.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdcdesc.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdcdesc.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdcdesc.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdcdesc.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdcomp.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdcomp.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdcomp.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdcomp.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdconfig.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdconfig.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdconfig.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdconfig.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbddfu-rt.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbddfu-rt.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbddfu-rt.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbddfu-rt.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdenum.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdenum.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdenum.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdenum.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhandler.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdhandler.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhandler.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhandler.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhid.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdhid.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhid.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhid.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhidgamepad.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdhidgamepad.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhidgamepad.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhidgamepad.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhidkeyb.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdhidkeyb.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhidkeyb.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhidkeyb.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhidmouse.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdhidmouse.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhidmouse.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdhidmouse.c'
+' '
+'Building file: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdmsc.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --gcc --define=ccs="ccs" --diag_warning=225 --display_error_number --diag_wrap=off --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="device/usbdmsc.pp" --obj_directory="device"  "C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdmsc.c"
+'Finished building: C:/ti/TivaWare_C_Series-2.1.0.12573/usblib/device/usbdmsc.c'
+' '
+'Building target: usblib.lib'
+'Invoking: ARM Archiver'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armar" r "usblib.lib"  "./device/usbdmsc.obj" "./device/usbdhidmouse.obj" "./device/usbdhidkeyb.obj" "./device/usbdhidgamepad.obj" "./device/usbdhid.obj" "./device/usbdhandler.obj" "./device/usbdenum.obj" "./device/usbddfu-rt.obj" "./device/usbdconfig.obj" "./device/usbdcomp.obj" "./device/usbdcdesc.obj" "./device/usbdcdc.obj" "./device/usbdbulk.obj" "./device/usbdaudio.obj" "./host/usbhscsi.obj" "./host/usbhostenum.obj" "./host/usbhmsc.obj" "./host/usbhhub.obj" "./host/usbhhidmouse.obj" "./host/usbhhidkeyboard.obj" "./host/usbhhid.obj" "./host/usbhaudio.obj" "./usbulpi.obj" "./usbtick.obj" "./usbringbuf.obj" "./usbmode.obj" "./usbkeyboardmap.obj" "./usbdma.obj" "./usbdesc.obj" "./usbbuffer.obj" 
+  ==>  new archive 'usblib.lib'
+  ==>  building archive 'usblib.lib'
+'Finished building target: usblib.lib'
+' '
+
+**** Build Finished ****

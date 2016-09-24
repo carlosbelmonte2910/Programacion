@@ -1,0 +1,51 @@
+/*
+ * Stellaris LAUNCHPAD LM4F120H5QR
+ * C++ code to use SW_1 button to turn on an RED LED(PORTF 1)
+ */
+#include <stdint.h>
+#include <stdbool.h>
+#include "inc/hw_types.h" // Necesario para funciones API en driverlib
+#include "inc/hw_memmap.h" // Etiquetas de registros del micro, perifericos, ...
+#include "driverlib/sysctl.h" // Definicion de funciones y etiquetas de control del sistema (SysCtl)
+#include "driverlib/gpio.h" // Definicion de funciones y etiquetas de puerto (GPIOPin...)
+
+int main(void)
+{
+	/*
+	 * The System clock is run using a 16 Mhz crystal connected to the main oscillator pins of the microcontroller
+	 * This generates a internal clock signal of 400 Mhz using the PLL
+	 * The signal is prescaled by the system by 2
+	 * Now we are defining a prescale of 5 in addition to make the clock frequency 40MHz
+	 * The system clock frequency must be less than or equal to 80MHz
+	 */
+	//SysCtlClockSet(SYSCTL_SYSDIV_5|SYSCTL_USE_PLL|SYSCTL_XTAL_16MHZ|SYSCTL_OSC_MAIN);
+	/*
+	 * Peripherals are enabled with this function.
+	 *  At power-up, all peripherals are disabled.
+	 *  System Clock to the peripheral must be enabled in order to operate or respond to register reads/writes.
+	 */
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+	// Set PF4(SW_1) as input
+	GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_4);
+	/*
+	 * As it is a switch, we should use a pull up resistor.
+	 * Stellaris can be configured with various pull up/down resistors based on the drive strength(current) specified.
+	 * Refer to the Stellaris API page number 124 for more configurations
+	 * Link: www.ti.com/lit/ug/spmu019p/spmu019p.pdf
+	 */
+	GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_4MA, GPIO_PIN_TYPE_STD_WPU);
+	//Set PF1(RED LED) as output
+	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2);
+	//Turn of the LED
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 0);
+
+	while(1)
+	{
+		//Check whether the button is pressed.
+		if(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4))
+			//Set PF1 as high. 2 ~ 0b00000010-->mask PF1
+			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 4);
+		else
+			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 0);
+	}
+}

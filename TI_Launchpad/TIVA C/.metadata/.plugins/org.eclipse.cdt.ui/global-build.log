@@ -1,0 +1,32 @@
+
+**** Build of configuration Debug for project 019_LCD_4_bits ****
+
+"C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
+'Building file: ../Lcd.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --include_path="E:/002_PROYECTO FINAL CMB/Backup escritorio windows old/TIVA C/Proyectos/019_LCD_4_bits" --gcc --define=PART_TM4C123GH6PM --define=ccs=â€?ccsâ€? --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="Lcd.pp"  "../Lcd.c"
+'Finished building: ../Lcd.c'
+' '
+'Building file: ../main.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --include_path="E:/002_PROYECTO FINAL CMB/Backup escritorio windows old/TIVA C/Proyectos/019_LCD_4_bits" --gcc --define=PART_TM4C123GH6PM --define=ccs=â€?ccsâ€? --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="main.pp"  "../main.c"
+'Finished building: ../main.c'
+' '
+'Building file: ../startup_ccs.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --include_path="E:/002_PROYECTO FINAL CMB/Backup escritorio windows old/TIVA C/Proyectos/019_LCD_4_bits" --gcc --define=PART_TM4C123GH6PM --define=ccs=â€?ccsâ€? --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="startup_ccs.pp"  "../startup_ccs.c"
+'Finished building: ../startup_ccs.c'
+' '
+'Building file: ../systick.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --include_path="C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --include_path="C:/ti/TivaWare_C_Series-2.1.0.12573" --include_path="E:/002_PROYECTO FINAL CMB/Backup escritorio windows old/TIVA C/Proyectos/019_LCD_4_bits" --gcc --define=PART_TM4C123GH6PM --define=ccs=â€?ccsâ€? --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="systick.pp"  "../systick.c"
+'Finished building: ../systick.c'
+' '
+'Building target: 019_LCD_4_bits.out'
+'Invoking: ARM Linker'
+"C:/ti/ccsv5/tools/compiler/arm_5.0.4/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --gcc --define=PART_TM4C123GH6PM --define=ccs=â€?ccsâ€? --diag_warning=225 --display_error_number --diag_wrap=off -z --stack_size=512 -m"019_LCD_4_bits.map" --heap_size=0 -i"C:/ti/ccsv5/tools/compiler/arm_5.0.4/lib" -i"C:/ti/ccsv5/tools/compiler/arm_5.0.4/include" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="019_LCD_4_bits_linkInfo.xml" --rom_model -o "019_LCD_4_bits.out"  "./systick.obj" "./startup_ccs.obj" "./main.obj" "./Lcd.obj" -l"libc.a" -l"C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib\ccs\Debug\driverlib.lib" "../tm4c123gh6pm.cmd" 
+<Linking>
+'Finished building target: 019_LCD_4_bits.out'
+' '
+
+**** Build Finished ****

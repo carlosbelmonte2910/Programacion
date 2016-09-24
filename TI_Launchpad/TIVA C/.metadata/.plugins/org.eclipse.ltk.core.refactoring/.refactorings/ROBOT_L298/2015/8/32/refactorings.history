@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;ROBOT_L298/PWM_Parametros&apos; to &apos;PWM_Parametros.c&apos;" description="Rename resource &apos;PWM_Parametros&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="PWM_Parametros" name="PWM_Parametros.c" stamp="1438921282113" updateReferences="true"/>
+</session>
