@@ -1,0 +1,16 @@
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\PROGRAMA PRINCIPAL1 - copia\PROGRAMA PRINCIPAL1\bin\Debug\PROGRAMA PRINCIPAL1.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\PROGRAMA PRINCIPAL1 - copia\PROGRAMA PRINCIPAL1\bin\Debug\PROGRAMA PRINCIPAL1.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\PROGRAMA PRINCIPAL1 - copia\PROGRAMA PRINCIPAL1\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\PROGRAMA PRINCIPAL1 - copia\PROGRAMA PRINCIPAL1\obj\Debug\WindowsFormsApplication1.Form1.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\PROGRAMA PRINCIPAL1 - copia\PROGRAMA PRINCIPAL1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\PROGRAMA PRINCIPAL1 - copia\PROGRAMA PRINCIPAL1\obj\Debug\Prototipo FINAL.csproj.GenerateResource.Cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\PROGRAMA PRINCIPAL1 - copia\PROGRAMA PRINCIPAL1\obj\Debug\PROGRAMA PRINCIPAL1.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\PROGRAMA PRINCIPAL1 - copia\PROGRAMA PRINCIPAL1\obj\Debug\PROGRAMA PRINCIPAL1.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Prototipo FINAL\PROGRAMA PRINCIPAL1\obj\Debug\PROGRAMA PRINCIPAL1.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Prototipo FINAL\PROGRAMA PRINCIPAL1\obj\Debug\PROGRAMA PRINCIPAL1.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Prototipo FINAL\PROGRAMA PRINCIPAL1\bin\Debug\PROGRAMA PRINCIPAL1.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Prototipo FINAL\PROGRAMA PRINCIPAL1\bin\Debug\PROGRAMA PRINCIPAL1.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Prototipo FINAL\PROGRAMA PRINCIPAL1\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Prototipo FINAL\PROGRAMA PRINCIPAL1\obj\Debug\WindowsFormsApplication1.Form1.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Prototipo FINAL\PROGRAMA PRINCIPAL1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Prototipo FINAL\PROGRAMA PRINCIPAL1\obj\Debug\Prototipo FINAL.csproj.GenerateResource.Cache
