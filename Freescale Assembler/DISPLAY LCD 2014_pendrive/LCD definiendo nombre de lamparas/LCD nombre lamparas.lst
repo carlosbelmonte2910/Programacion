@@ -1,0 +1,883 @@
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  
+                                                                         PAGE 1
+
+
+
+ 0000                   1  RAM_START  EQU  $0080
+ 0000                   2  ROM_START  EQU  $EE00
+ 0000                   3  VECTORS    EQU  $FFDE
+ 0000                   4  E          EQU   0
+ 0000                   5  RWR        EQU   5
+ 0000                   6  RS         EQU   4
+                        7  
+ 0000                   8  $BASE 10T
+ 0000                   9  $include   'QTQY_Registers.inc'
+                       10  ;***************************************************
+                                                    ***************************
+                       11  ;                    QTQY_REGISTERS.INC - ARCHIVO 
+                                                                        INCLUDE
+                       12  ; Contiene las Definiciones de los Registros del 
+                                                       MC68HC908QTA/QYA/8/4/2/1
+                       13  ;
+                       14  ;                    SyHDe - Soft y Hard Desarrollos
+                       15  ;***************************************************
+                                                    ***************************
+                       16  
+                       17  ;***************************************************
+                                                    ***************************
+                       18  ;---------------REGISTROS DE PUERTOS ENT/SAL--------
+                                                    ---------------------------
+                       19  ;---------------PUERTO A----------------------------
+                                                    ---------------------------
+ 0000                  20  PTA  EQU     $0000   ; Port A Data register
+ 0000                  21  PORTA        EQU     $0000   ; "
+ 0000                  22  DDRA EQU     $0004   ; Port A Data Direction 
+                                                                       Register
+ 0000                  23  PTAPUE  EQU  $000B   ; Port A Pull Ups Enable
+                       24  
+                       25  ;---------------PUERTO B----------------------------
+                                                    ---------------------------
+ 0000                  26  PTB  EQU     $0001   ; Port B Data register
+ 0000                  27  PORTB        EQU     $0001   ; "
+ 0000                  28  DDRB EQU     $0005   ; Port B Data Direction 
+                                                                       Register
+ 0000                  29  PTBPUE  EQU  $000C   ; Port B Pull Ups Enable
+                       30  
+                       31  ;***************************************************
+                                                    ***************************
+                       32  ;---------------REGISTROS DEL MODULO KEYBOARD-------
+                                                    ---------------------------
+ 0000                  33  KBSCR        EQU     $001A   ; Keyboard Status & 
+                                                               Control register
+ 0000                  34  keyf equ     3       ;
+ 0000                  35  ackk equ     2       ;
+ 0000                  36  imaskk       equ     1       ;
+ 0000                  37  modek        equ     0       ;
+                       38  
+ 0000                  39  KBIER        EQU     $001B   ; Keyboard interrupt 
+                                                                enable register
+                       40  
+                       41  ;***************************************************
+                                                    ***************************
+                       42  ;---------------REGISTROS DE INTERRUPCION EXTERNA 
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 2
+
+
+
+                                                  1----------------------------
+ 0000                  43  INTSCR       EQU     $001D   ; IRQ Status & Control 
+                                                                       Register
+ 0000                  44  irqf equ     3       ;
+ 0000                  45  ack  equ     2       ;
+ 0000                  46  imask        equ     1       ;
+ 0000                  47  mode equ     0       ;
+                       48  
+                       49  ;***************************************************
+                                                    ***************************
+                       50  ;---------------REGISTROS DE CONFIGURACION----------
+                                                    ---------------------------
+ 0000                  51  CONFIG1      EQU     $001F   ; Configuration 
+                                                                     Register 1
+                       52  
+ 0000                  53  CONFIG2      EQU     $001E   ; Configuration 
+                                                                     Register 2
+                       54  
+                       55  ;***************************************************
+                                                    ***************************
+                       56  ;---------------REGISTROS DEL TIMER ----------------
+                                                    ---------------------------
+ 0000                  57  TSC  EQU     $0020   ; Timer Status & Control 
+                                                                       Register
+ 0000                  58  tof  equ     7       ;
+ 0000                  59  toie equ     6       ;
+ 0000                  60  tstop        equ     5       ;
+ 0000                  61  trst equ     4       ;
+                       62  
+ 0000                  63  TCNTH        EQU     $0021   ; Timer Counter 
+                                                                  Register High
+ 0000                  64  TCNTL        EQU     $0022   ; Timer Counter 
+                                                                   Register Low
+ 0000                  65  TMODH        EQU     $0023   ; Timer Counter Modulo 
+                                                                  Register High
+ 0000                  66  TMODL        EQU     $0024   ; Timer Counter Modulo 
+                                                                   Register Low
+                       67  
+ 0000                  68  TSC0 EQU     $0025   ; Timer Channel 0 Status & 
+                                                               Control Register
+ 0000                  69  ch0f equ     7
+ 0000                  70  ch0ie        equ     6       ;
+ 0000                  71  ms0b equ     5       ;
+ 0000                  72  ms0a equ     4       ;
+ 0000                  73  els0b        equ     3       ;
+ 0000                  74  els0a        equ     2       ;
+ 0000                  75  tov0 equ     1       ;
+ 0000                  76  ch0max       equ     0       ;
+                       77  
+ 0000                  78  TCH0H        EQU     $0026   ; Timer Channel 0 
+                                                                  Register High
+ 0000                  79  TCH0L        EQU     $0027   ; Timer Channel 0 
+                                                                   Register Low
+                       80  
+ 0000                  81  TSC1 EQU     $0028   ; Timer Channel 1 Status & 
+                                                               Control Register
+ 0000                  82  ch1f equ     7
+ 0000                  83  ch1ie        equ     6       ;
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 3
+
+
+
+ 0000                  84  ms1b equ     5       ;
+ 0000                  85  ms1a equ     4       ;
+ 0000                  86  els1b        equ     3       ;
+ 0000                  87  els1a        equ     2       ;
+ 0000                  88  tov1 equ     1       ;
+ 0000                  89  ch1max       equ     0       ;
+                       90  
+ 0000                  91  TCH1H        EQU     $0029   ; Timer Channel 1 
+                                                                  Register High
+ 0000                  92  TCH1L        EQU     $002A   ; Timer Channel 1 
+                                                                   Register Low
+                       93  
+                       94  ;***************************************************
+                                                    ***************************
+                       95  ;---------------REGISTROS DEL OSCILADOR-------------
+                                                    ---------------------------
+ 0000                  96  OSCSC        EQU     $0036   ;Oscillator Status and 
+                                                               Control Register
+ 0000                  97  ecgst        equ     0       ;Read Only!!!!
+ 0000                  98  ecgon        equ     1       ;
+ 0000                  99  ecfs0        equ     2       ;
+ 0000                 100  ecfs1        equ     3       ;
+ 0000                 101  icfs0        equ     4       ;
+ 0000                 102  icfs1        equ     5       ;
+ 0000                 103  oscopt0      equ     6       ;
+ 0000                 104  oscopt1      equ     7       ;
+                      105  
+ 0000                 106  OSCTRIM      EQU     $0038   ;Oscillator Trim 
+                                                                       Register
+                      107  
+ 0000                 108  OSCSTAT EQU  $0036   ;Oscillator Status and Control 
+                                                         (No Vers A Solo QY/QT)
+                      109  
+                      110  ;***************************************************
+                                                    ***************************
+                      111  ;---------------REGISTROS DEL ADC-------------------
+                                                    ---------------------------
+ 0000                 112  ADSCR        EQU     $003C   ; ADC Status & Control 
+                                                                       Register
+ 0000                 113  coco equ     7       ;
+ 0000                 114  aien equ     6       ;
+ 0000                 115  adco equ     5       ;
+                      116  
+ 0000                 117  ADRH EQU     $003D   ; ADC10 Data Register High
+ 0000                 118  ADRL EQU     $003E   ; ADC10 Data Register Low
+ 0000                 119  ADICLK       EQU     $003F   ; ADC10 Clock Control 
+                                                                       Register
+                      120  
+                      121  ;***************************************************
+                                                    ***************************
+                      122  ;---------------REGISTROS DEL MODULO SIM------------
+                                                    ---------------------------
+ 0000                 123  BSR  EQU     $FE00   ; Break Status Register
+ 0000                 124  sbsw equ     1       ; break wait bit
+                      125  
+ 0000                 126  SRSR EQU     $FE01   ; SIM Reset Status Register
+ 0000                 127  por  equ     7       ;
+ 0000                 128  pin  equ     6       ;
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 4
+
+
+
+ 0000                 129  cop  equ     5       ;
+ 0000                 130  ilop equ     4       ;
+ 0000                 131  ilad equ     3       ;
+ 0000                 132  modrst       equ     2       ;
+ 0000                 133  lvi  equ     1       ;
+                      134  
+ 0000                 135  BRKAR        EQU     $FE02   ; Break Auxiliary 
+                                                                       Register
+ 0000                 136  bdcop        equ     0
+                      137  
+ 0000                 138  BFCR EQU     $FE03   ; Break Flag Control Register
+ 0000                 139  bcfe equ     7       ;
+                      140  
+ 0000                 141  INT1 EQU     $FE04   ; Interrupt Status Register 1
+                      142  
+ 0000                 143  INT2 EQU     $FE05   ; Interrupt Status Register 2
+                      144  
+ 0000                 145  INT3 EQU     $FE06   ; Interrupt Status Register 3
+                      146  
+                      147  ;***************************************************
+                                                    ***************************
+                      148  ;---------------REGISTROS DE LA MEMORIA FLASH-------
+                                                    ---------------------------
+ 0000                 149  FLCR EQU     $FE08   ; FLASH Control Register
+                      150  
+ 0000                 151  FLBPR        EQU     $FFBE   ; FLASH Block Protect
+                      152  
+                      153  ;***************************************************
+                                                    ***************************
+                      154  ;---------------REGISTROS DEL MODULO BREAK----------
+                                                     --------------------------
+ 0000                 155  BRKH EQU     $FE09   ; Break address Hig Register
+                      156  
+ 0000                 157  BRKL EQU     $FE0A   ; Break Address Low Register
+                      158  
+ 0000                 159  BRKSCR       EQU     $FE0B   ; Break Status & 
+                                                               Control Register
+                      160  
+                      161  ;***************************************************
+                                                    ***************************
+                      162  ;---------------REGISTROS DEL MODULO LVI------------
+                                                    ---------------------------
+ 0000                 163  LVISR        EQU     $FE0C   ; LVI Status Register
+                      164  
+                      165  ;***************************************************
+                                                    ***************************
+                      166  ;---------------REGISTROS DEL MODULO OSCILLATOR-----
+                                                    ---------------------------
+ 0000                 167  IOSCTRM EQU  $FFC0   ; Internal Oscillator Trim 
+                                                  (Factory Prog Value Optional)
+                      168  
+                      169  ;***************************************************
+                                                    ***************************
+                      170  ;---------------REGISTROS DEL MODULO COP WATCHDOG---
+                                                    ---------------------------
+ 0000                 171  COPCTL       EQU     $FFFF   ; COP Control Register
+                      172  
+                      173  ;***************************************************
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 5
+
+
+
+                                                    ***************************
+                      174  ;***************************************************
+                                                    ***************************
+                      175  ; RUTINAS DE MANEJO DE LA MEMORIA FLASH SITUADAS EN 
+                                                    LA ROM MONITOR (HC908QTQYx)
+                      176  ;***************************************************
+                                                    ***************************
+                      177  
+ 0000                 178  PRGRNGE              EQU     $2809   ;Programa un 
+                                                  rango de direcciones de Flash
+ 0000                 179  ERARNGE              EQU     $2806   ;Borra una 
+                                                        pagina de Memoria Flash
+ 0000                 180  GETBYTE              EQU     $2800   ;Recibe un 
+                                              Byte en Modo Monitordesde el Port
+ 0000                 181  RDVRRNG              EQU     $2803   ;Usa un Rango 
+                                               de la Flash y lo envia x el Port
+ 0000                 182  DELNUS               EQU     $280C   ;Rutina de 
+                                                  Demora (usa parametros[A][X])
+                      183  
+                      184  ;***************************************************
+                                                    ***************************
+                      185  ;       SyHDe - Soft y Hard Desarrollos, 2000  - 
+                                                          Derechos Reservados -
+                      186  ; Ud.uede usar este archivo gratuitamente mientras 
+                                                     incluya este pie de pagina
+                      187  ;***************************************************
+                                                    ***************************
+                      188  
+                      189  
+                      190  ***********VARIABLES DE RAM**********
+ 0080                 191             ORG  RAM_START
+                      192  
+                      193  ****************************************************
+                             **************************************************
+                                                           ********************
+ EE00                 194             ORG  ROM_START
+                      195  START:
+ EE00 [03] 3F36       196             CLR  OSCSC        ; Oscilador interno a 
+                                                                          4 MHz
+ EE02 [01] 9C         197             RSP          ;INICIALIZACION DEL 
+                                                               MICROCONTROLADOR
+ EE03 [01] 4F         198             CLRA
+ EE04 [01] 8C         199             CLRH
+ EE05 [01] 5F         200             CLRX
+ EE06 [01] 98         201             CLC
+                      202  
+ EE07 [04] 6E091F     203             MOV  #%00001001,CONFIG1   ;PROGRAMACION 
+                                                                 DE LOS CONFIGS
+ EE0A [01] 9D         204             NOP
+ EE0B [01] 9D         205             NOP
+ EE0C [04] 6E801E     206             MOV  #%10000000,CONFIG2
+ EE0F [01] 9D         207             NOP
+ EE10 [01] 9D         208             NOP
+                      209  
+ EE11 [04] 6EFF05     210             MOV  #$FF,DDRB             ;PUERTO B 
+                                                               TODO COMO SALIDA
+ EE14 [04] 6E3104     211             MOV  #%00110001,DDRA       ;PTA5, PTA4 Y 
+                                                             PTA0 SON SALIIDAS.
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 6
+
+
+
+ EE17 [03] 3F00       212             CLR  PTA
+ EE19 [03] 3F01       213             CLR  PTB
+ EE1B [05] CDEFBE     214             JSR  RETARDO
+                      215  
+                      216  
+                      217  ****************************************************
+                             **************************************************
+                                                           ********************
+                      218  INICIO_LCD:                           ;PREPARA AL 
+                                                    MODULO LCD PARA MODO 8 BITS
+ EE1E [02] A638       219             LDA  #%00111000
+ EE20 [05] CDEF98     220             JSR  ESCRIBE_IR
+ EE23 [02] A60E       221             LDA  #%00001110
+ EE25 [05] CDEF98     222             JSR  ESCRIBE_IR
+ EE28 [02] A601       223             LDA  #%00000001
+ EE2A [05] CDEF98     224             JSR  ESCRIBE_IR
+ EE2D [02] A606       225             LDA  #%00000110
+ EE2F [05] CDEF98     226             JSR  ESCRIBE_IR
+ EE32 [02] A640       227             LDA  #%01000000
+ EE34 [05] CDEF98     228             JSR  ESCRIBE_IR
+ EE37 [02] A60C       229             LDA  #%00001100
+ EE39 [05] CDEF98     230             JSR  ESCRIBE_IR
+                      231  ****************************************************
+                             **************************************************
+                                                           ********************
+                      232  SALUDO:
+ EE3C [02] A601       233             LDA  #$01                 ;CLEAR DISPLAY
+ EE3E [05] CDEF98     234             JSR  ESCRIBE_IR
+ EE41 [02] A60C       235             LDA  #$0C                 ;DISPLAY ON
+ EE43 [05] CDEF98     236             JSR  ESCRIBE_IR
+                      237  
+                      238             ;LDA  #%10000000            ;SET DDRAM 
+                                     $00. Va a la posicion 0 de la primera fila
+ EE46 [05] CDEF98     239             JSR  ESCRIBE_IR
+ EE49 [02] AE12       240             LDX  #$12      
+ EE4B [04] D6EFDC     241             LDA  TABLA,X   ;------------;L
+ EE4E [05] CDEFAB     242             JSR  ESCRIBE_DR
+                      243             
+ EE51 [02] AE14       244             LDX  #$14      
+ EE53 [04] D6EFDC     245             LDA  TABLA,X   ;------------;a
+ EE56 [05] CDEFAB     246             JSR  ESCRIBE_DR
+                      247             
+ EE59 [02] AE2D       248             LDX  #$2D      
+ EE5B [04] D6EFDC     249             LDA  TABLA,X   ;------------;m
+ EE5E [05] CDEFAB     250             JSR  ESCRIBE_DR
+                      251             
+ EE61 [02] AE1B       252             LDX  #$1B      
+ EE63 [04] D6EFDC     253             LDA  TABLA,X   ;------------;p
+ EE66 [05] CDEFAB     254             JSR  ESCRIBE_DR
+                      255             
+ EE69 [02] AE14       256             LDX  #$14      
+ EE6B [04] D6EFDC     257             LDA  TABLA,X   ;------------;a
+ EE6E [05] CDEFAB     258             JSR  ESCRIBE_DR
+                      259             
+ EE71 [02] AE1C       260             LDX  #$1C      
+ EE73 [04] D6EFDC     261             LDA  TABLA,X   ;------------;r
+ EE76 [05] CDEFAB     262             JSR  ESCRIBE_DR
+                      263             
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 7
+
+
+
+ EE79 [02] AE14       264             LDX  #$14     
+ EE7B [04] D6EFDC     265             LDA  TABLA,X   ;------------;a
+ EE7E [05] CDEFAB     266             JSR  ESCRIBE_DR
+                      267             
+ EE81 [02] AE24       268             LDX  #$24      
+ EE83 [04] D6EFDC     269             LDA  TABLA,X   ;------------;espacio
+ EE86 [05] CDEFAB     270             JSR  ESCRIBE_DR
+                      271             
+ EE89 [02] AE01       272             LDX  #$01    
+ EE8B [04] D6EFDC     273             LDA  TABLA,X   ;------------;nro 1
+ EE8E [05] CDEFAB     274             JSR  ESCRIBE_DR
+                      275             
+ EE91 [02] AE27       276             LDX  #$27    
+ EE93 [04] D6EFDC     277             LDA  TABLA,X   ;------------;dos puntos
+ EE96 [05] CDEFAB     278             JSR  ESCRIBE_DR             ;termina 
+                             siempre con este salto, sino borra la ultima letra
+                      279  
+ EE99 [02] A6C0       280             LDA  #%11000000            ;SET DDRAM 
+                                     $40. Va a la posicion 0 de la segunda fila
+ EE9B [05] CDEF98     281             JSR  ESCRIBE_IR
+ EE9E [02] AE12       282             LDX  #$12      
+ EEA0 [04] D6EFDC     283             LDA  TABLA,X   ;------------;L
+ EEA3 [05] CDEFAB     284             JSR  ESCRIBE_DR
+                      285             
+ EEA6 [02] AE14       286             LDX  #$14      
+ EEA8 [04] D6EFDC     287             LDA  TABLA,X   ;------------;a
+ EEAB [05] CDEFAB     288             JSR  ESCRIBE_DR
+                      289             
+ EEAE [02] AE2D       290             LDX  #$2D      
+ EEB0 [04] D6EFDC     291             LDA  TABLA,X   ;------------;m
+ EEB3 [05] CDEFAB     292             JSR  ESCRIBE_DR
+                      293             
+ EEB6 [02] AE1B       294             LDX  #$1B      
+ EEB8 [04] D6EFDC     295             LDA  TABLA,X   ;------------;p
+ EEBB [05] CDEFAB     296             JSR  ESCRIBE_DR
+                      297             
+ EEBE [02] AE14       298             LDX  #$14      
+ EEC0 [04] D6EFDC     299             LDA  TABLA,X   ;------------;a
+ EEC3 [05] CDEFAB     300             JSR  ESCRIBE_DR
+                      301             
+ EEC6 [02] AE1C       302             LDX  #$1C      
+ EEC8 [04] D6EFDC     303             LDA  TABLA,X   ;------------;r
+ EECB [05] CDEFAB     304             JSR  ESCRIBE_DR
+                      305             
+ EECE [02] AE14       306             LDX  #$14     
+ EED0 [04] D6EFDC     307             LDA  TABLA,X   ;------------;a
+ EED3 [05] CDEFAB     308             JSR  ESCRIBE_DR
+                      309             
+ EED6 [02] AE24       310             LDX  #$24      
+ EED8 [04] D6EFDC     311             LDA  TABLA,X   ;------------;espacio
+ EEDB [05] CDEFAB     312             JSR  ESCRIBE_DR
+                      313             
+ EEDE [02] AE02       314             LDX  #$02    
+ EEE0 [04] D6EFDC     315             LDA  TABLA,X   ;------------;nro 2
+ EEE3 [05] CDEFAB     316             JSR  ESCRIBE_DR
+                      317             
+ EEE6 [02] AE27       318             LDX  #$27    
+ EEE8 [04] D6EFDC     319             LDA  TABLA,X   ;------------;dos puntos
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 8
+
+
+
+ EEEB [05] CDEFAB     320             JSR  ESCRIBE_DR             ;termina 
+                             siempre con este salto, sino borra la ultima letra
+                      321  
+ EEEE [02] A694       322             LDA  #%10010100            ;SET DDRAM 
+                                     $14. Va a la posicion 0 de la tercera fila
+ EEF0 [05] CDEF98     323             JSR  ESCRIBE_IR
+ EEF3 [02] AE12       324             LDX  #$12      
+ EEF5 [04] D6EFDC     325             LDA  TABLA,X   ;------------;L
+ EEF8 [05] CDEFAB     326             JSR  ESCRIBE_DR
+                      327             
+ EEFB [02] AE14       328             LDX  #$14      
+ EEFD [04] D6EFDC     329             LDA  TABLA,X   ;------------;a
+ EF00 [05] CDEFAB     330             JSR  ESCRIBE_DR
+                      331             
+ EF03 [02] AE2D       332             LDX  #$2D      
+ EF05 [04] D6EFDC     333             LDA  TABLA,X   ;------------;m
+ EF08 [05] CDEFAB     334             JSR  ESCRIBE_DR
+                      335             
+ EF0B [02] AE1B       336             LDX  #$1B      
+ EF0D [04] D6EFDC     337             LDA  TABLA,X   ;------------;p
+ EF10 [05] CDEFAB     338             JSR  ESCRIBE_DR
+                      339             
+ EF13 [02] AE14       340             LDX  #$14      
+ EF15 [04] D6EFDC     341             LDA  TABLA,X   ;------------;a
+ EF18 [05] CDEFAB     342             JSR  ESCRIBE_DR
+                      343             
+ EF1B [02] AE1C       344             LDX  #$1C      
+ EF1D [04] D6EFDC     345             LDA  TABLA,X   ;------------;r
+ EF20 [05] CDEFAB     346             JSR  ESCRIBE_DR
+                      347             
+ EF23 [02] AE14       348             LDX  #$14     
+ EF25 [04] D6EFDC     349             LDA  TABLA,X   ;------------;a
+ EF28 [05] CDEFAB     350             JSR  ESCRIBE_DR
+                      351             
+ EF2B [02] AE24       352             LDX  #$24      
+ EF2D [04] D6EFDC     353             LDA  TABLA,X   ;------------;espacio
+ EF30 [05] CDEFAB     354             JSR  ESCRIBE_DR
+                      355             
+ EF33 [02] AE03       356             LDX  #$03    
+ EF35 [04] D6EFDC     357             LDA  TABLA,X   ;------------;nro 3
+ EF38 [05] CDEFAB     358             JSR  ESCRIBE_DR
+                      359             
+ EF3B [02] AE27       360             LDX  #$27    
+ EF3D [04] D6EFDC     361             LDA  TABLA,X   ;------------;dos puntos
+ EF40 [05] CDEFAB     362             JSR  ESCRIBE_DR             ;termina 
+                             siempre con este salto, sino borra la ultima letra
+                      363  
+ EF43 [02] A6D4       364             LDA  #%11010100            ;SET DDRAM 
+                                      $54. Va a la posicion 0 de la cuarta fila
+ EF45 [05] CDEF98     365             JSR  ESCRIBE_IR
+ EF48 [02] AE12       366             LDX  #$12      
+ EF4A [04] D6EFDC     367             LDA  TABLA,X   ;------------;L
+ EF4D [05] CDEFAB     368             JSR  ESCRIBE_DR
+                      369             
+ EF50 [02] AE14       370             LDX  #$14      
+ EF52 [04] D6EFDC     371             LDA  TABLA,X   ;------------;a
+ EF55 [05] CDEFAB     372             JSR  ESCRIBE_DR
+                      373             
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 9
+
+
+
+ EF58 [02] AE2D       374             LDX  #$2D      
+ EF5A [04] D6EFDC     375             LDA  TABLA,X   ;------------;m
+ EF5D [05] CDEFAB     376             JSR  ESCRIBE_DR
+                      377             
+ EF60 [02] AE1B       378             LDX  #$1B      
+ EF62 [04] D6EFDC     379             LDA  TABLA,X   ;------------;p
+ EF65 [05] CDEFAB     380             JSR  ESCRIBE_DR
+                      381             
+ EF68 [02] AE14       382             LDX  #$14      
+ EF6A [04] D6EFDC     383             LDA  TABLA,X   ;------------;a
+ EF6D [05] CDEFAB     384             JSR  ESCRIBE_DR
+                      385             
+ EF70 [02] AE1C       386             LDX  #$1C      
+ EF72 [04] D6EFDC     387             LDA  TABLA,X   ;------------;r
+ EF75 [05] CDEFAB     388             JSR  ESCRIBE_DR
+                      389             
+ EF78 [02] AE14       390             LDX  #$14     
+ EF7A [04] D6EFDC     391             LDA  TABLA,X   ;------------;a
+ EF7D [05] CDEFAB     392             JSR  ESCRIBE_DR
+                      393             
+ EF80 [02] AE24       394             LDX  #$24      
+ EF82 [04] D6EFDC     395             LDA  TABLA,X   ;------------;espacio
+ EF85 [05] CDEFAB     396             JSR  ESCRIBE_DR
+                      397             
+ EF88 [02] AE04       398             LDX  #$04    
+ EF8A [04] D6EFDC     399             LDA  TABLA,X   ;------------;nro 4
+ EF8D [05] CDEFAB     400             JSR  ESCRIBE_DR
+                      401             
+ EF90 [02] AE27       402             LDX  #$27    
+ EF92 [04] D6EFDC     403             LDA  TABLA,X   ;------------;dos puntos
+ EF95 [05] CDEFAB     404             JSR  ESCRIBE_DR             ;termina 
+                             siempre con este salto, sino borra la ultima letra
+                      405  
+                      406                          
+                      407  
+                      408  
+                      409             ;JSR  RETARDO               ;Retardo 
+                                         para dar tiempo a que se lea el nombre
+                      410             ;JSR  RETARDO
+                      411             ;JSR  RETARDO
+                      412             ;JSR  RETARDO
+                      413             ;JSR  RETARDO
+                      414             ;JSR  RETARDO
+                      415             ;JSR  RETARDO
+                      416  ****************************************************
+                             **************************************************
+                                                           ********************
+                      417             ;LDA  #$01         ;CLEAR DISPLAY
+                      418             ;JSR  ESCRIBE_IR
+                      419  ****************************************************
+                             **************************************************
+                                                           ********************
+                      420  ESCRIBE_IR:                  ;SUBRUTINA QUE SIRVE 
+                                      PARA MANDARLE INSTRUCCIONES AL MODULO LCD
+ EF98 [04] 1900       421             BCLR  RS,PTA
+ EF9A [04] 1B00       422             BCLR  RWR,PTA
+ EF9C [04] 1000       423             BSET  E,PTA
+ EF9E [03] B701       424             STA   PTB
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 10
+
+
+
+ EFA0 [05] CDEFD4     425             JSR   DEMORA100
+ EFA3 [04] 1100       426             BCLR  E,PTA
+ EFA5 [05] CDEFD4     427             JSR   DEMORA100
+ EFA8 [04] 1900       428             BCLR  RS,PTA
+ EFAA [04] 81         429             RTS
+                      430  ****************************************************
+                             **************************************************
+                                                           ********************
+                      431  ESCRIBE_DR:                  ;SUBRUTINA QUE SIRVE 
+                                 PARA MANDARLE DATOS (CARACTERES) AL MODULO LCD
+ EFAB [04] 1800       432             BSET  RS,PTA
+ EFAD [04] 1B00       433             BCLR  RWR,PTA
+ EFAF [04] 1000       434             BSET  E,PTA
+ EFB1 [03] B701       435             STA   PTB
+ EFB3 [05] CDEFD4     436             JSR   DEMORA100
+ EFB6 [04] 1100       437             BCLR  E,PTA
+ EFB8 [05] CDEFD4     438             JSR   DEMORA100
+ EFBB [04] 1900       439             BCLR  RS,PTA
+ EFBD [04] 81         440             RTS
+                      441  ****************************************************
+                             **************************************************
+                                                           ********************
+                      442  RETARDO
+ EFBE [02] 87         443          PSHA
+ EFBF [02] 8B         444          PSHH
+ EFC0 [02] 89         445          PSHX
+ EFC1 [02] A6FF       446          LDA     #$FF
+                      447  DELAY
+ EFC3 [03] 4500EF     448          LDHX    #$00EF
+                      449  LOOP1
+ EFC6 [02] AFFF       450          AIX     #-1
+ EFC8 [03] 650000     451          CPHX    #0
+ EFCB [03] 26F9       452          BNE     LOOP1
+ EFCD [01] 4A         453          DECA
+ EFCE [03] 26F3       454          BNE     DELAY
+ EFD0 [02] 88         455          PULX
+ EFD1 [02] 8A         456          PULH
+ EFD2 [02] 86         457          PULA
+ EFD3 [04] 81         458          RTS
+                      459  ****************************************************
+                             **************************************************
+                                                           ********************
+                      460  DEMORA100:                        ;RUTINA QUE 
+                                                    GENERA UNA DEMORA DE APROX.
+ EFD4 [02] 87         461             PSHA
+ EFD5 [02] A6FF       462             LDA  #$FF
+                      463  RESTA3:
+ EFD7 [01] 4A         464             DECA
+ EFD8 [03] 26FD       465             BNE  RESTA3
+                      466  
+ EFDA [02] 86         467             PULA
+ EFDB [04] 81         468             RTS
+                      469  ****************************************************
+                             **************************************************
+                                                           ********************
+                      470  TABLA:                                ;TABLA EN 
+                                  DONDE SE DEFINEN LOS CARACTERES QUE SE USARAN
+ EFDC      30         471             DB  %00110000;0 X = $00
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 11
+
+
+
+ EFDD      31         472             DB  %00110001;1 X = $01
+ EFDE      32         473             DB  %00110010;2 X = $02
+ EFDF      33         474             DB  %00110011;3 X = $03
+ EFE0      34         475             DB  %00110100;4 X = $04
+ EFE1      35         476             DB  %00110101;5 X = $05
+ EFE2      36         477             DB  %00110110;6 X = $06
+ EFE3      37         478             DB  %00110111;7 X = $07
+ EFE4      38         479             DB  %00111000;8 X = $08
+ EFE5      39         480             DB  %00111001;9 X = $09
+ EFE6      50         481             DB  %01010000;P X = $0A
+ EFE7      52         482             DB  %01010010;R X = $0B
+ EFE8      54         483             DB  %01010100;T X = $0C
+ EFE9      55         484             DB  %01010101;U X = $0D
+ EFEA      43         485             DB  %01000011;C X = $0E
+ EFEB      45         486             DB  %01000101;E X = $0F
+ EFEC      46         487             DB  %01000110;F X = $10
+ EFED      48         488             DB  %01001000;H X = $11
+ EFEE      4C         489             DB  %01001100;L X = $12
+ EFEF      4E         490             DB  %01001110;N X = $13
+ EFF0      61         491             DB  %01100001;a X = $14
+ EFF1      63         492             DB  %01100011;c X = $15
+ EFF2      67         493             DB  %01100111;g X = $16
+ EFF3      69         494             DB  %01101001;i X = $17
+ EFF4      6A         495             DB  %01101010;j X = $18
+ EFF5      6C         496             DB  %01101100;l X = $19
+ EFF6      6F         497             DB  %01101111;o X = $1A
+ EFF7      70         498             DB  %01110000;p X = $1B
+ EFF8      72         499             DB  %01110010;r X = $1C
+ EFF9      73         500             DB  %01110011;s X = $1D
+ EFFA      75         501             DB  %01110101;u X = $1E
+ EFFB      2E         502             DB  %00101110;punto X = $1F
+ EFFC      2C         503             DB  %00101100;coma X = $20
+ EFFD      3F         504             DB  %00111111;pregunta X = $21
+ EFFE      3D         505             DB  %00111101;igual X = $22
+ EFFF      00         506             DB  %00000000; mu X=$23
+ F000      20         507             DB  %00100000;ESPACIO X=$24
+ F001      01         508             DB  %00000001; Yaz X=$25
+ F002      65         509             DB  %01100101;e  X = $26
+ F003      3A         510             DB  %00111010;dos puntos X = $27
+ F004      6E         511             DB  %01101110;n  X = $28
+ F005      42         512             DB  %01000010;B  X = $29
+ F006      64         513             DB  %01100100;d  X = $2A
+ F007      4A         514             DB  %01001010;J  X = $2B
+ F008      76         515             DB  %01110110;v  X = $2C
+ F009      6D         516             DB  %01101101;m  X = $2D
+                      517  ****************************************************
+                             **************************************************
+                                                           ********************
+                      518  BOBO                       ;Rutina para los 
+                                vectores no utilizados. Se pone "por las dudas"
+ F00A [01] 9D         519             NOP
+ F00B [07] 80         520             RTI
+                      521  *************************************TABLA DE 
+                             VECTORES******************************************
+                                                      *************************
+                      522  
+ FFDE                 523             ORG  VECTORS
+                      524  
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 12
+
+
+
+ FFDE      F00A       525             DW   BOBO  ;FFDE-FFDF
+ FFE0      F00A       526             DW   BOBO  ;FFE0-FFE1
+ FFE2      F00A       527             DW   BOBO  ;FFE2-FFE3
+ FFE4      F00A       528             DW   BOBO  ;FFE4-FFE5
+ FFE6      F00A       529             DW   BOBO  ;FFE6-FFE7
+ FFE8      F00A       530             DW   BOBO  ;FFE8-FFE9
+ FFEA      F00A       531             DW   BOBO  ;FFEA-FFEB
+ FFEC      F00A       532             DW   BOBO  ;FFEC-FFED
+ FFEE      F00A       533             DW   BOBO  ;FFEE-FFEF
+ FFF0      F00A       534             DW   BOBO  ;FFF0-FFF1
+ FFF2      F00A       535             DW   BOBO  ;FFF2-FFF3
+ FFF4      F00A       536             DW   BOBO  ;FFF4-FFF5
+ FFF6      F00A       537             DW   BOBO  ;FFF6-FFF7
+ FFF8      F00A       538             DW   BOBO  ;FFFF8-FFF9
+ FFFA      F00A       539             DW   BOBO  ;FFFA-FFFB
+ FFFC      F00A       540             DW   BOBO  ;FFFC-FFFD
+ FFFE      EE00       541             DW   START ;FFFE-FFFF
+                      542  ****************************************************
+                             **************************************************
+                                                           ********************
+                      543  END
+                      544  ****************************************************
+                             **************************************************
+                                                           ********************
+                      545  
+                      546  
+                      547  
+                      548  
+                      549  
+                      550  
+                      551  
+                      552  
+                      553  
+                      554  
+                      555  
+                      556  
+                      557  
+                      558  
+                      559  
+                      560   
+
+ Symbol Table 
+
+ACK              0002
+ACKK             0002
+ADCO             0005
+ADICLK           003F
+ADRH             003D
+ADRL             003E
+ADSCR            003C
+AIEN             0006
+BCFE             0007
+BDCOP            0000
+BFCR             FE03
+BOBO             F00A
+BRKAR            FE02
+BRKH             FE09
+BRKL             FE0A
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 13
+
+
+
+BRKSCR           FE0B
+BSR              FE00
+CH0F             0007
+CH0IE            0006
+CH0MAX           0000
+CH1F             0007
+CH1IE            0006
+CH1MAX           0000
+COCO             0007
+CONFIG1          001F
+CONFIG2          001E
+COP              0005
+COPCTL           FFFF
+DDRA             0004
+DDRB             0005
+DELAY            EFC3
+DELNUS           280C
+DEMORA100        EFD4
+E                0000
+ECFS0            0002
+ECFS1            0003
+ECGON            0001
+ECGST            0000
+ELS0A            0002
+ELS0B            0003
+ELS1A            0002
+ELS1B            0003
+END              0000
+ERARNGE          2806
+ESCRIBE_DR       EFAB
+ESCRIBE_IR       EF98
+FLBPR            FFBE
+FLCR             FE08
+GETBYTE          2800
+ICFS0            0004
+ICFS1            0005
+ILAD             0003
+ILOP             0004
+IMASK            0001
+IMASKK           0001
+INICIO_LCD       EE1E
+INT1             FE04
+INT2             FE05
+INT3             FE06
+INTSCR           001D
+IOSCTRM          FFC0
+IRQF             0003
+KBIER            001B
+KBSCR            001A
+KEYF             0003
+LOOP1            EFC6
+LVI              0001
+LVISR            FE0C
+MODE             0000
+MODEK            0000
+MODRST           0002
+MS0A             0004
+MS0B             0005
+
+
+LCD nombre lamparas.asm   Assembled with CASM08Z  22/03/2014  02:54:56 p.m.  PAGE 14
+
+
+
+MS1A             0004
+MS1B             0005
+OSCOPT0          0006
+OSCOPT1          0007
+OSCSC            0036
+OSCSTAT          0036
+OSCTRIM          0038
+PIN              0006
+POR              0007
+PORTA            0000
+PORTB            0001
+PRGRNGE          2809
+PTA              0000
+PTAPUE           000B
+PTB              0001
+PTBPUE           000C
+RAM_START        0080
+RDVRRNG          2803
+RESTA3           EFD7
+RETARDO          EFBE
+ROM_START        EE00
+RS               0004
+RWR              0005
+SALUDO           EE3C
+SBSW             0001
+SRSR             FE01
+START            EE00
+TABLA            EFDC
+TCH0H            0026
+TCH0L            0027
+TCH1H            0029
+TCH1L            002A
+TCNTH            0021
+TCNTL            0022
+TMODH            0023
+TMODL            0024
+TOF              0007
+TOIE             0006
+TOV0             0001
+TOV1             0001
+TRST             0004
+TSC              0020
+TSC0             0025
+TSC1             0028
+TSTOP            0005
+VECTORS          FFDE

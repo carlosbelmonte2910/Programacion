@@ -1,0 +1,1765 @@
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  
+                                                                         PAGE 1
+
+
+
+ 0000                   1  RAM_START  EQU  $0080
+ 0000                   2  ROM_START  EQU  $EE00
+ 0000                   3  VECTORS    EQU  $FFDE
+ 0000                   4  E          EQU   5
+ 0000                   5  RS         EQU   4
+ 0000                   6  IN_1       EQU   0
+ 0000                   7  IN_2       EQU   1
+ 0000                   8  IN_3       EQU   2
+ 0000                   9  IN_4       EQU   3
+                       10  
+ 0000                  11  $BASE 10T
+ 0000                  12  $include   'QTQY_Registers.inc'
+                       13  ;***************************************************
+                                                    ***************************
+                       14  ;                    QTQY_REGISTERS.INC - ARCHIVO 
+                                                                        INCLUDE
+                       15  ; Contiene las Definiciones de los Registros del 
+                                                       MC68HC908QTA/QYA/8/4/2/1
+                       16  ;
+                       17  ;                    SyHDe - Soft y Hard Desarrollos
+                       18  ;***************************************************
+                                                    ***************************
+                       19  
+                       20  ;***************************************************
+                                                    ***************************
+                       21  ;---------------REGISTROS DE PUERTOS ENT/SAL--------
+                                                    ---------------------------
+                       22  ;---------------PUERTO A----------------------------
+                                                    ---------------------------
+ 0000                  23  PTA  EQU     $0000   ; Port A Data register
+ 0000                  24  PORTA        EQU     $0000   ; "
+ 0000                  25  DDRA EQU     $0004   ; Port A Data Direction 
+                                                                       Register
+ 0000                  26  PTAPUE  EQU  $000B   ; Port A Pull Ups Enable
+                       27  
+                       28  ;---------------PUERTO B----------------------------
+                                                    ---------------------------
+ 0000                  29  PTB  EQU     $0001   ; Port B Data register
+ 0000                  30  PORTB        EQU     $0001   ; "
+ 0000                  31  DDRB EQU     $0005   ; Port B Data Direction 
+                                                                       Register
+ 0000                  32  PTBPUE  EQU  $000C   ; Port B Pull Ups Enable
+                       33  
+                       34  ;***************************************************
+                                                    ***************************
+                       35  ;---------------REGISTROS DEL MODULO KEYBOARD-------
+                                                    ---------------------------
+ 0000                  36  KBSCR        EQU     $001A   ; Keyboard Status & 
+                                                               Control register
+ 0000                  37  keyf equ     3       ;
+ 0000                  38  ackk equ     2       ;
+ 0000                  39  imaskk       equ     1       ;
+ 0000                  40  modek        equ     0       ;
+                       41  
+ 0000                  42  KBIER        EQU     $001B   ; Keyboard interrupt 
+                                                                enable register
+                       43  
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 2
+
+
+
+                       44  ;***************************************************
+                                                    ***************************
+                       45  ;---------------REGISTROS DE INTERRUPCION EXTERNA 
+                                                  1----------------------------
+ 0000                  46  INTSCR       EQU     $001D   ; IRQ Status & Control 
+                                                                       Register
+ 0000                  47  irqf equ     3       ;
+ 0000                  48  ack  equ     2       ;
+ 0000                  49  imask        equ     1       ;
+ 0000                  50  mode equ     0       ;
+                       51  
+                       52  ;***************************************************
+                                                    ***************************
+                       53  ;---------------REGISTROS DE CONFIGURACION----------
+                                                    ---------------------------
+ 0000                  54  CONFIG1      EQU     $001F   ; Configuration 
+                                                                     Register 1
+                       55  
+ 0000                  56  CONFIG2      EQU     $001E   ; Configuration 
+                                                                     Register 2
+                       57  
+                       58  ;***************************************************
+                                                    ***************************
+                       59  ;---------------REGISTROS DEL TIMER ----------------
+                                                    ---------------------------
+ 0000                  60  TSC  EQU     $0020   ; Timer Status & Control 
+                                                                       Register
+ 0000                  61  tof  equ     7       ;
+ 0000                  62  toie equ     6       ;
+ 0000                  63  tstop        equ     5       ;
+ 0000                  64  trst equ     4       ;
+                       65  
+ 0000                  66  TCNTH        EQU     $0021   ; Timer Counter 
+                                                                  Register High
+ 0000                  67  TCNTL        EQU     $0022   ; Timer Counter 
+                                                                   Register Low
+ 0000                  68  TMODH        EQU     $0023   ; Timer Counter Modulo 
+                                                                  Register High
+ 0000                  69  TMODL        EQU     $0024   ; Timer Counter Modulo 
+                                                                   Register Low
+                       70  
+ 0000                  71  TSC0 EQU     $0025   ; Timer Channel 0 Status & 
+                                                               Control Register
+ 0000                  72  ch0f equ     7
+ 0000                  73  ch0ie        equ     6       ;
+ 0000                  74  ms0b equ     5       ;
+ 0000                  75  ms0a equ     4       ;
+ 0000                  76  els0b        equ     3       ;
+ 0000                  77  els0a        equ     2       ;
+ 0000                  78  tov0 equ     1       ;
+ 0000                  79  ch0max       equ     0       ;
+                       80  
+ 0000                  81  TCH0H        EQU     $0026   ; Timer Channel 0 
+                                                                  Register High
+ 0000                  82  TCH0L        EQU     $0027   ; Timer Channel 0 
+                                                                   Register Low
+                       83  
+ 0000                  84  TSC1 EQU     $0028   ; Timer Channel 1 Status & 
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 3
+
+
+
+                                                               Control Register
+ 0000                  85  ch1f equ     7
+ 0000                  86  ch1ie        equ     6       ;
+ 0000                  87  ms1b equ     5       ;
+ 0000                  88  ms1a equ     4       ;
+ 0000                  89  els1b        equ     3       ;
+ 0000                  90  els1a        equ     2       ;
+ 0000                  91  tov1 equ     1       ;
+ 0000                  92  ch1max       equ     0       ;
+                       93  
+ 0000                  94  TCH1H        EQU     $0029   ; Timer Channel 1 
+                                                                  Register High
+ 0000                  95  TCH1L        EQU     $002A   ; Timer Channel 1 
+                                                                   Register Low
+                       96  
+                       97  ;***************************************************
+                                                    ***************************
+                       98  ;---------------REGISTROS DEL OSCILADOR-------------
+                                                    ---------------------------
+ 0000                  99  OSCSC        EQU     $0036   ;Oscillator Status and 
+                                                               Control Register
+ 0000                 100  ecgst        equ     0       ;Read Only!!!!
+ 0000                 101  ecgon        equ     1       ;
+ 0000                 102  ecfs0        equ     2       ;
+ 0000                 103  ecfs1        equ     3       ;
+ 0000                 104  icfs0        equ     4       ;
+ 0000                 105  icfs1        equ     5       ;
+ 0000                 106  oscopt0      equ     6       ;
+ 0000                 107  oscopt1      equ     7       ;
+                      108  
+ 0000                 109  OSCTRIM      EQU     $0038   ;Oscillator Trim 
+                                                                       Register
+                      110  
+ 0000                 111  OSCSTAT EQU  $0036   ;Oscillator Status and Control 
+                                                         (No Vers A Solo QY/QT)
+                      112  
+                      113  ;***************************************************
+                                                    ***************************
+                      114  ;---------------REGISTROS DEL ADC-------------------
+                                                    ---------------------------
+ 0000                 115  ADSCR        EQU     $003C   ; ADC Status & Control 
+                                                                       Register
+ 0000                 116  coco equ     7       ;
+ 0000                 117  aien equ     6       ;
+ 0000                 118  adco equ     5       ;
+                      119  
+ 0000                 120  ADRH EQU     $003D   ; ADC10 Data Register High
+ 0000                 121  ADRL EQU     $003E   ; ADC10 Data Register Low
+ 0000                 122  ADICLK       EQU     $003F   ; ADC10 Clock Control 
+                                                                       Register
+                      123  
+                      124  ;***************************************************
+                                                    ***************************
+                      125  ;---------------REGISTROS DEL MODULO SIM------------
+                                                    ---------------------------
+ 0000                 126  BSR  EQU     $FE00   ; Break Status Register
+ 0000                 127  sbsw equ     1       ; break wait bit
+                      128  
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 4
+
+
+
+ 0000                 129  SRSR EQU     $FE01   ; SIM Reset Status Register
+ 0000                 130  por  equ     7       ;
+ 0000                 131  pin  equ     6       ;
+ 0000                 132  cop  equ     5       ;
+ 0000                 133  ilop equ     4       ;
+ 0000                 134  ilad equ     3       ;
+ 0000                 135  modrst       equ     2       ;
+ 0000                 136  lvi  equ     1       ;
+                      137  
+ 0000                 138  BRKAR        EQU     $FE02   ; Break Auxiliary 
+                                                                       Register
+ 0000                 139  bdcop        equ     0
+                      140  
+ 0000                 141  BFCR EQU     $FE03   ; Break Flag Control Register
+ 0000                 142  bcfe equ     7       ;
+                      143  
+ 0000                 144  INT1 EQU     $FE04   ; Interrupt Status Register 1
+                      145  
+ 0000                 146  INT2 EQU     $FE05   ; Interrupt Status Register 2
+                      147  
+ 0000                 148  INT3 EQU     $FE06   ; Interrupt Status Register 3
+                      149  
+                      150  ;***************************************************
+                                                    ***************************
+                      151  ;---------------REGISTROS DE LA MEMORIA FLASH-------
+                                                    ---------------------------
+ 0000                 152  FLCR EQU     $FE08   ; FLASH Control Register
+                      153  
+ 0000                 154  FLBPR        EQU     $FFBE   ; FLASH Block Protect
+                      155  
+                      156  ;***************************************************
+                                                    ***************************
+                      157  ;---------------REGISTROS DEL MODULO BREAK----------
+                                                     --------------------------
+ 0000                 158  BRKH EQU     $FE09   ; Break address Hig Register
+                      159  
+ 0000                 160  BRKL EQU     $FE0A   ; Break Address Low Register
+                      161  
+ 0000                 162  BRKSCR       EQU     $FE0B   ; Break Status & 
+                                                               Control Register
+                      163  
+                      164  ;***************************************************
+                                                    ***************************
+                      165  ;---------------REGISTROS DEL MODULO LVI------------
+                                                    ---------------------------
+ 0000                 166  LVISR        EQU     $FE0C   ; LVI Status Register
+                      167  
+                      168  ;***************************************************
+                                                    ***************************
+                      169  ;---------------REGISTROS DEL MODULO OSCILLATOR-----
+                                                    ---------------------------
+ 0000                 170  IOSCTRM EQU  $FFC0   ; Internal Oscillator Trim 
+                                                  (Factory Prog Value Optional)
+                      171  
+                      172  ;***************************************************
+                                                    ***************************
+                      173  ;---------------REGISTROS DEL MODULO COP WATCHDOG---
+                                                    ---------------------------
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 5
+
+
+
+ 0000                 174  COPCTL       EQU     $FFFF   ; COP Control Register
+                      175  
+                      176  ;***************************************************
+                                                    ***************************
+                      177  ;***************************************************
+                                                    ***************************
+                      178  ; RUTINAS DE MANEJO DE LA MEMORIA FLASH SITUADAS EN 
+                                                    LA ROM MONITOR (HC908QTQYx)
+                      179  ;***************************************************
+                                                    ***************************
+                      180  
+ 0000                 181  PRGRNGE              EQU     $2809   ;Programa un 
+                                                  rango de direcciones de Flash
+ 0000                 182  ERARNGE              EQU     $2806   ;Borra una 
+                                                        pagina de Memoria Flash
+ 0000                 183  GETBYTE              EQU     $2800   ;Recibe un 
+                                              Byte en Modo Monitordesde el Port
+ 0000                 184  RDVRRNG              EQU     $2803   ;Usa un Rango 
+                                               de la Flash y lo envia x el Port
+ 0000                 185  DELNUS               EQU     $280C   ;Rutina de 
+                                                  Demora (usa parametros[A][X])
+                      186  
+                      187  ;***************************************************
+                                                    ***************************
+                      188  ;       SyHDe - Soft y Hard Desarrollos, 2000  - 
+                                                          Derechos Reservados -
+                      189  ; Ud.uede usar este archivo gratuitamente mientras 
+                                                     incluya este pie de pagina
+                      190  ;***************************************************
+                                                    ***************************
+                      191  
+                      192  
+                      193  ***********VARIABLES DE RAM**********
+ 0080                 194             ORG  RAM_START
+                      195  
+                      196  ****************************************************
+                             **************************************************
+                                                           ********************
+ EE00                 197             ORG  ROM_START
+                      198  START:
+ EE00 [03] 3F36       199             CLR  OSCSC        ; Oscilador interno a 
+                                                                          4 MHz
+ EE02 [01] 9C         200             RSP          ;INICIALIZACION DEL 
+                                                               MICROCONTROLADOR
+ EE03 [01] 4F         201             CLRA
+ EE04 [01] 8C         202             CLRH
+ EE05 [01] 5F         203             CLRX
+ EE06 [01] 98         204             CLC
+ EE07 [04] 6E091F     205             MOV  #%00001001,CONFIG1   ;PROGRAMACION 
+                                                                 DE LOS CONFIGS
+ EE0A [01] 9D         206             NOP
+ EE0B [01] 9D         207             NOP
+ EE0C [04] 6E801E     208             MOV  #%10000000,CONFIG2
+ EE0F [01] 9D         209             NOP
+ EE10 [01] 9D         210             NOP
+ EE11 [04] 6EFF05     211             MOV  #$FF,DDRB             ;PUERTO B 
+                                                               TODO COMO SALIDA
+ EE14 [04] 6E3004     212             MOV  #%00110000,DDRA       ;PTA5, PTA4 Y 
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 6
+
+
+
+                              PTA3 SON SALIIDAS. PTA2, PTA1 Y PTA0 SON ENTRADAS
+ EE17 [03] 3F00       213             CLR  PTA
+ EE19 [03] 3F01       214             CLR  PTB
+ EE1B [05] CDF6B4     215             JSR  RETARDO
+                      216  ****************************************************
+                             **************************************************
+                                                           ********************
+                      217  INICIO_LCD:                           ;PREPARA AL 
+                                                    MODULO LCD PARA MODO 8 BITS
+ EE1E [02] A638       218             LDA  #%00111000
+ EE20 [05] CDEEBE     219             JSR  ESCRIBE_IR
+ EE23 [02] A60E       220             LDA  #%00001110
+ EE25 [05] CDEEBE     221             JSR  ESCRIBE_IR
+ EE28 [02] A601       222             LDA  #%00000001
+ EE2A [05] CDEEBE     223             JSR  ESCRIBE_IR
+ EE2D [02] A606       224             LDA  #%00000110
+ EE2F [05] CDEEBE     225             JSR  ESCRIBE_IR
+ EE32 [02] A640       226             LDA  #%01000000
+ EE34 [05] CDEEBE     227             JSR  ESCRIBE_IR
+ EE37 [02] A60C       228             LDA  #%00001100
+ EE39 [05] CDEEBE     229             JSR  ESCRIBE_IR
+                      230  ****************************************************
+                             **************************************************
+                                                           ********************
+                      231  MSJ_INICIO:
+ EE3C [02] A601       232             LDA  #$01                 ;CLEAR DISPLAY
+ EE3E [05] CDEEBE     233             JSR  ESCRIBE_IR
+ EE41 [02] A60C       234             LDA  #$0C                 ;DISPLAY ON
+ EE43 [05] CDEEBE     235             JSR  ESCRIBE_IR
+ EE46 [02] A6C0       236             LDA  #%11000000           ;SET DDRAM 
+                                     $40. Va a la posicion 0 de la segunda fila
+ EE48 [05] CDF21E     237             JSR  LINEA_VACIA
+ EE4B [02] A687       238             LDA  #%10000111           ;SET DDRAM 
+                                     $07. Va a la posicion 7 de la PRIMERA fila
+ EE4D [05] CDF112     239             JSR  UTN_FRT
+ EE50 [02] A69C       240             LDA  #%10011100           ;SET DDRAM 
+                                     $1C. Va a la posicion 8 de la TERCERA fila
+ EE52 [05] CDF14E     241             JSR  FINAL
+ EE55 [02] A6D4       242             LDA  #%11010100           ;SET DDRAM 
+                                      $54. Va a la posicion 0 de la CUARTA fila
+ EE57 [05] CDF17A     243             JSR  TDII
+ EE5A [05] CDF6B4     244             JSR  RETARDO
+ EE5D [05] CDF6B4     245             JSR  RETARDO
+ EE60 [05] CDF6B4     246             JSR  RETARDO
+ EE63 [05] CDF6B4     247             JSR  RETARDO
+ EE66 [05] CDF6B4     248             JSR  RETARDO
+ EE69 [02] A601       249             LDA  #$01                 ;CLEAR DISPLAY
+ EE6B [05] CDEEBE     250             JSR  ESCRIBE_IR
+ EE6E [02] A6C0       251             LDA  #%11000000           ;SET DDRAM 
+                                     $40. Va a la posicion 0 de la segunda fila
+ EE70 [05] CDF21E     252             JSR  LINEA_VACIA
+ EE73 [02] A6D4       253             LDA  #%11010100           ;SET DDRAM 
+                                      $54. Va a la posicion 0 de la cuarta fila
+ EE75 [05] CDF21E     254             JSR  LINEA_VACIA
+ EE78 [02] A694       255             LDA  #%10010100           ;SET DDRAM 
+                                     $14. Va a la posicion 0 de la tercera fila
+ EE7A [05] CDF2C2     256             JSR  AÑO
+ EE7D [02] A680       257             LDA  #%10000000           ;SET DDRAM 
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 7
+
+
+
+                                     $00. Va a la posicion 0 de la primera fila
+ EE7F [05] CDF30E     258             JSR  ALUMNO
+ EE82 [05] CDF34A     259             JSR  CARLOS_BELMONTE
+ EE85 [05] CDF6B4     260             JSR  RETARDO
+ EE88 [05] CDF6B4     261             JSR  RETARDO
+ EE8B [05] CDF6B4     262             JSR  RETARDO
+ EE8E [05] CDF6B4     263             JSR  RETARDO
+ EE91 [05] CDF6B4     264             JSR  RETARDO
+ EE94 [02] A601       265             LDA  #$01                 ;CLEAR DISPLAY
+ EE96 [05] CDEEBE     266             JSR  ESCRIBE_IR
+                      267  ****************************************************
+                             **************************************************
+                                                           ********************
+                      268  LAMPARAS:
+ EE99 [02] A680       269             LDA  #%10000000           ;SET DDRAM 
+                                     $00. Va a la posicion 0 de la primera fila
+ EE9B [05] CDEEE0     270             JSR  LAMPARA_1
+ EE9E [05] CDEF34     271             JSR  ESTADO_1
+ EEA1 [02] A6C0       272             LDA  #%11000000           ;SET DDRAM 
+                                     $40. Va a la posicion 0 de la segunda fila
+ EEA3 [05] CDEF44     273             JSR  LAMPARA_2
+ EEA6 [05] CDEF98     274             JSR  ESTADO_2
+ EEA9 [02] A694       275             LDA  #%10010100           ;SET DDRAM 
+                                     $14. Va a la posicion 0 de la tercera fila
+ EEAB [05] CDEFA8     276             JSR  LAMPARA_3
+ EEAE [05] CDEFFC     277             JSR  ESTADO_3
+ EEB1 [02] A6D4       278             LDA  #%11010100           ;SET DDRAM 
+                                      $54. Va a la posicion 0 de la cuarta fila
+ EEB3 [05] CDF00C     279             JSR  LAMPARA_4
+ EEB6 [05] CDF060     280             JSR  ESTADO_4
+ EEB9 [05] CDF6B4     281             JSR  RETARDO
+ EEBC [03] 20DB       282             bra  LAMPARAS
+                      283  ****************************************************
+                             **************************************************
+                                                           ********************
+                      284  ESCRIBE_IR:                  ;SUBRUTINA QUE SIRVE 
+                                      PARA MANDARLE INSTRUCCIONES AL MODULO LCD
+ EEBE [04] 1900       285             BCLR  RS,PTA
+ EEC0 [04] 1A00       286             BSET  E,PTA
+ EEC2 [03] B701       287             STA   PTB
+ EEC4 [05] CDF6CA     288             JSR   DEMORA100
+ EEC7 [04] 1B00       289             BCLR  E,PTA
+ EEC9 [05] CDF6CA     290             JSR   DEMORA100
+ EECC [04] 1900       291             BCLR  RS,PTA
+ EECE [04] 81         292             RTS
+                      293  ****************************************************
+                             **************************************************
+                                                           ********************
+                      294  ESCRIBE_DR:                  ;SUBRUTINA QUE SIRVE 
+                                 PARA MANDARLE DATOS (CARACTERES) AL MODULO LCD
+ EECF [04] 1800       295             BSET  RS,PTA
+ EED1 [04] 1A00       296             BSET  E,PTA
+ EED3 [03] B701       297             STA   PTB
+ EED5 [05] CDF6CA     298             JSR   DEMORA100
+ EED8 [04] 1B00       299             BCLR  E,PTA
+ EEDA [05] CDF6CA     300             JSR   DEMORA100
+ EEDD [04] 1900       301             BCLR  RS,PTA
+ EEDF [04] 81         302             RTS
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 8
+
+
+
+                      303  ****************************************************
+                             **************************************************
+                                                           ********************
+                      304  LAMPARA_1
+ EEE0 [05] CDEEBE     305             JSR  ESCRIBE_IR
+ EEE3 [02] AE12       306             LDX  #$12
+ EEE5 [04] D6F6D2     307             LDA  TABLA,X   ;------------;L
+ EEE8 [05] CDEECF     308             JSR  ESCRIBE_DR
+                      309  
+ EEEB [02] AE14       310             LDX  #$14
+ EEED [04] D6F6D2     311             LDA  TABLA,X   ;------------;a
+ EEF0 [05] CDEECF     312             JSR  ESCRIBE_DR
+                      313  
+ EEF3 [02] AE2D       314             LDX  #$2D
+ EEF5 [04] D6F6D2     315             LDA  TABLA,X   ;------------;m
+ EEF8 [05] CDEECF     316             JSR  ESCRIBE_DR
+                      317  
+ EEFB [02] AE1B       318             LDX  #$1B
+ EEFD [04] D6F6D2     319             LDA  TABLA,X   ;------------;p
+ EF00 [05] CDEECF     320             JSR  ESCRIBE_DR
+                      321  
+ EF03 [02] AE14       322             LDX  #$14
+ EF05 [04] D6F6D2     323             LDA  TABLA,X   ;------------;a
+ EF08 [05] CDEECF     324             JSR  ESCRIBE_DR
+                      325  
+ EF0B [02] AE1C       326             LDX  #$1C
+ EF0D [04] D6F6D2     327             LDA  TABLA,X   ;------------;r
+ EF10 [05] CDEECF     328             JSR  ESCRIBE_DR
+                      329  
+ EF13 [02] AE14       330             LDX  #$14
+ EF15 [04] D6F6D2     331             LDA  TABLA,X   ;------------;a
+ EF18 [05] CDEECF     332             JSR  ESCRIBE_DR
+                      333  
+ EF1B [02] AE24       334             LDX  #$24
+ EF1D [04] D6F6D2     335             LDA  TABLA,X   ;------------;espacio
+ EF20 [05] CDEECF     336             JSR  ESCRIBE_DR
+                      337  
+ EF23 [02] AE01       338             LDX  #$01
+ EF25 [04] D6F6D2     339             LDA  TABLA,X   ;------------;nro 1
+ EF28 [05] CDEECF     340             JSR  ESCRIBE_DR
+                      341  
+ EF2B [02] AE27       342             LDX  #$27
+ EF2D [04] D6F6D2     343             LDA  TABLA,X   ;------------;dos puntos
+ EF30 [05] CDEECF     344             JSR  ESCRIBE_DR             ;termina 
+                             siempre con este salto, sino borra la ultima letra
+ EF33 [04] 81         345             RTS
+                      346  ESTADO_1
+ EF34 [05] 000005     347             brset IN_1,PORTA,enc1           ;Si hay 
+                                               un 1 salta a la sub funcion enc1
+ EF37 [01] 9D         348             nop
+ EF38 [05] 010005     349             brclr IN_1,PORTA,apa1           ;Si hay 
+                                               un 0 salta a la sub funcion apa1
+ EF3B [04] 81         350             rts
+                      351  enc1
+ EF3C [05] CDF070     352             JSR  ENCENDIDA
+ EF3F [04] 81         353             RTS
+                      354  apa1
+ EF40 [05] CDF0C1     355             JSR  APAGADA
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 9
+
+
+
+ EF43 [04] 81         356             RTS
+                      357  ****************************************************
+                             **************************************************
+                                                           ********************
+                      358  LAMPARA_2
+ EF44 [05] CDEEBE     359             JSR  ESCRIBE_IR
+ EF47 [02] AE12       360             LDX  #$12
+ EF49 [04] D6F6D2     361             LDA  TABLA,X   ;------------;L
+ EF4C [05] CDEECF     362             JSR  ESCRIBE_DR
+                      363  
+ EF4F [02] AE14       364             LDX  #$14
+ EF51 [04] D6F6D2     365             LDA  TABLA,X   ;------------;a
+ EF54 [05] CDEECF     366             JSR  ESCRIBE_DR
+                      367  
+ EF57 [02] AE2D       368             LDX  #$2D
+ EF59 [04] D6F6D2     369             LDA  TABLA,X   ;------------;m
+ EF5C [05] CDEECF     370             JSR  ESCRIBE_DR
+                      371  
+ EF5F [02] AE1B       372             LDX  #$1B
+ EF61 [04] D6F6D2     373             LDA  TABLA,X   ;------------;p
+ EF64 [05] CDEECF     374             JSR  ESCRIBE_DR
+                      375  
+ EF67 [02] AE14       376             LDX  #$14
+ EF69 [04] D6F6D2     377             LDA  TABLA,X   ;------------;a
+ EF6C [05] CDEECF     378             JSR  ESCRIBE_DR
+                      379  
+ EF6F [02] AE1C       380             LDX  #$1C
+ EF71 [04] D6F6D2     381             LDA  TABLA,X   ;------------;r
+ EF74 [05] CDEECF     382             JSR  ESCRIBE_DR
+                      383  
+ EF77 [02] AE14       384             LDX  #$14
+ EF79 [04] D6F6D2     385             LDA  TABLA,X   ;------------;a
+ EF7C [05] CDEECF     386             JSR  ESCRIBE_DR
+                      387  
+ EF7F [02] AE24       388             LDX  #$24
+ EF81 [04] D6F6D2     389             LDA  TABLA,X   ;------------;espacio
+ EF84 [05] CDEECF     390             JSR  ESCRIBE_DR
+                      391  
+ EF87 [02] AE02       392             LDX  #$02
+ EF89 [04] D6F6D2     393             LDA  TABLA,X   ;------------;nro 2
+ EF8C [05] CDEECF     394             JSR  ESCRIBE_DR
+                      395  
+ EF8F [02] AE27       396             LDX  #$27
+ EF91 [04] D6F6D2     397             LDA  TABLA,X   ;------------;dos puntos
+ EF94 [05] CDEECF     398             JSR  ESCRIBE_DR
+ EF97 [04] 81         399             RTS
+                      400  
+                      401  ESTADO_2
+ EF98 [05] 020005     402             brset IN_2,PORTA,enc2           ;Si hay 
+                                               un 1 salta a la sub funcion enc1
+ EF9B [01] 9D         403             nop
+ EF9C [05] 030005     404             brclr IN_2,PORTA,apa2           ;Si hay 
+                                               un 0 salta a la sub funcion apa1
+ EF9F [04] 81         405             rts
+                      406  enc2
+ EFA0 [05] CDF070     407             JSR  ENCENDIDA
+ EFA3 [04] 81         408             RTS
+                      409  apa2
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 10
+
+
+
+ EFA4 [05] CDF0C1     410             JSR  APAGADA
+ EFA7 [04] 81         411             RTS
+                      412  ****************************************************
+                             **************************************************
+                                                           ********************
+                      413  LAMPARA_3
+ EFA8 [05] CDEEBE     414             JSR  ESCRIBE_IR
+ EFAB [02] AE12       415             LDX  #$12
+ EFAD [04] D6F6D2     416             LDA  TABLA,X   ;------------;L
+ EFB0 [05] CDEECF     417             JSR  ESCRIBE_DR
+                      418  
+ EFB3 [02] AE14       419             LDX  #$14
+ EFB5 [04] D6F6D2     420             LDA  TABLA,X   ;------------;a
+ EFB8 [05] CDEECF     421             JSR  ESCRIBE_DR
+                      422  
+ EFBB [02] AE2D       423             LDX  #$2D
+ EFBD [04] D6F6D2     424             LDA  TABLA,X   ;------------;m
+ EFC0 [05] CDEECF     425             JSR  ESCRIBE_DR
+                      426  
+ EFC3 [02] AE1B       427             LDX  #$1B
+ EFC5 [04] D6F6D2     428             LDA  TABLA,X   ;------------;p
+ EFC8 [05] CDEECF     429             JSR  ESCRIBE_DR
+                      430  
+ EFCB [02] AE14       431             LDX  #$14
+ EFCD [04] D6F6D2     432             LDA  TABLA,X   ;------------;a
+ EFD0 [05] CDEECF     433             JSR  ESCRIBE_DR
+                      434  
+ EFD3 [02] AE1C       435             LDX  #$1C
+ EFD5 [04] D6F6D2     436             LDA  TABLA,X   ;------------;r
+ EFD8 [05] CDEECF     437             JSR  ESCRIBE_DR
+                      438  
+ EFDB [02] AE14       439             LDX  #$14
+ EFDD [04] D6F6D2     440             LDA  TABLA,X   ;------------;a
+ EFE0 [05] CDEECF     441             JSR  ESCRIBE_DR
+                      442  
+ EFE3 [02] AE24       443             LDX  #$24
+ EFE5 [04] D6F6D2     444             LDA  TABLA,X   ;------------;espacio
+ EFE8 [05] CDEECF     445             JSR  ESCRIBE_DR
+                      446  
+ EFEB [02] AE03       447             LDX  #$03
+ EFED [04] D6F6D2     448             LDA  TABLA,X   ;------------;nro 3
+ EFF0 [05] CDEECF     449             JSR  ESCRIBE_DR
+                      450  
+ EFF3 [02] AE27       451             LDX  #$27
+ EFF5 [04] D6F6D2     452             LDA  TABLA,X   ;------------;dos puntos
+ EFF8 [05] CDEECF     453             JSR  ESCRIBE_DR
+ EFFB [04] 81         454             RTS
+                      455  
+                      456  ESTADO_3
+ EFFC [05] 040005     457             brset IN_3,PORTA,enc3           ;Si hay 
+                                               un 1 salta a la sub funcion enc1
+ EFFF [01] 9D         458             nop
+ F000 [05] 050005     459             brclr IN_3,PORTA,apa3           ;Si hay 
+                                               un 0 salta a la sub funcion apa1
+ F003 [04] 81         460             rts
+                      461  enc3
+ F004 [05] CDF070     462             JSR  ENCENDIDA
+ F007 [04] 81         463             RTS
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 11
+
+
+
+                      464  apa3
+ F008 [05] CDF0C1     465             JSR  APAGADA
+ F00B [04] 81         466             RTS
+                      467  ****************************************************
+                             **************************************************
+                                                           ********************
+                      468  LAMPARA_4
+ F00C [05] CDEEBE     469             JSR  ESCRIBE_IR
+ F00F [02] AE12       470             LDX  #$12
+ F011 [04] D6F6D2     471             LDA  TABLA,X   ;------------;L
+ F014 [05] CDEECF     472             JSR  ESCRIBE_DR
+                      473  
+ F017 [02] AE14       474             LDX  #$14
+ F019 [04] D6F6D2     475             LDA  TABLA,X   ;------------;a
+ F01C [05] CDEECF     476             JSR  ESCRIBE_DR
+                      477  
+ F01F [02] AE2D       478             LDX  #$2D
+ F021 [04] D6F6D2     479             LDA  TABLA,X   ;------------;m
+ F024 [05] CDEECF     480             JSR  ESCRIBE_DR
+                      481  
+ F027 [02] AE1B       482             LDX  #$1B
+ F029 [04] D6F6D2     483             LDA  TABLA,X   ;------------;p
+ F02C [05] CDEECF     484             JSR  ESCRIBE_DR
+                      485  
+ F02F [02] AE14       486             LDX  #$14
+ F031 [04] D6F6D2     487             LDA  TABLA,X   ;------------;a
+ F034 [05] CDEECF     488             JSR  ESCRIBE_DR
+                      489  
+ F037 [02] AE1C       490             LDX  #$1C
+ F039 [04] D6F6D2     491             LDA  TABLA,X   ;------------;r
+ F03C [05] CDEECF     492             JSR  ESCRIBE_DR
+                      493  
+ F03F [02] AE14       494             LDX  #$14
+ F041 [04] D6F6D2     495             LDA  TABLA,X   ;------------;a
+ F044 [05] CDEECF     496             JSR  ESCRIBE_DR
+                      497  
+ F047 [02] AE24       498             LDX  #$24
+ F049 [04] D6F6D2     499             LDA  TABLA,X   ;------------;espacio
+ F04C [05] CDEECF     500             JSR  ESCRIBE_DR
+                      501  
+ F04F [02] AE04       502             LDX  #$04
+ F051 [04] D6F6D2     503             LDA  TABLA,X   ;------------;nro 4
+ F054 [05] CDEECF     504             JSR  ESCRIBE_DR
+                      505  
+ F057 [02] AE27       506             LDX  #$27
+ F059 [04] D6F6D2     507             LDA  TABLA,X   ;------------;dos puntos
+ F05C [05] CDEECF     508             JSR  ESCRIBE_DR
+ F05F [04] 81         509             RTS
+                      510  
+                      511  ESTADO_4
+ F060 [05] 060005     512             brset IN_4,PORTA,enc4           ;Si hay 
+                                               un 1 salta a la sub funcion enc1
+ F063 [01] 9D         513             nop
+ F064 [05] 070005     514             brclr IN_4,PORTA,apa4           ;Si hay 
+                                               un 0 salta a la sub funcion apa1
+ F067 [04] 81         515             rts
+                      516  enc4
+ F068 [05] CDF070     517             JSR  ENCENDIDA
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 12
+
+
+
+ F06B [04] 81         518             RTS
+                      519  apa4
+ F06C [05] CDF0C1     520             JSR  APAGADA
+ F06F [04] 81         521             RTS
+                      522  ****************************************************
+                             **************************************************
+                                                           ********************
+                      523  ENCENDIDA
+ F070 [02] AE24       524             LDX  #$24
+ F072 [04] D6F6D2     525             LDA  TABLA,X   ;------------;espacio
+ F075 [05] CDEECF     526             JSR  ESCRIBE_DR
+                      527  
+ F078 [02] AE0F       528             LDX  #$0F
+ F07A [04] D6F6D2     529             LDA  TABLA,X   ;------------;E
+ F07D [05] CDEECF     530             JSR  ESCRIBE_DR
+                      531  
+ F080 [02] AE28       532             LDX  #$28
+ F082 [04] D6F6D2     533             LDA  TABLA,X   ;------------;n
+ F085 [05] CDEECF     534             JSR  ESCRIBE_DR
+                      535  
+ F088 [02] AE15       536             LDX  #$15
+ F08A [04] D6F6D2     537             LDA  TABLA,X   ;------------;c
+ F08D [05] CDEECF     538             JSR  ESCRIBE_DR
+                      539  
+ F090 [02] AE26       540             LDX  #$26
+ F092 [04] D6F6D2     541             LDA  TABLA,X   ;------------;e
+ F095 [05] CDEECF     542             JSR  ESCRIBE_DR
+                      543  
+ F098 [02] AE28       544             LDX  #$28
+ F09A [04] D6F6D2     545             LDA  TABLA,X   ;------------;n
+ F09D [05] CDEECF     546             JSR  ESCRIBE_DR
+                      547  
+ F0A0 [02] AE2A       548             LDX  #$2A
+ F0A2 [04] D6F6D2     549             LDA  TABLA,X   ;------------;d
+ F0A5 [05] CDEECF     550             JSR  ESCRIBE_DR
+                      551  
+ F0A8 [02] AE17       552             LDX  #$17
+ F0AA [04] D6F6D2     553             LDA  TABLA,X   ;------------;i
+ F0AD [05] CDEECF     554             JSR  ESCRIBE_DR
+                      555  
+ F0B0 [02] AE2A       556             LDX  #$2A
+ F0B2 [04] D6F6D2     557             LDA  TABLA,X   ;------------;d
+ F0B5 [05] CDEECF     558             JSR  ESCRIBE_DR
+                      559  
+ F0B8 [02] AE14       560             LDX  #$14
+ F0BA [04] D6F6D2     561             LDA  TABLA,X   ;------------;a
+ F0BD [05] CDEECF     562             JSR  ESCRIBE_DR
+ F0C0 [04] 81         563             RTS
+                      564  APAGADA
+ F0C1 [02] AE24       565             LDX  #$24
+ F0C3 [04] D6F6D2     566             LDA  TABLA,X   ;------------;espacio
+ F0C6 [05] CDEECF     567             JSR  ESCRIBE_DR
+                      568  
+ F0C9 [02] AE24       569             LDX  #$24
+ F0CB [04] D6F6D2     570             LDA  TABLA,X   ;------------;espacio
+ F0CE [05] CDEECF     571             JSR  ESCRIBE_DR
+                      572  
+ F0D1 [02] AE2E       573             LDX  #$2E
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 13
+
+
+
+ F0D3 [04] D6F6D2     574             LDA  TABLA,X   ;------------;A
+ F0D6 [05] CDEECF     575             JSR  ESCRIBE_DR
+                      576  
+ F0D9 [02] AE1B       577             LDX  #$1B
+ F0DB [04] D6F6D2     578             LDA  TABLA,X   ;------------;p
+ F0DE [05] CDEECF     579             JSR  ESCRIBE_DR
+                      580  
+ F0E1 [02] AE14       581             LDX  #$14
+ F0E3 [04] D6F6D2     582             LDA  TABLA,X   ;------------;a
+ F0E6 [05] CDEECF     583             JSR  ESCRIBE_DR
+                      584  
+ F0E9 [02] AE16       585             LDX  #$16
+ F0EB [04] D6F6D2     586             LDA  TABLA,X   ;------------;g
+ F0EE [05] CDEECF     587             JSR  ESCRIBE_DR
+                      588  
+ F0F1 [02] AE14       589             LDX  #$14
+ F0F3 [04] D6F6D2     590             LDA  TABLA,X   ;------------;a
+ F0F6 [05] CDEECF     591             JSR  ESCRIBE_DR
+                      592  
+ F0F9 [02] AE2A       593             LDX  #$2A
+ F0FB [04] D6F6D2     594             LDA  TABLA,X   ;------------;d
+ F0FE [05] CDEECF     595             JSR  ESCRIBE_DR
+                      596  
+ F101 [02] AE14       597             LDX  #$14
+ F103 [04] D6F6D2     598             LDA  TABLA,X   ;------------;a
+ F106 [05] CDEECF     599             JSR  ESCRIBE_DR
+                      600  
+ F109 [02] AE24       601             LDX  #$24
+ F10B [04] D6F6D2     602             LDA  TABLA,X   ;------------;espacio
+ F10E [05] CDEECF     603             JSR  ESCRIBE_DR
+ F111 [04] 81         604             RTS
+                      605  ****************************************************
+                             **************************************************
+                                                           ********************
+                      606  UTN_FRT
+ F112 [05] CDEEBE     607             JSR  ESCRIBE_IR
+ F115 [02] AE0D       608             LDX  #$0D
+ F117 [04] D6F6D2     609             LDA  TABLA,X              ;U
+ F11A [05] CDEECF     610             JSR  ESCRIBE_DR
+ F11D [02] AE0C       611             LDX  #$0C
+ F11F [04] D6F6D2     612             LDA  TABLA,X              ;T
+ F122 [05] CDEECF     613             JSR  ESCRIBE_DR
+ F125 [02] AE13       614             LDX  #$13
+ F127 [04] D6F6D2     615             LDA  TABLA,X              ;N
+ F12A [05] CDEECF     616             JSR  ESCRIBE_DR
+ F12D [02] AE24       617             LDX  #$24
+ F12F [04] D6F6D2     618             LDA  TABLA,X
+ F132 [05] CDEECF     619             JSR  ESCRIBE_DR           ;ESPACIO
+ F135 [02] AE10       620             LDX  #$10
+ F137 [04] D6F6D2     621             LDA  TABLA,X              ;F
+ F13A [05] CDEECF     622             JSR  ESCRIBE_DR
+ F13D [02] AE0B       623             LDX  #$0B
+ F13F [04] D6F6D2     624             LDA  TABLA,X              ;R
+ F142 [05] CDEECF     625             JSR  ESCRIBE_DR
+ F145 [02] AE0C       626             LDX  #$0C
+ F147 [04] D6F6D2     627             LDA  TABLA,X              ;T
+ F14A [05] CDEECF     628             JSR  ESCRIBE_DR
+ F14D [04] 81         629             RTS
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 14
+
+
+
+                      630  ****************************************************
+                             **************************************************
+                                                           ********************
+                      631  FINAL
+ F14E [05] CDEEBE     632             JSR  ESCRIBE_IR
+ F151 [02] AE10       633             LDX  #$10
+ F153 [04] D6F6D2     634             LDA  TABLA,X   ;------------;F
+ F156 [05] CDEECF     635             JSR  ESCRIBE_DR
+ F159 [02] AE2F       636             LDX  #$2F
+ F15B [04] D6F6D2     637             LDA  TABLA,X   ;------------;I
+ F15E [05] CDEECF     638             JSR  ESCRIBE_DR
+ F161 [02] AE13       639             LDX  #$13
+ F163 [04] D6F6D2     640             LDA  TABLA,X   ;------------;N
+ F166 [05] CDEECF     641             JSR  ESCRIBE_DR
+ F169 [02] AE2E       642             LDX  #$2E
+ F16B [04] D6F6D2     643             LDA  TABLA,X   ;------------;A
+ F16E [05] CDEECF     644             JSR  ESCRIBE_DR
+ F171 [02] AE12       645             LDX  #$12
+ F173 [04] D6F6D2     646             LDA  TABLA,X   ;------------;L
+ F176 [05] CDEECF     647             JSR  ESCRIBE_DR
+ F179 [04] 81         648             RTS
+                      649  ****************************************************
+                             **************************************************
+                                                           ********************
+                      650  TDII
+ F17A [05] CDEEBE     651             JSR  ESCRIBE_IR
+ F17D [02] AE0C       652             LDX  #$0C
+ F17F [04] D6F6D2     653             LDA  TABLA,X   ;------------;T
+ F182 [05] CDEECF     654             JSR  ESCRIBE_DR
+ F185 [02] AE26       655             LDX  #$26
+ F187 [04] D6F6D2     656             LDA  TABLA,X   ;------------;e
+ F18A [05] CDEECF     657             JSR  ESCRIBE_DR
+ F18D [02] AE15       658             LDX  #$15
+ F18F [04] D6F6D2     659             LDA  TABLA,X   ;------------;c
+ F192 [05] CDEECF     660             JSR  ESCRIBE_DR
+ F195 [02] AE28       661             LDX  #$28
+ F197 [04] D6F6D2     662             LDA  TABLA,X   ;------------;n
+ F19A [05] CDEECF     663             JSR  ESCRIBE_DR
+ F19D [02] AE17       664             LDX  #$17
+ F19F [04] D6F6D2     665             LDA  TABLA,X   ;------------;i
+ F1A2 [05] CDEECF     666             JSR  ESCRIBE_DR
+ F1A5 [02] AE15       667             LDX  #$15
+ F1A7 [04] D6F6D2     668             LDA  TABLA,X   ;------------;c
+ F1AA [05] CDEECF     669             JSR  ESCRIBE_DR
+ F1AD [02] AE14       670             LDX  #$14
+ F1AF [04] D6F6D2     671             LDA  TABLA,X   ;------------;a
+ F1B2 [05] CDEECF     672             JSR  ESCRIBE_DR
+ F1B5 [02] AE1D       673             LDX  #$1D
+ F1B7 [04] D6F6D2     674             LDA  TABLA,X   ;------------;s
+ F1BA [05] CDEECF     675             JSR  ESCRIBE_DR
+ F1BD [02] AE24       676             LDX  #$24
+ F1BF [04] D6F6D2     677             LDA  TABLA,X   ;------------;espacio
+ F1C2 [05] CDEECF     678             JSR  ESCRIBE_DR
+ F1C5 [02] AE30       679             LDX  #$30
+ F1C7 [04] D6F6D2     680             LDA  TABLA,X   ;------------;D
+ F1CA [05] CDEECF     681             JSR  ESCRIBE_DR
+ F1CD [02] AE17       682             LDX  #$17
+ F1CF [04] D6F6D2     683             LDA  TABLA,X   ;------------;i
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 15
+
+
+
+ F1D2 [05] CDEECF     684             JSR  ESCRIBE_DR
+ F1D5 [02] AE16       685             LDX  #$16
+ F1D7 [04] D6F6D2     686             LDA  TABLA,X   ;------------;g
+ F1DA [05] CDEECF     687             JSR  ESCRIBE_DR
+ F1DD [02] AE17       688             LDX  #$17
+ F1DF [04] D6F6D2     689             LDA  TABLA,X   ;------------;i
+ F1E2 [05] CDEECF     690             JSR  ESCRIBE_DR
+ F1E5 [02] AE31       691             LDX  #$31
+ F1E7 [04] D6F6D2     692             LDA  TABLA,X   ;------------;t
+ F1EA [05] CDEECF     693             JSR  ESCRIBE_DR
+ F1ED [02] AE14       694             LDX  #$14
+ F1EF [04] D6F6D2     695             LDA  TABLA,X   ;------------;a
+ F1F2 [05] CDEECF     696             JSR  ESCRIBE_DR
+ F1F5 [02] AE19       697             LDX  #$19
+ F1F7 [04] D6F6D2     698             LDA  TABLA,X   ;------------;l
+ F1FA [05] CDEECF     699             JSR  ESCRIBE_DR
+ F1FD [02] AE26       700             LDX  #$26
+ F1FF [04] D6F6D2     701             LDA  TABLA,X   ;------------;e
+ F202 [05] CDEECF     702             JSR  ESCRIBE_DR
+ F205 [02] AE1D       703             LDX  #$1D
+ F207 [04] D6F6D2     704             LDA  TABLA,X   ;------------;s
+ F20A [05] CDEECF     705             JSR  ESCRIBE_DR
+ F20D [02] AE2F       706             LDX  #$2F
+ F20F [04] D6F6D2     707             LDA  TABLA,X   ;------------;I
+ F212 [05] CDEECF     708             JSR  ESCRIBE_DR
+ F215 [02] AE2F       709             LDX  #$2F
+ F217 [04] D6F6D2     710             LDA  TABLA,X   ;------------;I
+ F21A [05] CDEECF     711             JSR  ESCRIBE_DR
+ F21D [04] 81         712             RTS
+                      713  ****************************************************
+                             **************************************************
+                                                           ********************
+                      714  LINEA_VACIA
+ F21E [05] CDEEBE     715             JSR  ESCRIBE_IR
+ F221 [02] AE24       716             LDX  #$24
+ F223 [04] D6F6D2     717             LDA  TABLA,X   ;------------;ESPACIO
+ F226 [05] CDEECF     718             JSR  ESCRIBE_DR
+ F229 [02] AE24       719             LDX  #$24
+ F22B [04] D6F6D2     720             LDA  TABLA,X   ;------------;ESPACIO
+ F22E [05] CDEECF     721             JSR  ESCRIBE_DR
+ F231 [02] AE24       722             LDX  #$24
+ F233 [04] D6F6D2     723             LDA  TABLA,X   ;------------;ESPACIO
+ F236 [05] CDEECF     724             JSR  ESCRIBE_DR
+ F239 [02] AE24       725             LDX  #$24
+ F23B [04] D6F6D2     726             LDA  TABLA,X   ;------------;ESPACIO
+ F23E [05] CDEECF     727             JSR  ESCRIBE_DR
+ F241 [02] AE24       728             LDX  #$24
+ F243 [04] D6F6D2     729             LDA  TABLA,X   ;------------;ESPACIO
+ F246 [05] CDEECF     730             JSR  ESCRIBE_DR
+ F249 [02] AE24       731             LDX  #$24
+ F24B [04] D6F6D2     732             LDA  TABLA,X   ;------------;ESPACIO
+ F24E [05] CDEECF     733             JSR  ESCRIBE_DR
+ F251 [02] AE24       734             LDX  #$24
+ F253 [04] D6F6D2     735             LDA  TABLA,X   ;------------;ESPACIO
+ F256 [05] CDEECF     736             JSR  ESCRIBE_DR
+ F259 [02] AE24       737             LDX  #$24
+ F25B [04] D6F6D2     738             LDA  TABLA,X   ;------------;ESPACIO
+ F25E [05] CDEECF     739             JSR  ESCRIBE_DR
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 16
+
+
+
+ F261 [02] AE24       740             LDX  #$24
+ F263 [04] D6F6D2     741             LDA  TABLA,X   ;------------;ESPACIO
+ F266 [05] CDEECF     742             JSR  ESCRIBE_DR
+ F269 [02] AE24       743             LDX  #$24
+ F26B [04] D6F6D2     744             LDA  TABLA,X   ;------------;ESPACIO
+ F26E [05] CDEECF     745             JSR  ESCRIBE_DR             ;termina 
+                             siempre con este salto, sino borra la ultima letra
+ F271 [02] AE24       746             LDX  #$24
+ F273 [04] D6F6D2     747             LDA  TABLA,X   ;------------;espacio
+ F276 [05] CDEECF     748             JSR  ESCRIBE_DR
+ F279 [02] AE24       749             LDX  #$24
+ F27B [04] D6F6D2     750             LDA  TABLA,X   ;------------;espacio
+ F27E [05] CDEECF     751             JSR  ESCRIBE_DR
+ F281 [02] AE24       752             LDX  #$24
+ F283 [04] D6F6D2     753             LDA  TABLA,X   ;------------;ESPACIO
+ F286 [05] CDEECF     754             JSR  ESCRIBE_DR
+ F289 [02] AE24       755             LDX  #$24
+ F28B [04] D6F6D2     756             LDA  TABLA,X   ;------------;ESPACIO
+ F28E [05] CDEECF     757             JSR  ESCRIBE_DR
+ F291 [02] AE24       758             LDX  #$24
+ F293 [04] D6F6D2     759             LDA  TABLA,X   ;------------;ESPACIO
+ F296 [05] CDEECF     760             JSR  ESCRIBE_DR
+ F299 [02] AE24       761             LDX  #$24
+ F29B [04] D6F6D2     762             LDA  TABLA,X   ;------------;ESPACIO
+ F29E [05] CDEECF     763             JSR  ESCRIBE_DR
+ F2A1 [02] AE24       764             LDX  #$24
+ F2A3 [04] D6F6D2     765             LDA  TABLA,X   ;------------;ESPACIO
+ F2A6 [05] CDEECF     766             JSR  ESCRIBE_DR
+ F2A9 [02] AE24       767             LDX  #$24
+ F2AB [04] D6F6D2     768             LDA  TABLA,X   ;------------;ESPACIO
+ F2AE [05] CDEECF     769             JSR  ESCRIBE_DR
+ F2B1 [02] AE24       770             LDX  #$24
+ F2B3 [04] D6F6D2     771             LDA  TABLA,X   ;------------;ESPACIO
+ F2B6 [05] CDEECF     772             JSR  ESCRIBE_DR
+ F2B9 [02] AE24       773             LDX  #$24
+ F2BB [04] D6F6D2     774             LDA  TABLA,X   ;------------;ESPACIO
+ F2BE [05] CDEECF     775             JSR  ESCRIBE_DR
+ F2C1 [04] 81         776             RTS
+                      777  ****************************************************
+                             **************************************************
+                                                           ********************
+                      778  AÑO
+ F2C2 [05] CDEEBE     779             JSR  ESCRIBE_IR
+ F2C5 [02] AE2E       780             LDX  #$2E
+ F2C7 [04] D6F6D2     781             LDA  TABLA,X   ;------------;A
+ F2CA [05] CDEECF     782             JSR  ESCRIBE_DR
+ F2CD [02] AE32       783             LDX  #$32
+ F2CF [04] D6F6D2     784             LDA  TABLA,X   ;------------;ñ
+ F2D2 [05] CDEECF     785             JSR  ESCRIBE_DR
+ F2D5 [02] AE1A       786             LDX  #$1A
+ F2D7 [04] D6F6D2     787             LDA  TABLA,X   ;------------;o
+ F2DA [05] CDEECF     788             JSR  ESCRIBE_DR
+ F2DD [02] AE27       789             LDX  #$27
+ F2DF [04] D6F6D2     790             LDA  TABLA,X   ;------------;DOS PUNTOS
+ F2E2 [05] CDEECF     791             JSR  ESCRIBE_DR
+ F2E5 [02] AE24       792             LDX  #$24
+ F2E7 [04] D6F6D2     793             LDA  TABLA,X   ;------------;ESPACIO
+ F2EA [05] CDEECF     794             JSR  ESCRIBE_DR
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 17
+
+
+
+ F2ED [02] AE02       795             LDX  #$02
+ F2EF [04] D6F6D2     796             LDA  TABLA,X   ;------------;2
+ F2F2 [05] CDEECF     797             JSR  ESCRIBE_DR
+ F2F5 [02] AE00       798             LDX  #$00
+ F2F7 [04] D6F6D2     799             LDA  TABLA,X   ;------------;0
+ F2FA [05] CDEECF     800             JSR  ESCRIBE_DR
+ F2FD [02] AE01       801             LDX  #$01
+ F2FF [04] D6F6D2     802             LDA  TABLA,X   ;------------;1
+ F302 [05] CDEECF     803             JSR  ESCRIBE_DR
+ F305 [02] AE04       804             LDX  #$04
+ F307 [04] D6F6D2     805             LDA  TABLA,X   ;------------;4
+ F30A [05] CDEECF     806             JSR  ESCRIBE_DR
+ F30D [04] 81         807             RTS
+                      808  ****************************************************
+                             **************************************************
+                                                           ********************
+                      809  ALUMNO
+ F30E [05] CDEEBE     810             JSR  ESCRIBE_IR
+ F311 [02] AE2E       811             LDX  #$2E
+ F313 [04] D6F6D2     812             LDA  TABLA,X   ;------------;A
+ F316 [05] CDEECF     813             JSR  ESCRIBE_DR
+ F319 [02] AE19       814             LDX  #$19
+ F31B [04] D6F6D2     815             LDA  TABLA,X   ;------------;l
+ F31E [05] CDEECF     816             JSR  ESCRIBE_DR
+ F321 [02] AE1E       817             LDX  #$1E
+ F323 [04] D6F6D2     818             LDA  TABLA,X   ;------------;u
+ F326 [05] CDEECF     819             JSR  ESCRIBE_DR
+ F329 [02] AE2D       820             LDX  #$2D
+ F32B [04] D6F6D2     821             LDA  TABLA,X   ;------------;m
+ F32E [05] CDEECF     822             JSR  ESCRIBE_DR
+ F331 [02] AE28       823             LDX  #$28
+ F333 [04] D6F6D2     824             LDA  TABLA,X   ;------------;n
+ F336 [05] CDEECF     825             JSR  ESCRIBE_DR
+ F339 [02] AE1A       826             LDX  #$1A
+ F33B [04] D6F6D2     827             LDA  TABLA,X   ;------------;o
+ F33E [05] CDEECF     828             JSR  ESCRIBE_DR
+ F341 [02] AE27       829             LDX  #$27
+ F343 [04] D6F6D2     830             LDA  TABLA,X   ;------------;dos puntos
+ F346 [05] CDEECF     831             JSR  ESCRIBE_DR             ;termina 
+                             siempre con este salto, sino borra la ultima letra
+ F349 [04] 81         832             RTS
+                      833  ****************************************************
+                             **************************************************
+                                                           ********************
+                      834  CARLOS_BELMONTE
+ F34A [05] CDEEBE     835             JSR  ESCRIBE_IR
+ F34D [02] AE24       836             LDX  #$24
+ F34F [04] D6F6D2     837             LDA  TABLA,X   ;------------;ESPACIO
+ F352 [05] CDEECF     838             JSR  ESCRIBE_DR
+ F355 [02] AE0E       839             LDX  #$0E
+ F357 [04] D6F6D2     840             LDA  TABLA,X   ;------------;C
+ F35A [05] CDEECF     841             JSR  ESCRIBE_DR
+ F35D [02] AE14       842             LDX  #$14
+ F35F [04] D6F6D2     843             LDA  TABLA,X   ;------------;a
+ F362 [05] CDEECF     844             JSR  ESCRIBE_DR
+ F365 [02] AE1C       845             LDX  #$1C
+ F367 [04] D6F6D2     846             LDA  TABLA,X   ;------------;r
+ F36A [05] CDEECF     847             JSR  ESCRIBE_DR
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 18
+
+
+
+ F36D [02] AE19       848             LDX  #$19
+ F36F [04] D6F6D2     849             LDA  TABLA,X   ;------------;l
+ F372 [05] CDEECF     850             JSR  ESCRIBE_DR
+ F375 [02] AE1A       851             LDX  #$1A
+ F377 [04] D6F6D2     852             LDA  TABLA,X   ;------------;o
+ F37A [05] CDEECF     853             JSR  ESCRIBE_DR
+ F37D [02] AE1D       854             LDX  #$1D
+ F37F [04] D6F6D2     855             LDA  TABLA,X   ;------------;s
+ F382 [05] CDEECF     856             JSR  ESCRIBE_DR
+ F385 [02] AE24       857             LDX  #$24
+ F387 [04] D6F6D2     858             LDA  TABLA,X   ;------------;ESPACIO
+ F38A [05] CDEECF     859             JSR  ESCRIBE_DR
+ F38D [02] AE29       860             LDX  #$29
+ F38F [04] D6F6D2     861             LDA  TABLA,X   ;------------;B
+ F392 [05] CDEECF     862             JSR  ESCRIBE_DR
+ F395 [02] AE26       863             LDX  #$26
+ F397 [04] D6F6D2     864             LDA  TABLA,X   ;------------;e
+ F39A [05] CDEECF     865             JSR  ESCRIBE_DR
+ F39D [02] AE19       866             LDX  #$19
+ F39F [04] D6F6D2     867             LDA  TABLA,X   ;------------;l
+ F3A2 [05] CDEECF     868             JSR  ESCRIBE_DR
+ F3A5 [02] AE2D       869             LDX  #$2D
+ F3A7 [04] D6F6D2     870             LDA  TABLA,X   ;------------;m
+ F3AA [05] CDEECF     871             JSR  ESCRIBE_DR
+ F3AD [02] AE1A       872             LDX  #$1A
+ F3AF [04] D6F6D2     873             LDA  TABLA,X   ;------------;o
+ F3B2 [05] CDEECF     874             JSR  ESCRIBE_DR
+ F3B5 [05] CDF6B4     875             JSR  RETARDO
+ F3B8 [05] CDF6B4     876             JSR  RETARDO
+ F3BB [05] CDF6B4     877             JSR  RETARDO
+ F3BE [02] A687       878             LDA  #%10000111            ;SET DDRAM 
+                                     $07. Va a la posicion 7 de la primera fila
+ F3C0 [05] CDEEBE     879             JSR  ESCRIBE_IR
+ F3C3 [02] AE24       880             LDX  #$24
+ F3C5 [04] D6F6D2     881             LDA  TABLA,X   ;------------;ESPACIO
+ F3C8 [05] CDEECF     882             JSR  ESCRIBE_DR
+ F3CB [02] AE14       883             LDX  #$14
+ F3CD [04] D6F6D2     884             LDA  TABLA,X   ;------------;a
+ F3D0 [05] CDEECF     885             JSR  ESCRIBE_DR
+ F3D3 [02] AE1C       886             LDX  #$1C
+ F3D5 [04] D6F6D2     887             LDA  TABLA,X   ;------------;r
+ F3D8 [05] CDEECF     888             JSR  ESCRIBE_DR
+ F3DB [02] AE19       889             LDX  #$19
+ F3DD [04] D6F6D2     890             LDA  TABLA,X   ;------------;l
+ F3E0 [05] CDEECF     891             JSR  ESCRIBE_DR
+ F3E3 [02] AE1A       892             LDX  #$1A
+ F3E5 [04] D6F6D2     893             LDA  TABLA,X   ;------------;o
+ F3E8 [05] CDEECF     894             JSR  ESCRIBE_DR
+ F3EB [02] AE1D       895             LDX  #$1D
+ F3ED [04] D6F6D2     896             LDA  TABLA,X   ;------------;s
+ F3F0 [05] CDEECF     897             JSR  ESCRIBE_DR
+ F3F3 [02] AE24       898             LDX  #$24
+ F3F5 [04] D6F6D2     899             LDA  TABLA,X   ;------------;ESPACIO
+ F3F8 [05] CDEECF     900             JSR  ESCRIBE_DR
+ F3FB [02] AE29       901             LDX  #$29
+ F3FD [04] D6F6D2     902             LDA  TABLA,X   ;------------;B
+ F400 [05] CDEECF     903             JSR  ESCRIBE_DR
+ F403 [02] AE26       904             LDX  #$26
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 19
+
+
+
+ F405 [04] D6F6D2     905             LDA  TABLA,X   ;------------;e
+ F408 [05] CDEECF     906             JSR  ESCRIBE_DR
+ F40B [02] AE19       907             LDX  #$19
+ F40D [04] D6F6D2     908             LDA  TABLA,X   ;------------;l
+ F410 [05] CDEECF     909             JSR  ESCRIBE_DR
+ F413 [02] AE2D       910             LDX  #$2D
+ F415 [04] D6F6D2     911             LDA  TABLA,X   ;------------;m
+ F418 [05] CDEECF     912             JSR  ESCRIBE_DR
+ F41B [02] AE1A       913             LDX  #$1A
+ F41D [04] D6F6D2     914             LDA  TABLA,X   ;------------;o
+ F420 [05] CDEECF     915             JSR  ESCRIBE_DR
+ F423 [02] AE28       916             LDX  #$28
+ F425 [04] D6F6D2     917             LDA  TABLA,X   ;------------;n
+ F428 [05] CDEECF     918             JSR  ESCRIBE_DR
+ F42B [05] CDF6B4     919             JSR  RETARDO
+ F42E [02] A687       920             LDA  #%10000111            ;SET DDRAM 
+                                     $07. Va a la posicion 7 de la primera fila
+ F430 [05] CDEEBE     921             JSR  ESCRIBE_IR
+ F433 [02] AE24       922             LDX  #$24
+ F435 [04] D6F6D2     923             LDA  TABLA,X   ;------------;ESPACIO
+ F438 [05] CDEECF     924             JSR  ESCRIBE_DR
+ F43B [02] AE1C       925             LDX  #$1C
+ F43D [04] D6F6D2     926             LDA  TABLA,X   ;------------;r
+ F440 [05] CDEECF     927             JSR  ESCRIBE_DR
+ F443 [02] AE19       928             LDX  #$19
+ F445 [04] D6F6D2     929             LDA  TABLA,X   ;------------;l
+ F448 [05] CDEECF     930             JSR  ESCRIBE_DR
+ F44B [02] AE1A       931             LDX  #$1A
+ F44D [04] D6F6D2     932             LDA  TABLA,X   ;------------;o
+ F450 [05] CDEECF     933             JSR  ESCRIBE_DR
+ F453 [02] AE1D       934             LDX  #$1D
+ F455 [04] D6F6D2     935             LDA  TABLA,X   ;------------;s
+ F458 [05] CDEECF     936             JSR  ESCRIBE_DR
+ F45B [02] AE24       937             LDX  #$24
+ F45D [04] D6F6D2     938             LDA  TABLA,X   ;------------;ESPACIO
+ F460 [05] CDEECF     939             JSR  ESCRIBE_DR
+ F463 [02] AE29       940             LDX  #$29
+ F465 [04] D6F6D2     941             LDA  TABLA,X   ;------------;B
+ F468 [05] CDEECF     942             JSR  ESCRIBE_DR
+ F46B [02] AE26       943             LDX  #$26
+ F46D [04] D6F6D2     944             LDA  TABLA,X   ;------------;e
+ F470 [05] CDEECF     945             JSR  ESCRIBE_DR
+ F473 [02] AE19       946             LDX  #$19
+ F475 [04] D6F6D2     947             LDA  TABLA,X   ;------------;l
+ F478 [05] CDEECF     948             JSR  ESCRIBE_DR
+ F47B [02] AE2D       949             LDX  #$2D
+ F47D [04] D6F6D2     950             LDA  TABLA,X   ;------------;m
+ F480 [05] CDEECF     951             JSR  ESCRIBE_DR
+ F483 [02] AE1A       952             LDX  #$1A
+ F485 [04] D6F6D2     953             LDA  TABLA,X   ;------------;o
+ F488 [05] CDEECF     954             JSR  ESCRIBE_DR
+ F48B [02] AE28       955             LDX  #$28
+ F48D [04] D6F6D2     956             LDA  TABLA,X   ;------------;n
+ F490 [05] CDEECF     957             JSR  ESCRIBE_DR
+ F493 [02] AE31       958             LDX  #$31
+ F495 [04] D6F6D2     959             LDA  TABLA,X   ;------------;t
+ F498 [05] CDEECF     960             JSR  ESCRIBE_DR
+ F49B [05] CDF6B4     961             JSR  RETARDO
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 20
+
+
+
+ F49E [02] A687       962             LDA  #%10000111            ;SET DDRAM 
+                                     $07. Va a la posicion 7 de la primera fila
+ F4A0 [05] CDEEBE     963             JSR  ESCRIBE_IR
+ F4A3 [02] AE24       964             LDX  #$24
+ F4A5 [04] D6F6D2     965             LDA  TABLA,X   ;------------;ESPACIO
+ F4A8 [05] CDEECF     966             JSR  ESCRIBE_DR
+ F4AB [02] AE19       967             LDX  #$19
+ F4AD [04] D6F6D2     968             LDA  TABLA,X   ;------------;l
+ F4B0 [05] CDEECF     969             JSR  ESCRIBE_DR
+ F4B3 [02] AE1A       970             LDX  #$1A
+ F4B5 [04] D6F6D2     971             LDA  TABLA,X   ;------------;o
+ F4B8 [05] CDEECF     972             JSR  ESCRIBE_DR
+ F4BB [02] AE1D       973             LDX  #$1D
+ F4BD [04] D6F6D2     974             LDA  TABLA,X   ;------------;s
+ F4C0 [05] CDEECF     975             JSR  ESCRIBE_DR
+ F4C3 [02] AE24       976             LDX  #$24
+ F4C5 [04] D6F6D2     977             LDA  TABLA,X   ;------------;ESPACIO
+ F4C8 [05] CDEECF     978             JSR  ESCRIBE_DR
+ F4CB [02] AE29       979             LDX  #$29
+ F4CD [04] D6F6D2     980             LDA  TABLA,X   ;------------;B
+ F4D0 [05] CDEECF     981             JSR  ESCRIBE_DR
+ F4D3 [02] AE26       982             LDX  #$26
+ F4D5 [04] D6F6D2     983             LDA  TABLA,X   ;------------;e
+ F4D8 [05] CDEECF     984             JSR  ESCRIBE_DR
+ F4DB [02] AE19       985             LDX  #$19
+ F4DD [04] D6F6D2     986             LDA  TABLA,X   ;------------;l
+ F4E0 [05] CDEECF     987             JSR  ESCRIBE_DR
+ F4E3 [02] AE2D       988             LDX  #$2D
+ F4E5 [04] D6F6D2     989             LDA  TABLA,X   ;------------;m
+ F4E8 [05] CDEECF     990             JSR  ESCRIBE_DR
+ F4EB [02] AE1A       991             LDX  #$1A
+ F4ED [04] D6F6D2     992             LDA  TABLA,X   ;------------;o
+ F4F0 [05] CDEECF     993             JSR  ESCRIBE_DR
+ F4F3 [02] AE28       994             LDX  #$28
+ F4F5 [04] D6F6D2     995             LDA  TABLA,X   ;------------;n
+ F4F8 [05] CDEECF     996             JSR  ESCRIBE_DR
+ F4FB [02] AE31       997             LDX  #$31
+ F4FD [04] D6F6D2     998             LDA  TABLA,X   ;------------;t
+ F500 [05] CDEECF     999             JSR  ESCRIBE_DR
+ F503 [02] AE26      1000             LDX  #$26
+ F505 [04] D6F6D2    1001             LDA  TABLA,X   ;------------;e
+ F508 [05] CDEECF    1002             JSR  ESCRIBE_DR
+ F50B [05] CDF6B4    1003             JSR  RETARDO
+ F50E [02] A687      1004             LDA  #%10000111            ;SET DDRAM 
+                                     $07. Va a la posicion 7 de la primera fila
+ F510 [05] CDEEBE    1005             JSR  ESCRIBE_IR
+ F513 [02] AE24      1006             LDX  #$24
+ F515 [04] D6F6D2    1007             LDA  TABLA,X   ;------------;ESPACIO
+ F518 [05] CDEECF    1008             JSR  ESCRIBE_DR
+ F51B [02] AE1A      1009             LDX  #$1A
+ F51D [04] D6F6D2    1010             LDA  TABLA,X   ;------------;o
+ F520 [05] CDEECF    1011             JSR  ESCRIBE_DR
+ F523 [02] AE1D      1012             LDX  #$1D
+ F525 [04] D6F6D2    1013             LDA  TABLA,X   ;------------;s
+ F528 [05] CDEECF    1014             JSR  ESCRIBE_DR
+ F52B [02] AE24      1015             LDX  #$24
+ F52D [04] D6F6D2    1016             LDA  TABLA,X   ;------------;ESPACIO
+ F530 [05] CDEECF    1017             JSR  ESCRIBE_DR
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 21
+
+
+
+ F533 [02] AE29      1018             LDX  #$29
+ F535 [04] D6F6D2    1019             LDA  TABLA,X   ;------------;B
+ F538 [05] CDEECF    1020             JSR  ESCRIBE_DR
+ F53B [02] AE26      1021             LDX  #$26
+ F53D [04] D6F6D2    1022             LDA  TABLA,X   ;------------;e
+ F540 [05] CDEECF    1023             JSR  ESCRIBE_DR
+ F543 [02] AE19      1024             LDX  #$19
+ F545 [04] D6F6D2    1025             LDA  TABLA,X   ;------------;l
+ F548 [05] CDEECF    1026             JSR  ESCRIBE_DR
+ F54B [02] AE2D      1027             LDX  #$2D
+ F54D [04] D6F6D2    1028             LDA  TABLA,X   ;------------;m
+ F550 [05] CDEECF    1029             JSR  ESCRIBE_DR
+ F553 [02] AE1A      1030             LDX  #$1A
+ F555 [04] D6F6D2    1031             LDA  TABLA,X   ;------------;o
+ F558 [05] CDEECF    1032             JSR  ESCRIBE_DR
+ F55B [02] AE28      1033             LDX  #$28
+ F55D [04] D6F6D2    1034             LDA  TABLA,X   ;------------;n
+ F560 [05] CDEECF    1035             JSR  ESCRIBE_DR
+ F563 [02] AE31      1036             LDX  #$31
+ F565 [04] D6F6D2    1037             LDA  TABLA,X   ;------------;t
+ F568 [05] CDEECF    1038             JSR  ESCRIBE_DR
+ F56B [02] AE26      1039             LDX  #$26
+ F56D [04] D6F6D2    1040             LDA  TABLA,X   ;------------;e
+ F570 [05] CDEECF    1041             JSR  ESCRIBE_DR
+ F573 [02] AE24      1042             LDX  #$24
+ F575 [04] D6F6D2    1043             LDA  TABLA,X   ;------------;ESPACIO
+ F578 [05] CDEECF    1044             JSR  ESCRIBE_DR
+ F57B [05] CDF6B4    1045             JSR  RETARDO
+ F57E [02] A687      1046             LDA  #%10000111            ;SET DDRAM 
+                                     $07. Va a la posicion 7 de la primera fila
+ F580 [05] CDEEBE    1047             JSR  ESCRIBE_IR
+ F583 [02] AE24      1048             LDX  #$24
+ F585 [04] D6F6D2    1049             LDA  TABLA,X   ;------------;ESPACIO
+ F588 [05] CDEECF    1050             JSR  ESCRIBE_DR
+ F58B [02] AE1D      1051             LDX  #$1D
+ F58D [04] D6F6D2    1052             LDA  TABLA,X   ;------------;s
+ F590 [05] CDEECF    1053             JSR  ESCRIBE_DR
+ F593 [02] AE24      1054             LDX  #$24
+ F595 [04] D6F6D2    1055             LDA  TABLA,X   ;------------;ESPACIO
+ F598 [05] CDEECF    1056             JSR  ESCRIBE_DR
+ F59B [02] AE29      1057             LDX  #$29
+ F59D [04] D6F6D2    1058             LDA  TABLA,X   ;------------;B
+ F5A0 [05] CDEECF    1059             JSR  ESCRIBE_DR
+ F5A3 [02] AE26      1060             LDX  #$26
+ F5A5 [04] D6F6D2    1061             LDA  TABLA,X   ;------------;e
+ F5A8 [05] CDEECF    1062             JSR  ESCRIBE_DR
+ F5AB [02] AE19      1063             LDX  #$19
+ F5AD [04] D6F6D2    1064             LDA  TABLA,X   ;------------;l
+ F5B0 [05] CDEECF    1065             JSR  ESCRIBE_DR
+ F5B3 [02] AE2D      1066             LDX  #$2D
+ F5B5 [04] D6F6D2    1067             LDA  TABLA,X   ;------------;m
+ F5B8 [05] CDEECF    1068             JSR  ESCRIBE_DR
+ F5BB [02] AE1A      1069             LDX  #$1A
+ F5BD [04] D6F6D2    1070             LDA  TABLA,X   ;------------;o
+ F5C0 [05] CDEECF    1071             JSR  ESCRIBE_DR
+ F5C3 [02] AE28      1072             LDX  #$28
+ F5C5 [04] D6F6D2    1073             LDA  TABLA,X   ;------------;n
+ F5C8 [05] CDEECF    1074             JSR  ESCRIBE_DR
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 22
+
+
+
+ F5CB [02] AE31      1075             LDX  #$31
+ F5CD [04] D6F6D2    1076             LDA  TABLA,X   ;------------;t
+ F5D0 [05] CDEECF    1077             JSR  ESCRIBE_DR
+ F5D3 [02] AE26      1078             LDX  #$26
+ F5D5 [04] D6F6D2    1079             LDA  TABLA,X   ;------------;e
+ F5D8 [05] CDEECF    1080             JSR  ESCRIBE_DR
+ F5DB [02] AE24      1081             LDX  #$24
+ F5DD [04] D6F6D2    1082             LDA  TABLA,X   ;------------;ESPACIO
+ F5E0 [05] CDEECF    1083             JSR  ESCRIBE_DR
+ F5E3 [02] AE24      1084             LDX  #$24
+ F5E5 [04] D6F6D2    1085             LDA  TABLA,X   ;------------;ESPACIO
+ F5E8 [05] CDEECF    1086             JSR  ESCRIBE_DR
+ F5EB [05] CDF6B4    1087             JSR  RETARDO
+ F5EE [02] A687      1088             LDA  #%10000111            ;SET DDRAM 
+                                     $07. Va a la posicion 7 de la primera fila
+ F5F0 [05] CDEEBE    1089             JSR  ESCRIBE_IR
+ F5F3 [02] AE24      1090             LDX  #$24
+ F5F5 [04] D6F6D2    1091             LDA  TABLA,X   ;------------;ESPACIO
+ F5F8 [05] CDEECF    1092             JSR  ESCRIBE_DR
+ F5FB [02] AE24      1093             LDX  #$24
+ F5FD [04] D6F6D2    1094             LDA  TABLA,X   ;------------;ESPACIO
+ F600 [05] CDEECF    1095             JSR  ESCRIBE_DR
+ F603 [02] AE29      1096             LDX  #$29
+ F605 [04] D6F6D2    1097             LDA  TABLA,X   ;------------;B
+ F608 [05] CDEECF    1098             JSR  ESCRIBE_DR
+ F60B [02] AE26      1099             LDX  #$26
+ F60D [04] D6F6D2    1100             LDA  TABLA,X   ;------------;e
+ F610 [05] CDEECF    1101             JSR  ESCRIBE_DR
+ F613 [02] AE19      1102             LDX  #$19
+ F615 [04] D6F6D2    1103             LDA  TABLA,X   ;------------;l
+ F618 [05] CDEECF    1104             JSR  ESCRIBE_DR
+ F61B [02] AE2D      1105             LDX  #$2D
+ F61D [04] D6F6D2    1106             LDA  TABLA,X   ;------------;m
+ F620 [05] CDEECF    1107             JSR  ESCRIBE_DR
+ F623 [02] AE1A      1108             LDX  #$1A
+ F625 [04] D6F6D2    1109             LDA  TABLA,X   ;------------;o
+ F628 [05] CDEECF    1110             JSR  ESCRIBE_DR
+ F62B [02] AE28      1111             LDX  #$28
+ F62D [04] D6F6D2    1112             LDA  TABLA,X   ;------------;n
+ F630 [05] CDEECF    1113             JSR  ESCRIBE_DR
+ F633 [02] AE31      1114             LDX  #$31
+ F635 [04] D6F6D2    1115             LDA  TABLA,X   ;------------;t
+ F638 [05] CDEECF    1116             JSR  ESCRIBE_DR
+ F63B [02] AE26      1117             LDX  #$26
+ F63D [04] D6F6D2    1118             LDA  TABLA,X   ;------------;e
+ F640 [05] CDEECF    1119             JSR  ESCRIBE_DR
+ F643 [02] AE24      1120             LDX  #$24
+ F645 [04] D6F6D2    1121             LDA  TABLA,X   ;------------;ESPACIO
+ F648 [05] CDEECF    1122             JSR  ESCRIBE_DR
+ F64B [02] AE24      1123             LDX  #$24
+ F64D [04] D6F6D2    1124             LDA  TABLA,X   ;------------;ESPACIO
+ F650 [05] CDEECF    1125             JSR  ESCRIBE_DR
+ F653 [02] AE24      1126             LDX  #$24
+ F655 [04] D6F6D2    1127             LDA  TABLA,X   ;------------;ESPACIO
+ F658 [05] CDF6B4    1128             JSR  RETARDO
+ F65B [05] CDEECF    1129             JSR  ESCRIBE_DR
+ F65E [02] A687      1130             LDA  #%10000111            ;SET DDRAM 
+                                     $07. Va a la posicion 7 de la primera fila
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 23
+
+
+
+ F660 [05] CDEEBE    1131             JSR  ESCRIBE_IR
+ F663 [02] AE24      1132             LDX  #$24
+ F665 [04] D6F6D2    1133             LDA  TABLA,X   ;------------;ESPACIO
+ F668 [05] CDEECF    1134             JSR  ESCRIBE_DR
+ F66B [02] AE24      1135             LDX  #$24
+ F66D [04] D6F6D2    1136             LDA  TABLA,X   ;------------;ESPACIO
+ F670 [05] CDEECF    1137             JSR  ESCRIBE_DR
+ F673 [02] AE29      1138             LDX  #$29
+ F675 [04] D6F6D2    1139             LDA  TABLA,X   ;------------;B
+ F678 [05] CDEECF    1140             JSR  ESCRIBE_DR
+ F67B [02] AE26      1141             LDX  #$26
+ F67D [04] D6F6D2    1142             LDA  TABLA,X   ;------------;e
+ F680 [05] CDEECF    1143             JSR  ESCRIBE_DR
+ F683 [02] AE19      1144             LDX  #$19
+ F685 [04] D6F6D2    1145             LDA  TABLA,X   ;------------;l
+ F688 [05] CDEECF    1146             JSR  ESCRIBE_DR
+ F68B [02] AE2D      1147             LDX  #$2D
+ F68D [04] D6F6D2    1148             LDA  TABLA,X   ;------------;m
+ F690 [05] CDEECF    1149             JSR  ESCRIBE_DR
+ F693 [02] AE1A      1150             LDX  #$1A
+ F695 [04] D6F6D2    1151             LDA  TABLA,X   ;------------;o
+ F698 [05] CDEECF    1152             JSR  ESCRIBE_DR
+ F69B [02] AE28      1153             LDX  #$28
+ F69D [04] D6F6D2    1154             LDA  TABLA,X   ;------------;n
+ F6A0 [05] CDEECF    1155             JSR  ESCRIBE_DR
+ F6A3 [02] AE31      1156             LDX  #$31
+ F6A5 [04] D6F6D2    1157             LDA  TABLA,X   ;------------;t
+ F6A8 [05] CDEECF    1158             JSR  ESCRIBE_DR
+ F6AB [02] AE26      1159             LDX  #$26
+ F6AD [04] D6F6D2    1160             LDA  TABLA,X   ;------------;e
+ F6B0 [05] CDEECF    1161             JSR  ESCRIBE_DR
+ F6B3 [04] 81        1162             RTS
+                     1163  ****************************************************
+                             **************************************************
+                                                           ********************
+                     1164  RETARDO
+ F6B4 [02] 87        1165          PSHA
+ F6B5 [02] 8B        1166          PSHH
+ F6B6 [02] 89        1167          PSHX
+ F6B7 [02] A6FF      1168          LDA     #$FF
+                     1169  DELAY
+ F6B9 [03] 4500EF    1170          LDHX    #$00EF
+                     1171  LOOP1
+ F6BC [02] AFFF      1172          AIX     #-1
+ F6BE [03] 650000    1173          CPHX    #0
+ F6C1 [03] 26F9      1174          BNE     LOOP1
+ F6C3 [01] 4A        1175          DECA
+ F6C4 [03] 26F3      1176          BNE     DELAY
+ F6C6 [02] 88        1177          PULX
+ F6C7 [02] 8A        1178          PULH
+ F6C8 [02] 86        1179          PULA
+ F6C9 [04] 81        1180          RTS
+                     1181  ****************************************************
+                             **************************************************
+                                                           ********************
+                     1182  DEMORA100:                        ;RUTINA QUE 
+                                                    GENERA UNA DEMORA DE APROX.
+ F6CA [02] 87        1183             PSHA
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 24
+
+
+
+ F6CB [02] A6FF      1184             LDA  #$FF
+                     1185  RESTA3:
+ F6CD [01] 4A        1186             DECA
+ F6CE [03] 26FD      1187             BNE  RESTA3
+                     1188  
+ F6D0 [02] 86        1189             PULA
+ F6D1 [04] 81        1190             RTS
+                     1191  ****************************************************
+                             **************************************************
+                                                           ********************
+                     1192  TABLA:                                ;TABLA EN 
+                                  DONDE SE DEFINEN LOS CARACTERES QUE SE USARAN
+ F6D2      30        1193             DB  %00110000;0          X = $00
+ F6D3      31        1194             DB  %00110001;1          X = $01
+ F6D4      32        1195             DB  %00110010;2          X = $02
+ F6D5      33        1196             DB  %00110011;3          X = $03
+ F6D6      34        1197             DB  %00110100;4          X = $04
+ F6D7      35        1198             DB  %00110101;5          X = $05
+ F6D8      36        1199             DB  %00110110;6          X = $06
+ F6D9      37        1200             DB  %00110111;7          X = $07
+ F6DA      38        1201             DB  %00111000;8          X = $08
+ F6DB      39        1202             DB  %00111001;9          X = $09
+ F6DC      50        1203             DB  %01010000;P          X = $0A
+ F6DD      52        1204             DB  %01010010;R          X = $0B
+ F6DE      54        1205             DB  %01010100;T          X = $0C
+ F6DF      55        1206             DB  %01010101;U          X = $0D
+ F6E0      43        1207             DB  %01000011;C          X = $0E
+ F6E1      45        1208             DB  %01000101;E          X = $0F
+ F6E2      46        1209             DB  %01000110;F          X = $10
+ F6E3      48        1210             DB  %01001000;H          X = $11
+ F6E4      4C        1211             DB  %01001100;L          X = $12
+ F6E5      4E        1212             DB  %01001110;N          X = $13
+ F6E6      61        1213             DB  %01100001;a          X = $14
+ F6E7      63        1214             DB  %01100011;c          X = $15
+ F6E8      67        1215             DB  %01100111;g          X = $16
+ F6E9      69        1216             DB  %01101001;i          X = $17
+ F6EA      6A        1217             DB  %01101010;j          X = $18
+ F6EB      6C        1218             DB  %01101100;l          X = $19
+ F6EC      6F        1219             DB  %01101111;o          X = $1A
+ F6ED      70        1220             DB  %01110000;p          X = $1B
+ F6EE      72        1221             DB  %01110010;r          X = $1C
+ F6EF      73        1222             DB  %01110011;s          X = $1D
+ F6F0      75        1223             DB  %01110101;u          X = $1E
+ F6F1      62        1224             DB  %01100010;b          X = $1F
+ F6F2      71        1225             DB  %01110001;q          X = $20
+ F6F3      68        1226             DB  %01101000;h          X = $21
+ F6F4      6B        1227             DB  %01101011;k          X = $22
+ F6F5      7A        1228             DB  %01111010;z          X = $23
+ F6F6      20        1229             DB  %00100000;ESPACIO    X = $24
+ F6F7      77        1230             DB  %01110111;w          X = $25
+ F6F8      65        1231             DB  %01100101;e          X = $26
+ F6F9      3A        1232             DB  %00111010;dos puntos X = $27
+ F6FA      6E        1233             DB  %01101110;n          X = $28
+ F6FB      42        1234             DB  %01000010;B          X = $29
+ F6FC      64        1235             DB  %01100100;d          X = $2A
+ F6FD      4A        1236             DB  %01001010;J          X = $2B
+ F6FE      76        1237             DB  %01110110;v          X = $2C
+ F6FF      6D        1238             DB  %01101101;m          X = $2D
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 25
+
+
+
+ F700      41        1239             DB  %01000001;A          X = $2E
+ F701      49        1240             DB  %01001001;I          X = $2F
+ F702      44        1241             DB  %01000100;D          X = $30
+ F703      74        1242             DB  %01110100;t          X = $31
+ F704      EE        1243             DB  %11101110;ñ          X = $32
+                     1244  ****************************************************
+                             **************************************************
+                                                           ********************
+                     1245  BOBO                       ;Rutina para los 
+                                vectores no utilizados. Se pone "por las dudas"
+ F705 [01] 9D        1246             NOP
+ F706 [07] 80        1247             RTI
+                     1248  *************************************TABLA DE 
+                             VECTORES******************************************
+                                                      *************************
+                     1249  
+ FFDE                1250             ORG  VECTORS
+                     1251  
+ FFDE      F705      1252             DW   BOBO  ;FFDE-FFDF
+ FFE0      F705      1253             DW   BOBO  ;FFE0-FFE1
+ FFE2      F705      1254             DW   BOBO  ;FFE2-FFE3
+ FFE4      F705      1255             DW   BOBO  ;FFE4-FFE5
+ FFE6      F705      1256             DW   BOBO  ;FFE6-FFE7
+ FFE8      F705      1257             DW   BOBO  ;FFE8-FFE9
+ FFEA      F705      1258             DW   BOBO  ;FFEA-FFEB
+ FFEC      F705      1259             DW   BOBO  ;FFEC-FFED
+ FFEE      F705      1260             DW   BOBO  ;FFEE-FFEF
+ FFF0      F705      1261             DW   BOBO  ;FFF0-FFF1
+ FFF2      F705      1262             DW   BOBO  ;FFF2-FFF3
+ FFF4      F705      1263             DW   BOBO  ;FFF4-FFF5
+ FFF6      F705      1264             DW   BOBO  ;FFF6-FFF7
+ FFF8      F705      1265             DW   BOBO  ;FFFF8-FFF9
+ FFFA      F705      1266             DW   BOBO  ;FFFA-FFFB
+ FFFC      F705      1267             DW   BOBO  ;FFFC-FFFD
+ FFFE      EE00      1268             DW   START ;FFFE-FFFF
+                     1269  ****************************************************
+                             **************************************************
+                                                           ********************
+                     1270  END
+                     1271  
+                     1272  
+                     1273  
+                     1274  
+                     1275  
+                     1276  
+                     1277  
+                     1278  
+                     1279  
+                     1280  
+                     1281  
+                     1282  
+                     1283  
+                     1284  
+                     1285  
+                     1286   
+
+ Symbol Table 
+
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 26
+
+
+
+ACK              0002
+ACKK             0002
+ADCO             0005
+ADICLK           003F
+ADRH             003D
+ADRL             003E
+ADSCR            003C
+AIEN             0006
+ALUMNO           F30E
+APA1             EF40
+APA2             EFA4
+APA3             F008
+APA4             F06C
+APAGADA          F0C1
+AÑO              F2C2
+BCFE             0007
+BDCOP            0000
+BFCR             FE03
+BOBO             F705
+BRKAR            FE02
+BRKH             FE09
+BRKL             FE0A
+BRKSCR           FE0B
+BSR              FE00
+CARLOS_BELMONTE  F34A
+CH0F             0007
+CH0IE            0006
+CH0MAX           0000
+CH1F             0007
+CH1IE            0006
+CH1MAX           0000
+COCO             0007
+CONFIG1          001F
+CONFIG2          001E
+COP              0005
+COPCTL           FFFF
+DDRA             0004
+DDRB             0005
+DELAY            F6B9
+DELNUS           280C
+DEMORA100        F6CA
+E                0005
+ECFS0            0002
+ECFS1            0003
+ECGON            0001
+ECGST            0000
+ELS0A            0002
+ELS0B            0003
+ELS1A            0002
+ELS1B            0003
+ENC1             EF3C
+ENC2             EFA0
+ENC3             F004
+ENC4             F068
+ENCENDIDA        F070
+END              0000
+ERARNGE          2806
+ESCRIBE_DR       EECF
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 27
+
+
+
+ESCRIBE_IR       EEBE
+ESTADO_1         EF34
+ESTADO_2         EF98
+ESTADO_3         EFFC
+ESTADO_4         F060
+FINAL            F14E
+FLBPR            FFBE
+FLCR             FE08
+GETBYTE          2800
+ICFS0            0004
+ICFS1            0005
+ILAD             0003
+ILOP             0004
+IMASK            0001
+IMASKK           0001
+INICIO_LCD       EE1E
+INT1             FE04
+INT2             FE05
+INT3             FE06
+INTSCR           001D
+IN_1             0000
+IN_2             0001
+IN_3             0002
+IN_4             0003
+IOSCTRM          FFC0
+IRQF             0003
+KBIER            001B
+KBSCR            001A
+KEYF             0003
+LAMPARAS         EE99
+LAMPARA_1        EEE0
+LAMPARA_2        EF44
+LAMPARA_3        EFA8
+LAMPARA_4        F00C
+LINEA_VACIA      F21E
+LOOP1            F6BC
+LVI              0001
+LVISR            FE0C
+MODE             0000
+MODEK            0000
+MODRST           0002
+MS0A             0004
+MS0B             0005
+MS1A             0004
+MS1B             0005
+MSJ_INICIO       EE3C
+OSCOPT0          0006
+OSCOPT1          0007
+OSCSC            0036
+OSCSTAT          0036
+OSCTRIM          0038
+PIN              0006
+POR              0007
+PORTA            0000
+PORTB            0001
+PRGRNGE          2809
+PTA              0000
+PTAPUE           000B
+
+
+LCD PARA EL FINAL.asm   Assembled with CASM08Z  06/04/2014  07:48:40 p.m.  PAGE 28
+
+
+
+PTB              0001
+PTBPUE           000C
+RAM_START        0080
+RDVRRNG          2803
+RESTA3           F6CD
+RETARDO          F6B4
+ROM_START        EE00
+RS               0004
+SBSW             0001
+SRSR             FE01
+START            EE00
+TABLA            F6D2
+TCH0H            0026
+TCH0L            0027
+TCH1H            0029
+TCH1L            002A
+TCNTH            0021
+TCNTL            0022
+TDII             F17A
+TMODH            0023
+TMODL            0024
+TOF              0007
+TOIE             0006
+TOV0             0001
+TOV1             0001
+TRST             0004
+TSC              0020
+TSC0             0025
+TSC1             0028
+TSTOP            0005
+UTN_FRT          F112
+VECTORS          FFDE

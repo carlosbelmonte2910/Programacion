@@ -1,0 +1,495 @@
+
+autorango modificado.asm   Assembled with CASM08Z  22/03/2014  01:08:22 a.m.  
+                                                                         PAGE 1
+
+
+
+                        1  **************************************************
+                        2  **    PROGRAMA PARA EL INDUCTOMETRO/CAPACIMETRO **
+                        3  **************************************************
+                        4  **                                              **
+                        5  **    MICROCONTROLADOR MC68HC908QY4A            **
+                        6  **                                              **
+                        7  **          ENERO DE 2014                       **
+                        8  **                                              **
+                        9  **       RICARDO JAVIER BORELLI                 **
+                       10  **************************************************
+ 0000                  11  $BASE 10T
+                       12  
+ 0000                  13  RAM_START  EQU  $0080
+ 0000                  14  ROM_START  EQU  $EE00
+ 0000                  15  VECTORS    EQU  $FFDE
+ 0000                  16  PTA        EQU  $0000
+ 0000                  17  PTB        EQU  $0001
+ 0000                  18  DDRA       EQU  $0004
+ 0000                  19  DDRB       EQU  $0005
+ 0000                  20  CONFIG2    EQU  $001E
+ 0000                  21  CONFIG1    EQU  $001F
+ 0000                  22  TOF        EQU   7
+ 0000                  23  TSC        EQU  $0020
+ 0000                  24  TCNTH      EQU  $0021
+ 0000                  25  TCNTL      EQU  $0022
+ 0000                  26  OSCSC      EQU  $0036
+ 0000                  27  E          EQU   0
+ 0000                  28  RWR        EQU   5
+ 0000                  29  RS         EQU   4
+                       30  
+                       31  *************************************
+                       32  ***********VARIABLES DE RAM**********
+ 0080                  33             ORG  RAM_START
+ 0080                  34  AUX      RMB   1
+                       35  
+ 0081                  36  COSA     RMB   1
+                       37  
+                       38  
+ 0082                  39  FRECH    RMB   1
+ 0083                  40  FRECL    RMB   1
+                       41  
+ 0084                  42  AUXI     RMB   1
+ 0085                  43  DH       RMB   1
+ 0086                  44  DM       RMB   1
+ 0087                  45  DL       RMB   1
+ 0088                  46  DNDAH    RMB   1
+ 0089                  47  DNDAM    RMB   1
+ 008A                  48  DNDAL    RMB   1
+ 008B                  49  DNDH     RMB   1
+ 008C                  50  DNDM     RMB   1
+ 008D                  51  DNDL     RMB   1
+ 008E                  52  DSRH     RMB   1
+ 008F                  53  DSRM     RMB   1
+ 0090                  54  DSRL     RMB   1
+ 0091                  55  QH       RMB   1
+ 0092                  56  QM       RMB   1
+ 0093                  57  QL       RMB   1
+
+
+autorango modificado.asm   Assembled with CASM08Z  22/03/2014  01:08:22 a.m.  PAGE 2
+
+
+
+ 0094                  58  PRODH    RMB   1
+ 0095                  59  PRODMH   RMB   1
+ 0096                  60  PRODML   RMB   1
+ 0097                  61  PRODL    RMB   1
+ 0098                  62  MNDH     RMB   1
+ 0099                  63  MNDL     RMB   1
+ 009A                  64  MNDAH    RMB   1
+ 009B                  65  MNDAL    RMB   1
+ 009C                  66  MDRH     RMB   1
+ 009D                  67  MDRL     RMB   1
+ 009E                  68  UNDEC    RMB   1
+ 009F                  69  CENTML   RMB   1
+ 00A0                  70  DECEMIL  RMB   1
+ 00A1                  71  UMLDML   RMB   1
+ 00A2                  72  CMLMML   RMB   1
+ 00A3                  73  B        RMB   1
+ 00A4                  74  MSB      RMB   1
+ 00A5                  75  MHSB     RMB   1
+ 00A6                  76  MLSB     RMB   1
+ 00A7                  77  LSB      RMB   1
+                       78  
+ 00A8                  79  REFH     RMB   1
+ 00A9                  80  REFL     RMB   1
+ 00AA                  81  INCOGH   RMB   1
+ 00AB                  82  INCOGL   RMB   1
+ 00AC                  83  BYTE     RMB   1
+ 00AD                  84  MSTRA    RMB   1
+ 00AE                  85  RESH     RMB   1
+ 00AF                  86  RESM     RMB   1
+ 00B0                  87  RESL     RMB   1
+ 00B1                  88  CONT     RMB   1
+ 00B2                  89  OCONT    RMB   1
+                       90  
+ 00B3                  91  RANGO         RMB   1
+ 00B4                  92  MARK  RMB   1
+                       93  ****************************************************
+                             **************************************************
+                                                           ********************
+                       94  
+ EE00                  95             ORG  ROM_START
+                       96  START:
+ EE00 [03] 3F36        97             CLR  OSCSC        ; Oscilador interno a 
+                                                                          4 MHz
+ EE02 [01] 9C          98             RSP          ;INICIALIZACION DEL 
+                                                               MICROCONTROLADOR
+ EE03 [01] 4F          99             CLRA
+ EE04 [01] 8C         100             CLRH
+ EE05 [01] 5F         101             CLRX
+ EE06 [01] 98         102             CLC
+                      103  
+ EE07 [04] 6E091F     104             MOV  #%00001001,CONFIG1   ;PROGRAMACION 
+                                                                 DE LOS CONFIGS
+ EE0A [01] 9D         105             NOP
+ EE0B [01] 9D         106             NOP
+ EE0C [04] 6E801E     107             MOV  #%10000000,CONFIG2
+ EE0F [01] 9D         108             NOP
+ EE10 [01] 9D         109             NOP
+                      110  
+
+
+autorango modificado.asm   Assembled with CASM08Z  22/03/2014  01:08:22 a.m.  PAGE 3
+
+
+
+ EE11 [04] 6EFF05     111             MOV  #$FF,DDRB             ;PUERTO B 
+                                                               TODO COMO SALIDA
+ EE14 [04] 6E3104     112             MOV  #%00110001,DDRA       ;PTA5, PTA4 Y 
+                              PTA3 SON SALIIDAS. PTA2, PTA1 Y PTA0 SON ENTRADAS
+                      113  
+                      114  
+ EE17 [03] 3F00       115             CLR  PTA
+ EE19 [03] 3F01       116             CLR  PTB
+ EE1B [05] CDEEA3     117             JSR  RETARDO
+                      118  
+                      119  
+                      120  ****************************************************
+                             **************************************************
+                                                           ********************
+                      121  INICIO_LCD:                           ;PREPARA AL 
+                                                    MODULO LCD PARA MODO 8 BITS
+                      122  
+                      123  
+ EE1E [02] A638       124             LDA  #%00111000
+ EE20 [05] CDEE7D     125             JSR  ESCRIBE_IR
+ EE23 [02] A60E       126             LDA  #%00001110
+ EE25 [05] CDEE7D     127             JSR  ESCRIBE_IR
+ EE28 [02] A601       128             LDA  #%00000001
+ EE2A [05] CDEE7D     129             JSR  ESCRIBE_IR
+ EE2D [02] A606       130             LDA  #%00000110
+ EE2F [05] CDEE7D     131             JSR  ESCRIBE_IR
+ EE32 [02] A640       132             LDA  #%01000000
+ EE34 [05] CDEE7D     133             JSR  ESCRIBE_IR
+ EE37 [02] A60C       134             LDA  #%00001100
+ EE39 [05] CDEE7D     135             JSR  ESCRIBE_IR
+                      136  ****************************************************
+                             **************************************************
+                                                           ********************
+                      137  SALUDO:
+ EE3C [02] A601       138             LDA  #$01                 ;CLEAR DISPLAY
+ EE3E [05] CDEE7D     139             JSR  ESCRIBE_IR
+ EE41 [02] A60C       140             LDA  #$0C                 ;DISPLAY ON
+ EE43 [05] CDEE7D     141             JSR  ESCRIBE_IR
+                      142  
+ EE46 [02] A683       143             LDA  #%10000011           ;SET DDRAM 
+                                     $03. Va a la posicion 3 de la primera fila
+ EE48 [05] CDEE7D     144             JSR  ESCRIBE_IR
+ EE4B [02] AE15       145             LDX  #$15
+ EE4D [04] D6EEC1     146             LDA  TABLA,X                ;c
+ EE50 [05] CDEE90     147             JSR  ESCRIBE_DR
+ EE53 [02] AE14       148             LDX  #$14
+ EE55 [04] D6EEC1     149             LDA  TABLA,X                ;a
+ EE58 [05] CDEE90     150             JSR  ESCRIBE_DR
+ EE5B [02] AE1C       151             LDX  #$1C
+ EE5D [04] D6EEC1     152             LDA  TABLA,X                ;r
+ EE60 [05] CDEE90     153             JSR  ESCRIBE_DR
+                      154  
+ EE63 [05] CDEEA3     155             JSR  RETARDO                ;Retardo 
+                                         para dar tiempo a que se lea el nombre
+ EE66 [05] CDEEA3     156             JSR  RETARDO
+ EE69 [05] CDEEA3     157             JSR  RETARDO
+ EE6C [05] CDEEA3     158             JSR  RETARDO
+ EE6F [05] CDEEA3     159             JSR  RETARDO
+
+
+autorango modificado.asm   Assembled with CASM08Z  22/03/2014  01:08:22 a.m.  PAGE 4
+
+
+
+ EE72 [05] CDEEA3     160             JSR  RETARDO
+ EE75 [05] CDEEA3     161             JSR  RETARDO
+                      162  ****************************************************
+                             **************************************************
+                                                           ********************
+ EE78 [02] A601       163             LDA  #$01         ;CLEAR DISPLAY
+ EE7A [05] CDEE7D     164             JSR  ESCRIBE_IR
+                      165  ****************************************************
+                             **************************************************
+                                                           ********************
+                      166  ESCRIBE_IR:                  ;SUBRUTINA QUE SIRVE 
+                                      PARA MANDARLE INSTRUCCIONES AL MODULO LCD
+ EE7D [04] 1900       167             BCLR  RS,PTA
+ EE7F [04] 1B00       168             BCLR  RWR,PTA
+ EE81 [04] 1000       169             BSET  E,PTA
+ EE83 [03] B701       170             STA   PTB
+ EE85 [05] CDEEB9     171             JSR   DEMORA100
+ EE88 [04] 1100       172             BCLR  E,PTA
+ EE8A [05] CDEEB9     173             JSR   DEMORA100
+ EE8D [04] 1900       174             BCLR  RS,PTA
+ EE8F [04] 81         175             RTS
+                      176  ****************************************************
+                             **************************************************
+                                                           ********************
+                      177  ESCRIBE_DR:                  ;SUBRUTINA QUE SIRVE 
+                                 PARA MANDARLE DATOS (CARACTERES) AL MODULO LCD
+ EE90 [04] 1800       178             BSET  RS,PTA
+ EE92 [04] 1B00       179             BCLR  RWR,PTA
+ EE94 [04] 1000       180             BSET  E,PTA
+ EE96 [03] B701       181             STA   PTB
+ EE98 [05] CDEEB9     182             JSR   DEMORA100
+ EE9B [04] 1100       183             BCLR  E,PTA
+ EE9D [05] CDEEB9     184             JSR   DEMORA100
+ EEA0 [04] 1900       185             BCLR  RS,PTA
+ EEA2 [04] 81         186             RTS
+                      187  ****************************************************
+                             **************************************************
+                                                           ********************
+                      188  RETARDO
+ EEA3 [02] 87         189          PSHA
+ EEA4 [02] 8B         190          PSHH
+ EEA5 [02] 89         191          PSHX
+ EEA6 [02] A6FF       192          LDA     #$FF
+                      193  DELAY
+ EEA8 [03] 4500EF     194          LDHX    #$00EF
+                      195  LOOP1
+ EEAB [02] AFFF       196          AIX     #-1
+ EEAD [03] 650000     197          CPHX    #0
+ EEB0 [03] 26F9       198          BNE     LOOP1
+ EEB2 [01] 4A         199          DECA
+ EEB3 [03] 26F3       200          BNE     DELAY
+ EEB5 [02] 88         201          PULX
+ EEB6 [02] 8A         202          PULH
+ EEB7 [02] 86         203          PULA
+ EEB8 [04] 81         204          RTS
+                      205  ****************************************************
+                             **************************************************
+                                                           ********************
+
+
+autorango modificado.asm   Assembled with CASM08Z  22/03/2014  01:08:22 a.m.  PAGE 5
+
+
+
+                      206  DEMORA100:                        ;RUTINA QUE 
+                                                    GENERA UNA DEMORA DE APROX.
+ EEB9 [02] 87         207             PSHA
+ EEBA [02] A6FF       208             LDA  #$FF
+                      209  RESTA3:
+ EEBC [01] 4A         210             DECA
+ EEBD [03] 26FD       211             BNE  RESTA3
+                      212  
+ EEBF [02] 86         213             PULA
+ EEC0 [04] 81         214             RTS
+                      215  ****************************************************
+                             **************************************************
+                                                           ********************
+                      216  TABLA:                                ;TABLA EN 
+                                  DONDE SE DEFINEN LOS CARACTERES QUE SE USARAN
+ EEC1      30         217             DB  %00110000;0 X = $00
+ EEC2      31         218             DB  %00110001;1 X = $01
+ EEC3      32         219             DB  %00110010;2 X = $02
+ EEC4      33         220             DB  %00110011;3 X = $03
+ EEC5      34         221             DB  %00110100;4 X = $04
+ EEC6      35         222             DB  %00110101;5 X = $05
+ EEC7      36         223             DB  %00110110;6 X = $06
+ EEC8      37         224             DB  %00110111;7 X = $07
+ EEC9      38         225             DB  %00111000;8 X = $08
+ EECA      39         226             DB  %00111001;9 X = $09
+ EECB      50         227             DB  %01010000;P X = $0A
+ EECC      52         228             DB  %01010010;R X = $0B
+ EECD      54         229             DB  %01010100;T X = $0C
+ EECE      55         230             DB  %01010101;U X = $0D
+ EECF      43         231             DB  %01000011;C X = $0E
+ EED0      45         232             DB  %01000101;E X = $0F
+ EED1      46         233             DB  %01000110;F X = $10
+ EED2      48         234             DB  %01001000;H X = $11
+ EED3      4C         235             DB  %01001100;L X = $12
+ EED4      4E         236             DB  %01001110;N X = $13
+ EED5      61         237             DB  %01100001;a X = $14
+ EED6      63         238             DB  %01100011;c X = $15
+ EED7      67         239             DB  %01100111;g X = $16
+ EED8      69         240             DB  %01101001;i X = $17
+ EED9      6A         241             DB  %01101010;j X = $18
+ EEDA      6C         242             DB  %01101100;l X = $19
+ EEDB      6F         243             DB  %01101111;o X = $1A
+ EEDC      70         244             DB  %01110000;p X = $1B
+ EEDD      72         245             DB  %01110010;r X = $1C
+ EEDE      73         246             DB  %01110011;s X = $1D
+ EEDF      75         247             DB  %01110101;u X = $1E
+ EEE0      2E         248             DB  %00101110;punto X = $1F
+ EEE1      2C         249             DB  %00101100;coma X = $20
+ EEE2      3F         250             DB  %00111111;pregunta X = $21
+ EEE3      3D         251             DB  %00111101;igual X = $22
+ EEE4      00         252             DB  %00000000; mu X=$23
+ EEE5      20         253             DB  %00100000;ESPACIO X=$24
+ EEE6      01         254             DB  %00000001; Yaz X=$25
+ EEE7      65         255             DB  %01100101;e  X = $26
+ EEE8      3A         256             DB  %00111010;dos puntos X = $27
+ EEE9      6E         257             DB  %01101110;n  X = $28
+ EEEA      42         258             DB  %01000010;B  X = $29
+ EEEB      64         259             DB  %01100100;d  X = $2A
+
+
+autorango modificado.asm   Assembled with CASM08Z  22/03/2014  01:08:22 a.m.  PAGE 6
+
+
+
+ EEEC      4A         260             DB  %01001010;J  X = $2B
+ EEED      76         261             DB  %01110110;v  X = $2C
+                      262  ****************************************************
+                             **************************************************
+                                                           ********************
+                      263  ****************************************************
+                             **************************************************
+                                                           ********************
+                      264  
+                      265  
+                      266  
+                      267  ****************************************************
+                             **************************************************
+                                                           ********************
+                      268  BOBO                       ;Rutina para los 
+                                vectores no utilizados. Se pone "por las dudas"
+ EEEE [01] 9D         269             NOP
+ EEEF [07] 80         270             RTI
+                      271  ****************************************************
+                             **************************************************
+                                                           ********************
+                      272  
+                      273  ****************************************************
+                             **************************************************
+                                                           ********************
+                      274  
+                      275  *************************************TABLA DE 
+                             VECTORES******************************************
+                                                      *************************
+                      276  
+ FFDE                 277             ORG  VECTORS
+                      278  
+ FFDE      EEEE       279             DW   BOBO  ;FFDE-FFDF
+ FFE0      EEEE       280             DW   BOBO  ;FFE0-FFE1
+ FFE2      EEEE       281             DW   BOBO  ;FFE2-FFE3
+ FFE4      EEEE       282             DW   BOBO  ;FFE4-FFE5
+ FFE6      EEEE       283             DW   BOBO  ;FFE6-FFE7
+ FFE8      EEEE       284             DW   BOBO  ;FFE8-FFE9
+ FFEA      EEEE       285             DW   BOBO  ;FFEA-FFEB
+ FFEC      EEEE       286             DW   BOBO  ;FFEC-FFED
+ FFEE      EEEE       287             DW   BOBO  ;FFEE-FFEF
+ FFF0      EEEE       288             DW   BOBO  ;FFF0-FFF1
+ FFF2      EEEE       289             DW   BOBO  ;FFF2-FFF3
+ FFF4      EEEE       290             DW   BOBO  ;FFF4-FFF5
+ FFF6      EEEE       291             DW   BOBO  ;FFF6-FFF7
+ FFF8      EEEE       292             DW   BOBO  ;FFFF8-FFF9
+ FFFA      EEEE       293             DW   BOBO  ;FFFA-FFFB
+ FFFC      EEEE       294             DW   BOBO  ;FFFC-FFFD
+ FFFE      EE00       295             DW   START ;FFFE-FFFF
+                      296  ****************************************************
+                             **************************************************
+                                                           ********************
+                      297  END
+                      298  ****************************************************
+                             **************************************************
+                                                           ********************
+                      299  
+                      300  
+
+
+autorango modificado.asm   Assembled with CASM08Z  22/03/2014  01:08:22 a.m.  PAGE 7
+
+
+
+                      301  
+                      302  
+                      303  
+                      304  
+                      305  
+                      306  
+                      307  
+                      308  
+                      309  
+                      310  1
+                      311  
+                      312  
+                      313  
+                      314   
+
+ Symbol Table 
+
+AUX              0080
+AUXI             0084
+B                00A3
+BOBO             EEEE
+BYTE             00AC
+CENTML           009F
+CMLMML           00A2
+CONFIG1          001F
+CONFIG2          001E
+CONT             00B1
+COSA             0081
+DDRA             0004
+DDRB             0005
+DECEMIL          00A0
+DELAY            EEA8
+DEMORA100        EEB9
+DH               0085
+DL               0087
+DM               0086
+DNDAH            0088
+DNDAL            008A
+DNDAM            0089
+DNDH             008B
+DNDL             008D
+DNDM             008C
+DSRH             008E
+DSRL             0090
+DSRM             008F
+E                0000
+END              0000
+ESCRIBE_DR       EE90
+ESCRIBE_IR       EE7D
+FRECH            0082
+FRECL            0083
+INCOGH           00AA
+INCOGL           00AB
+INICIO_LCD       EE1E
+LOOP1            EEAB
+LSB              00A7
+MARK             00B4
+MDRH             009C
+
+
+autorango modificado.asm   Assembled with CASM08Z  22/03/2014  01:08:22 a.m.  PAGE 8
+
+
+
+MDRL             009D
+MHSB             00A5
+MLSB             00A6
+MNDAH            009A
+MNDAL            009B
+MNDH             0098
+MNDL             0099
+MSB              00A4
+MSTRA            00AD
+OCONT            00B2
+OSCSC            0036
+PRODH            0094
+PRODL            0097
+PRODMH           0095
+PRODML           0096
+PTA              0000
+PTB              0001
+QH               0091
+QL               0093
+QM               0092
+RAM_START        0080
+RANGO            00B3
+REFH             00A8
+REFL             00A9
+RESH             00AE
+RESL             00B0
+RESM             00AF
+RESTA3           EEBC
+RETARDO          EEA3
+ROM_START        EE00
+RS               0004
+RWR              0005
+SALUDO           EE3C
+START            EE00
+TABLA            EEC1
+TCNTH            0021
+TCNTL            0022
+TOF              0007
+TSC              0020
+UMLDML           00A1
+UNDEC            009E
+VECTORS          FFDE
