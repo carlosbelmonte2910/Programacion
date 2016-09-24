@@ -1,0 +1,17 @@
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\Clave seguridad\bin\Debug\Clave seguridad.exe
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\Clave seguridad\bin\Debug\Clave seguridad.pdb
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\Clave seguridad\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\Clave seguridad\obj\Debug\Clave_seguridad.Form1.resources
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\Clave seguridad\obj\Debug\Clave_seguridad.Properties.Resources.resources
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\Clave seguridad\obj\Debug\Clave seguridad.csproj.GenerateResource.Cache
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\Clave seguridad\obj\Debug\Clave seguridad.exe
+C:\Users\Carlos  Belmonte\AppData\Local\Temporary Projects\Clave seguridad\obj\Debug\Clave seguridad.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\CONTRASEÑA\Clave seguridad\Clave seguridad\obj\Debug\Clave seguridad.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\CONTRASEÑA\Clave seguridad\Clave seguridad\obj\Debug\Clave seguridad.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\CONTRASEÑA\Clave seguridad\Clave seguridad\bin\Debug\Clave seguridad.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\CONTRASEÑA\Clave seguridad\Clave seguridad\bin\Debug\Clave seguridad.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\CONTRASEÑA\Clave seguridad\Clave seguridad\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\CONTRASEÑA\Clave seguridad\Clave seguridad\obj\Debug\Clave_seguridad.Form1.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\CONTRASEÑA\Clave seguridad\Clave seguridad\obj\Debug\Clave_seguridad.Properties.Resources.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\CONTRASEÑA\Clave seguridad\Clave seguridad\obj\Debug\Clave seguridad.csproj.GenerateResource.Cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\CONTRASEÑA\Clave seguridad\Clave seguridad\obj\Debug\Clave_seguridad.Form2.resources

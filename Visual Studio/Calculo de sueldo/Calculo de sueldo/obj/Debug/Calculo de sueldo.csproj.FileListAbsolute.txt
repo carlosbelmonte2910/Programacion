@@ -1,0 +1,5 @@
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Calculo de sueldo\Calculo de sueldo\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Calculo de sueldo\Calculo de sueldo\bin\Debug\Calculo de sueldo.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Calculo de sueldo\Calculo de sueldo\bin\Debug\Calculo de sueldo.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Calculo de sueldo\Calculo de sueldo\obj\Debug\Calculo de sueldo.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Calculo de sueldo\Calculo de sueldo\obj\Debug\Calculo de sueldo.pdb
