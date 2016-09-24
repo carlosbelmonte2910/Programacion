@@ -1,0 +1,636 @@
+
+kbi con demora.asm     Assembled with CASM08Z  14/12/2012  20:15:52  PAGE 1
+
+
+
+ 0000                   1  RAM_INI              EQU     $0080           
+ 0000                   2  FLASH_INI    EQU     $EE00           
+ 0000                   3  VECTORES     EQU     $FFDE
+ 0000                   4  led_1           EQU     7
+ 0000                   5  led_2           EQU     6
+ 0000                   6  led_3           EQU     5
+ 0000                   7  led_4           EQU     4
+                        8               
+                        9  
+ 0000                  10  $base                10t                     
+ 0000                  11  $Include        'QTQY_registers.inc' 
+                       12  ;***************************************************
+                                                    ***************************
+                       13  ;                    QTQY_REGISTERS.INC - ARCHIVO 
+                                                                        INCLUDE
+                       14  ; Contiene las Definiciones de los Registros del 
+                                                       MC68HC908QTA/QYA/8/4/2/1
+                       15  ;
+                       16  ;                    SyHDe - Soft y Hard Desarrollos
+                       17  ;***************************************************
+                                                    ***************************
+                       18  
+                       19  ;***************************************************
+                                                    ***************************
+                       20  ;---------------REGISTROS DE PUERTOS ENT/SAL--------
+                                                    ---------------------------
+                       21  ;---------------PUERTO A----------------------------
+                                                    ---------------------------
+ 0000                  22  PTA  EQU     $0000   ; Port A Data register
+ 0000                  23  PORTA        EQU     $0000   ; "
+ 0000                  24  DDRA EQU     $0004   ; Port A Data Direction 
+                                                                       Register
+ 0000                  25  PTAPUE  EQU  $000B   ; Port A Pull Ups Enable
+                       26  
+                       27  ;---------------PUERTO B----------------------------
+                                                    ---------------------------
+ 0000                  28  PTB  EQU     $0001   ; Port B Data register
+ 0000                  29  PORTB        EQU     $0001   ; "
+ 0000                  30  DDRB EQU     $0005   ; Port B Data Direction 
+                                                                       Register
+ 0000                  31  PTBPUE  EQU  $000C   ; Port B Pull Ups Enable
+                       32  
+                       33  ;***************************************************
+                                                    ***************************
+                       34  ;---------------REGISTROS DEL MODULO KEYBOARD-------
+                                                    ---------------------------
+ 0000                  35  KBSCR        EQU     $001A   ; Keyboard Status & 
+                                                               Control register
+ 0000                  36  keyf equ     3       ;
+ 0000                  37  ackk equ     2       ;
+ 0000                  38  imaskk       equ     1       ;
+ 0000                  39  modek        equ     0       ;
+                       40  
+ 0000                  41  KBIER        EQU     $001B   ; Keyboard interrupt 
+                                                                enable register
+                       42  
+                       43  ;***************************************************
+                                                    ***************************
+
+
+kbi con demora.asm     Assembled with CASM08Z  14/12/2012  20:15:52  PAGE 2
+
+
+
+                       44  ;---------------REGISTROS DE INTERRUPCION EXTERNA 
+                                                  1----------------------------
+ 0000                  45  INTSCR       EQU     $001D   ; IRQ Status & Control 
+                                                                       Register
+ 0000                  46  irqf equ     3       ;
+ 0000                  47  ack  equ     2       ;
+ 0000                  48  imask        equ     1       ;
+ 0000                  49  mode equ     0       ;
+                       50  
+                       51  ;***************************************************
+                                                    ***************************
+                       52  ;---------------REGISTROS DE CONFIGURACION----------
+                                                    ---------------------------
+ 0000                  53  CONFIG1      EQU     $001F   ; Configuration 
+                                                                     Register 1
+                       54  
+ 0000                  55  CONFIG2      EQU     $001E   ; Configuration 
+                                                                     Register 2
+                       56  
+                       57  ;***************************************************
+                                                    ***************************
+                       58  ;---------------REGISTROS DEL TIMER ----------------
+                                                    ---------------------------
+ 0000                  59  TSC  EQU     $0020   ; Timer Status & Control 
+                                                                       Register
+ 0000                  60  tof  equ     7       ;
+ 0000                  61  toie equ     6       ;
+ 0000                  62  tstop        equ     5       ;
+ 0000                  63  trst equ     4       ;
+                       64  
+ 0000                  65  TCNTH        EQU     $0021   ; Timer Counter 
+                                                                  Register High
+ 0000                  66  TCNTL        EQU     $0022   ; Timer Counter 
+                                                                   Register Low
+ 0000                  67  TMODH        EQU     $0023   ; Timer Counter Modulo 
+                                                                  Register High
+ 0000                  68  TMODL        EQU     $0024   ; Timer Counter Modulo 
+                                                                   Register Low
+                       69  
+ 0000                  70  TSC0 EQU     $0025   ; Timer Channel 0 Status & 
+                                                               Control Register
+ 0000                  71  ch0f equ     7
+ 0000                  72  ch0ie        equ     6       ;
+ 0000                  73  ms0b equ     5       ;
+ 0000                  74  ms0a equ     4       ;
+ 0000                  75  els0b        equ     3       ;
+ 0000                  76  els0a        equ     2       ;
+ 0000                  77  tov0 equ     1       ;
+ 0000                  78  ch0max       equ     0       ;
+                       79  
+ 0000                  80  TCH0H        EQU     $0026   ; Timer Channel 0 
+                                                                  Register High
+ 0000                  81  TCH0L        EQU     $0027   ; Timer Channel 0 
+                                                                   Register Low
+                       82  
+ 0000                  83  TSC1 EQU     $0028   ; Timer Channel 1 Status & 
+                                                               Control Register
+ 0000                  84  ch1f equ     7
+
+
+kbi con demora.asm     Assembled with CASM08Z  14/12/2012  20:15:52  PAGE 3
+
+
+
+ 0000                  85  ch1ie        equ     6       ;
+ 0000                  86  ms1b equ     5       ;
+ 0000                  87  ms1a equ     4       ;
+ 0000                  88  els1b        equ     3       ;
+ 0000                  89  els1a        equ     2       ;
+ 0000                  90  tov1 equ     1       ;
+ 0000                  91  ch1max       equ     0       ;
+                       92  
+ 0000                  93  TCH1H        EQU     $0029   ; Timer Channel 1 
+                                                                  Register High
+ 0000                  94  TCH1L        EQU     $002A   ; Timer Channel 1 
+                                                                   Register Low
+                       95  
+                       96  ;***************************************************
+                                                    ***************************
+                       97  ;---------------REGISTROS DEL OSCILADOR-------------
+                                                    ---------------------------
+ 0000                  98  OSCSC        EQU     $0036   ;Oscillator Status and 
+                                                               Control Register
+ 0000                  99  ecgst        equ     0       ;Read Only!!!!
+ 0000                 100  ecgon        equ     1       ;
+ 0000                 101  ecfs0        equ     2       ;
+ 0000                 102  ecfs1        equ     3       ;
+ 0000                 103  icfs0        equ     4       ;
+ 0000                 104  icfs1        equ     5       ;
+ 0000                 105  oscopt0      equ     6       ;
+ 0000                 106  oscopt1      equ     7       ;
+                      107  
+ 0000                 108  OSCTRIM      EQU     $0038   ;Oscillator Trim 
+                                                                       Register
+                      109  
+ 0000                 110  OSCSTAT EQU  $0036   ;Oscillator Status and Control 
+                                                         (No Vers A Solo QY/QT)
+                      111  
+                      112  ;***************************************************
+                                                    ***************************
+                      113  ;---------------REGISTROS DEL ADC-------------------
+                                                    ---------------------------
+ 0000                 114  ADSCR        EQU     $003C   ; ADC Status & Control 
+                                                                       Register
+ 0000                 115  coco equ     7       ;
+ 0000                 116  aien equ     6       ;
+ 0000                 117  adco equ     5       ;
+                      118  
+ 0000                 119  ADRH EQU     $003D   ; ADC10 Data Register High
+ 0000                 120  ADRL EQU     $003E   ; ADC10 Data Register Low
+ 0000                 121  ADICLK       EQU     $003F   ; ADC10 Clock Control 
+                                                                       Register
+                      122  
+                      123  ;***************************************************
+                                                    ***************************
+                      124  ;---------------REGISTROS DEL MODULO SIM------------
+                                                    ---------------------------
+ 0000                 125  BSR  EQU     $FE00   ; Break Status Register
+ 0000                 126  sbsw equ     1       ; break wait bit
+                      127  
+ 0000                 128  SRSR EQU     $FE01   ; SIM Reset Status Register
+ 0000                 129  por  equ     7       ;
+
+
+kbi con demora.asm     Assembled with CASM08Z  14/12/2012  20:15:52  PAGE 4
+
+
+
+ 0000                 130  pin  equ     6       ;
+ 0000                 131  cop  equ     5       ;
+ 0000                 132  ilop equ     4       ;
+ 0000                 133  ilad equ     3       ;
+ 0000                 134  modrst       equ     2       ;
+ 0000                 135  lvi  equ     1       ;
+                      136  
+ 0000                 137  BRKAR        EQU     $FE02   ; Break Auxiliary 
+                                                                       Register
+ 0000                 138  bdcop        equ     0
+                      139  
+ 0000                 140  BFCR EQU     $FE03   ; Break Flag Control Register
+ 0000                 141  bcfe equ     7       ;
+                      142  
+ 0000                 143  INT1 EQU     $FE04   ; Interrupt Status Register 1
+                      144  
+ 0000                 145  INT2 EQU     $FE05   ; Interrupt Status Register 2
+                      146  
+ 0000                 147  INT3 EQU     $FE06   ; Interrupt Status Register 3
+                      148  
+                      149  ;***************************************************
+                                                    ***************************
+                      150  ;---------------REGISTROS DE LA MEMORIA FLASH-------
+                                                    ---------------------------
+ 0000                 151  FLCR EQU     $FE08   ; FLASH Control Register
+                      152  
+ 0000                 153  FLBPR        EQU     $FFBE   ; FLASH Block Protect
+                      154  
+                      155  ;***************************************************
+                                                    ***************************
+                      156  ;---------------REGISTROS DEL MODULO BREAK----------
+                                                     --------------------------
+ 0000                 157  BRKH EQU     $FE09   ; Break address Hig Register
+                      158  
+ 0000                 159  BRKL EQU     $FE0A   ; Break Address Low Register
+                      160  
+ 0000                 161  BRKSCR       EQU     $FE0B   ; Break Status & 
+                                                               Control Register
+                      162  
+                      163  ;***************************************************
+                                                    ***************************
+                      164  ;---------------REGISTROS DEL MODULO LVI------------
+                                                    ---------------------------
+ 0000                 165  LVISR        EQU     $FE0C   ; LVI Status Register
+                      166  
+                      167  ;***************************************************
+                                                    ***************************
+                      168  ;---------------REGISTROS DEL MODULO OSCILLATOR-----
+                                                    ---------------------------
+ 0000                 169  IOSCTRM EQU  $FFC0   ; Internal Oscillator Trim 
+                                                  (Factory Prog Value Optional)
+                      170  
+                      171  ;***************************************************
+                                                    ***************************
+                      172  ;---------------REGISTROS DEL MODULO COP WATCHDOG---
+                                                    ---------------------------
+ 0000                 173  COPCTL       EQU     $FFFF   ; COP Control Register
+                      174  
+
+
+kbi con demora.asm     Assembled with CASM08Z  14/12/2012  20:15:52  PAGE 5
+
+
+
+                      175  ;***************************************************
+                                                    ***************************
+                      176  ;***************************************************
+                                                    ***************************
+                      177  ; RUTINAS DE MANEJO DE LA MEMORIA FLASH SITUADAS EN 
+                                                    LA ROM MONITOR (HC908QTQYx)
+                      178  ;***************************************************
+                                                    ***************************
+                      179  
+ 0000                 180  PRGRNGE              EQU     $2809   ;Programa un 
+                                                  rango de direcciones de Flash
+ 0000                 181  ERARNGE              EQU     $2806   ;Borra una 
+                                                        pagina de Memoria Flash
+ 0000                 182  GETBYTE              EQU     $2800   ;Recibe un 
+                                              Byte en Modo Monitordesde el Port
+ 0000                 183  RDVRRNG              EQU     $2803   ;Usa un Rango 
+                                               de la Flash y lo envia x el Port
+ 0000                 184  DELNUS               EQU     $280C   ;Rutina de 
+                                                  Demora (usa parametros[A][X])
+                      185  
+                      186  ;***************************************************
+                                                    ***************************
+                      187  ;       SyHDe - Soft y Hard Desarrollos, 2000  - 
+                                                          Derechos Reservados -
+                      188  ; Ud.uede usar este archivo gratuitamente mientras 
+                                                     incluya este pie de pagina
+                      189  ;***************************************************
+                                                    ***************************
+                      190  
+                      191  
+                      192  
+                      193  
+ EE00                 194       org     FLASH_INI
+                      195  start:
+ EE00 [01] 9C         196          rsp
+ EE01 [01] 4F         197       clra                            
+ EE02 [01] 8C         198       clrh                            
+ EE03 [01] 5F         199       clrx                            
+ EE04 [02] 9B         200       sei                             
+                      201          
+ EE05 [04] 6E801E     202          mov     #%10000000,CONFIG2
+ EE08 [04] 6E0D1F     203          mov     #%00001101,CONFIG1
+ EE0B [01] 9D         204          nop
+ EE0C [01] 9D         205          nop
+ EE0D [01] 9D         206          nop
+                      207          
+ EE0E [04] 6E2036     208          mov     #%00100000,OSCSC
+ EE11 [04] 6E8138     209          mov     #$81,OSCTRIM
+                      210          
+ EE14 [05] CDEE54     211          jsr     demora_qy
+ EE17 [05] CDEE54     212          jsr     demora_qy
+ EE1A [05] CDEE54     213          jsr     demora_qy
+ EE1D [05] CDEE54     214          jsr     demora_qy
+ EE20 [05] CDEE54     215          jsr     demora_qy
+ EE23 [05] CDEE54     216          jsr     demora_qy
+                      217          
+                      218          
+                      219          
+
+
+kbi con demora.asm     Assembled with CASM08Z  14/12/2012  20:15:52  PAGE 6
+
+
+
+ EE26 [04] 121A       220       bset    imaskk,KBSCR            
+ EE28 [04] 6E011B     221       mov     #%00000001,KBIER        
+ EE2B [04] 141A       222       bset    2,KBSCR         
+ EE2D [04] 111A       223       bclr    0,KBSCR         
+ EE2F [04] 131A       224       bclr    1,KBSCR           
+                      225  
+ EE31 [04] 6EFF01     226          mov     #%11111111,PORTB         
+ EE34 [04] 6EFF05     227          mov     #%11111111,DDRB               
+ EE37 [04] 6EFF01     228          mov     #%11111111,PORTB
+ EE3A [01] 9D         229          nop
+ EE3B [01] 9D         230          nop
+                      231                   
+                      232  
+ EE3C [04] 6EE700     233          mov     #%11100111,PORTA     
+ EE3F [04] 6EFE04     234          mov     #%11111110,DDRA      
+ EE42 [04] 6EE700     235          mov     #%11100111,PORTA
+ EE45 [01] 9D         236          nop
+ EE46 [01] 9D         237          nop
+                      238          
+ EE47 [02] 9A         239          cli
+                      240  
+                      241  
+                      242  start_00:
+                      243  
+ EE48 [04] 1F01       244       bclr    led_1,PORTB
+ EE4A [05] CDEE6E     245       jsr     demora_1000ms
+ EE4D [04] 1E01       246          bset led_1,PORTB
+ EE4F [05] CDEE6E     247       jsr     demora_1000ms
+                      248  
+ EE52 [03] 20F4       249          bra  start_00                
+                      250          
+                      251          
+                      252  demora_qy:
+ EE54 [02] AEFF       253          ldx     #$FF
+                      254  dem_2:
+ EE56 [02] A6FF       255          lda     #$FF
+                      256  dem_1:
+ EE58 [01] 4A         257          deca
+ EE59 [03] 26FD       258          bne     dem_1
+ EE5B [01] 5A         259          decx
+ EE5C [03] 26F8       260          bne     dem_2
+ EE5E [04] 81         261          rts
+                      262  
+                      263  demora_tecla:
+ EE5F [02] AEE0       264          ldx  #$E0            
+                      265  dem_02:
+ EE61 [02] A6E0       266       lda     #$E0                    
+                      267  dem_01:
+ EE63 [01] 4A         268       deca                            
+ EE64 [02] A100       269          cmp     #$00
+ EE66 [03] 26FB       270       bne     dem_01                  
+ EE68 [01] 5A         271       decx                            
+ EE69 [02] A300       272          cpx     #$00
+ EE6B [03] 26F4       273       bne     dem_02          
+ EE6D [04] 81         274          rts                    
+                      275  
+                      276  demora_1000ms:
+ EE6E [05] CDEE54     277       jsr     demora_qy               
+
+
+kbi con demora.asm     Assembled with CASM08Z  14/12/2012  20:15:52  PAGE 7
+
+
+
+ EE71 [05] CDEE54     278       jsr     demora_qy               
+ EE74 [05] CDEE54     279       jsr     demora_qy               
+ EE77 [05] CDEE54     280       jsr     demora_qy               
+ EE7A [05] CDEE54     281       jsr     demora_qy               
+ EE7D [05] CDEE54     282       jsr     demora_qy               
+                      283  demora_500ms:
+ EE80 [05] CDEE54     284       jsr     demora_qy               
+ EE83 [05] CDEE54     285       jsr     demora_qy               
+                      286  demora_320ms:
+ EE86 [05] CDEE54     287       jsr     demora_qy               
+                      288  demora_240ms:
+ EE89 [05] CDEE54     289       jsr     demora_qy               
+                      290  demora_rapida:
+ EE8C [05] CDEE54     291       jsr     demora_qy               
+ EE8F [05] CDEE54     292       jsr     demora_qy               
+ EE92 [04] 81         293       rts
+                      294  
+                      295  
+                      296  adc_isr:
+ EE93 [01] 9D         297          nop
+ EE94 [07] 80         298       rti                             
+                      299  
+                      300  
+                      301  keyb_isr:
+                      302  CONTROL_TECLA:
+ EE95 [05] CDEE5F     303          jsr      demora_tecla
+ EE98 [05] 010003     304          brclr     0,PORTA,jumper2
+ EE9B [03] CCEEBA     305          jmp       fin_00
+                      306  
+                      307  jumper2:
+ EE9E [05] CDEEA4     308          jsr     ENC_01
+ EEA1 [03] CCEEBA     309          jmp     fin_00
+                      310  
+                      311  ENC_01:
+ EEA4 [04] 1B01       312          bclr LED_3,PORTB
+ EEA6 [05] CDEE6E     313          jsr  demora_1000ms
+ EEA9 [04] 1A01       314          bset LED_3,PORTB
+ EEAB [04] 1901       315          bclr LED_4,PORTB
+ EEAD [05] CDEE6E     316          jsr  demora_1000ms
+ EEB0 [04] 1B01       317          bclr LED_3,PORTB
+ EEB2 [04] 1801       318          bset LED_4,PORTB
+ EEB4 [05] CDEE6E     319          jsr  demora_1000ms
+ EEB7 [04] 1A01       320          bset LED_3,PORTB
+ EEB9 [04] 81         321          rts
+                      322  fin_00:
+ EEBA [04] 141A       323          bset    ackk,kbscr              
+ EEBC [04] 131A       324          bclr    imaskk,kbscr            
+ EEBE [07] 80         325          rti
+                      326  
+                      327  
+                      328  tim1_ov_isr:
+ EEBF [01] 9D         329       nop
+ EEC0 [07] 80         330          rti
+                      331  
+                      332  tim1_1_isr:
+ EEC1 [01] 9D         333          nop
+ EEC2 [07] 80         334       rti                     
+                      335  
+
+
+kbi con demora.asm     Assembled with CASM08Z  14/12/2012  20:15:52  PAGE 8
+
+
+
+                      336  tim1_0_isr:
+ EEC3 [01] 9D         337          nop
+ EEC4 [07] 80         338       rti                             
+                      339  
+                      340  
+                      341  irq_isr:
+ EEC5 [01] 9D         342       nop                             
+ EEC6 [07] 80         343       rti                             
+                      344  
+                      345  swi_isr:
+ EEC7 [01] 9D         346          nop                          
+ EEC8 [07] 80         347          rti                          
+                      348  
+                      349  
+                      350  dummy_isr:
+ EEC9 [01] 9D         351          nop                          
+ EECA [07] 80         352          rti                          
+                      353  
+                      354  
+ FFDE                 355       org     VECTORES
+ FFDE      EE93       356       fdb     adc_isr         ; ADC Vector
+ FFE0      EE95       357       fdb     keyb_isr        ; KEYBOARD Vector
+                      358  
+ FFF2                 359       org     $FFF2
+ FFF2      EEBF       360       fdb     tim1_ov_isr     ; TIM1 Overflow Vector
+ FFF4      EEC1       361       fdb     tim1_1_isr      ; TIM1 Channel 1 Vector
+ FFF6      EEC3       362       fdb     tim1_0_isr      ; TIM1 Channel 0 Vector
+                      363  
+ FFFA                 364       org     $FFFA
+ FFFA      EEC5       365       fdb     irq_isr         ; IRQ1  Vector
+ FFFC      EEC7       366       fdb     swi_isr         ; SWI Vector
+ FFFE      EE00       367       fdb     Start           ; Reset
+                      368  
+                      369  end
+                      370   
+
+ Symbol Table 
+
+ACK              0002
+ACKK             0002
+ADCO             0005
+ADC_ISR          EE93
+ADICLK           003F
+ADRH             003D
+ADRL             003E
+ADSCR            003C
+AIEN             0006
+BCFE             0007
+BDCOP            0000
+BFCR             FE03
+BRKAR            FE02
+BRKH             FE09
+BRKL             FE0A
+BRKSCR           FE0B
+BSR              FE00
+CH0F             0007
+CH0IE            0006
+CH0MAX           0000
+
+
+kbi con demora.asm     Assembled with CASM08Z  14/12/2012  20:15:52  PAGE 9
+
+
+
+CH1F             0007
+CH1IE            0006
+CH1MAX           0000
+COCO             0007
+CONFIG1          001F
+CONFIG2          001E
+CONTROL_TECLA    EE95
+COP              0005
+COPCTL           FFFF
+DDRA             0004
+DDRB             0005
+DELNUS           280C
+DEMORA_1000MS    EE6E
+DEMORA_240MS     EE89
+DEMORA_320MS     EE86
+DEMORA_500MS     EE80
+DEMORA_QY        EE54
+DEMORA_RAPIDA    EE8C
+DEMORA_TECLA     EE5F
+DEM_01           EE63
+DEM_02           EE61
+DEM_1            EE58
+DEM_2            EE56
+DUMMY_ISR        EEC9
+ECFS0            0002
+ECFS1            0003
+ECGON            0001
+ECGST            0000
+ELS0A            0002
+ELS0B            0003
+ELS1A            0002
+ELS1B            0003
+ENC_01           EEA4
+END              0000
+ERARNGE          2806
+FIN_00           EEBA
+FLASH_INI        EE00
+FLBPR            FFBE
+FLCR             FE08
+GETBYTE          2800
+ICFS0            0004
+ICFS1            0005
+ILAD             0003
+ILOP             0004
+IMASK            0001
+IMASKK           0001
+INT1             FE04
+INT2             FE05
+INT3             FE06
+INTSCR           001D
+IOSCTRM          FFC0
+IRQF             0003
+IRQ_ISR          EEC5
+JUMPER2          EE9E
+KBIER            001B
+KBSCR            001A
+KEYB_ISR         EE95
+KEYF             0003
+
+
+kbi con demora.asm     Assembled with CASM08Z  14/12/2012  20:15:52  PAGE 10
+
+
+
+LED_1            0007
+LED_2            0006
+LED_3            0005
+LED_4            0004
+LVI              0001
+LVISR            FE0C
+MODE             0000
+MODEK            0000
+MODRST           0002
+MS0A             0004
+MS0B             0005
+MS1A             0004
+MS1B             0005
+OSCOPT0          0006
+OSCOPT1          0007
+OSCSC            0036
+OSCSTAT          0036
+OSCTRIM          0038
+PIN              0006
+POR              0007
+PORTA            0000
+PORTB            0001
+PRGRNGE          2809
+PTA              0000
+PTAPUE           000B
+PTB              0001
+PTBPUE           000C
+RAM_INI          0080
+RDVRRNG          2803
+SBSW             0001
+SRSR             FE01
+START            EE00
+START_00         EE48
+SWI_ISR          EEC7
+TCH0H            0026
+TCH0L            0027
+TCH1H            0029
+TCH1L            002A
+TCNTH            0021
+TCNTL            0022
+TIM1_0_ISR       EEC3
+TIM1_1_ISR       EEC1
+TIM1_OV_ISR      EEBF
+TMODH            0023
+TMODL            0024
+TOF              0007
+TOIE             0006
+TOV0             0001
+TOV1             0001
+TRST             0004
+TSC              0020
+TSC0             0025
+TSC1             0028
+TSTOP            0005
+VECTORES         FFDE

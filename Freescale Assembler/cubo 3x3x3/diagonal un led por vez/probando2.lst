@@ -1,0 +1,1343 @@
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 1
+
+
+
+ 0000                   1  RAM_INI              EQU     $0080
+ 0000                   2  FLASH_INI    EQU     $EE00
+ 0000                   3  VECTORES     EQU     $FFDE
+ 0000                   4  col_1           EQU     0       ;PTB0
+ 0000                   5  col_2           EQU     1       ;PTB1
+ 0000                   6  col_3           EQU     0       ;PTA0
+ 0000                   7  col_4           EQU     1       ;PTA1
+ 0000                   8  col_5           EQU     2       ;PTB2
+ 0000                   9  col_6           EQU     3       ;PTB3
+ 0000                  10  col_7           EQU     3       ;PTA3
+ 0000                  11  col_8           EQU     4       ;PTB4
+ 0000                  12  col_9                EQU     5       ;PTB5
+ 0000                  13  fil_1           EQU     5       ;PTA5
+ 0000                  14  fil_2           EQU     6       ;PTB6
+ 0000                  15  fil_3           EQU     7       ;PTB7
+                       16  
+                       17  
+ 0000                  18  $base                10t
+ 0000                  19  $Include        'QTQY_registers.inc'
+                       20  ;***************************************************
+                                                    ***************************
+                       21  ;                    QTQY_REGISTERS.INC - ARCHIVO 
+                                                                        INCLUDE
+                       22  ; Contiene las Definiciones de los Registros del 
+                                                       MC68HC908QTA/QYA/8/4/2/1
+                       23  ;
+                       24  ;                    SyHDe - Soft y Hard Desarrollos
+                       25  ;***************************************************
+                                                    ***************************
+                       26  
+                       27  ;***************************************************
+                                                    ***************************
+                       28  ;---------------REGISTROS DE PUERTOS ENT/SAL--------
+                                                    ---------------------------
+                       29  ;---------------PUERTO A----------------------------
+                                                    ---------------------------
+ 0000                  30  PTA  EQU     $0000   ; Port A Data register
+ 0000                  31  PORTA        EQU     $0000   ; "
+ 0000                  32  DDRA EQU     $0004   ; Port A Data Direction 
+                                                                       Register
+ 0000                  33  PTAPUE  EQU  $000B   ; Port A Pull Ups Enable
+                       34  
+                       35  ;---------------PUERTO B----------------------------
+                                                    ---------------------------
+ 0000                  36  PTB  EQU     $0001   ; Port B Data register
+ 0000                  37  PORTB        EQU     $0001   ; "
+ 0000                  38  DDRB EQU     $0005   ; Port B Data Direction 
+                                                                       Register
+ 0000                  39  PTBPUE  EQU  $000C   ; Port B Pull Ups Enable
+                       40  
+                       41  ;***************************************************
+                                                    ***************************
+                       42  ;---------------REGISTROS DEL MODULO KEYBOARD-------
+                                                    ---------------------------
+ 0000                  43  KBSCR        EQU     $001A   ; Keyboard Status & 
+                                                               Control register
+ 0000                  44  keyf equ     3       ;
+ 0000                  45  ackk equ     2       ;
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 2
+
+
+
+ 0000                  46  imaskk       equ     1       ;
+ 0000                  47  modek        equ     0       ;
+                       48  
+ 0000                  49  KBIER        EQU     $001B   ; Keyboard interrupt 
+                                                                enable register
+                       50  
+                       51  ;***************************************************
+                                                    ***************************
+                       52  ;---------------REGISTROS DE INTERRUPCION EXTERNA 
+                                                  1----------------------------
+ 0000                  53  INTSCR       EQU     $001D   ; IRQ Status & Control 
+                                                                       Register
+ 0000                  54  irqf equ     3       ;
+ 0000                  55  ack  equ     2       ;
+ 0000                  56  imask        equ     1       ;
+ 0000                  57  mode equ     0       ;
+                       58  
+                       59  ;***************************************************
+                                                    ***************************
+                       60  ;---------------REGISTROS DE CONFIGURACION----------
+                                                    ---------------------------
+ 0000                  61  CONFIG1      EQU     $001F   ; Configuration 
+                                                                     Register 1
+                       62  
+ 0000                  63  CONFIG2      EQU     $001E   ; Configuration 
+                                                                     Register 2
+                       64  
+                       65  ;***************************************************
+                                                    ***************************
+                       66  ;---------------REGISTROS DEL TIMER ----------------
+                                                    ---------------------------
+ 0000                  67  TSC  EQU     $0020   ; Timer Status & Control 
+                                                                       Register
+ 0000                  68  tof  equ     7       ;
+ 0000                  69  toie equ     6       ;
+ 0000                  70  tstop        equ     5       ;
+ 0000                  71  trst equ     4       ;
+                       72  
+ 0000                  73  TCNTH        EQU     $0021   ; Timer Counter 
+                                                                  Register High
+ 0000                  74  TCNTL        EQU     $0022   ; Timer Counter 
+                                                                   Register Low
+ 0000                  75  TMODH        EQU     $0023   ; Timer Counter Modulo 
+                                                                  Register High
+ 0000                  76  TMODL        EQU     $0024   ; Timer Counter Modulo 
+                                                                   Register Low
+                       77  
+ 0000                  78  TSC0 EQU     $0025   ; Timer Channel 0 Status & 
+                                                               Control Register
+ 0000                  79  ch0f equ     7
+ 0000                  80  ch0ie        equ     6       ;
+ 0000                  81  ms0b equ     5       ;
+ 0000                  82  ms0a equ     4       ;
+ 0000                  83  els0b        equ     3       ;
+ 0000                  84  els0a        equ     2       ;
+ 0000                  85  tov0 equ     1       ;
+ 0000                  86  ch0max       equ     0       ;
+                       87  
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 3
+
+
+
+ 0000                  88  TCH0H        EQU     $0026   ; Timer Channel 0 
+                                                                  Register High
+ 0000                  89  TCH0L        EQU     $0027   ; Timer Channel 0 
+                                                                   Register Low
+                       90  
+ 0000                  91  TSC1 EQU     $0028   ; Timer Channel 1 Status & 
+                                                               Control Register
+ 0000                  92  ch1f equ     7
+ 0000                  93  ch1ie        equ     6       ;
+ 0000                  94  ms1b equ     5       ;
+ 0000                  95  ms1a equ     4       ;
+ 0000                  96  els1b        equ     3       ;
+ 0000                  97  els1a        equ     2       ;
+ 0000                  98  tov1 equ     1       ;
+ 0000                  99  ch1max       equ     0       ;
+                      100  
+ 0000                 101  TCH1H        EQU     $0029   ; Timer Channel 1 
+                                                                  Register High
+ 0000                 102  TCH1L        EQU     $002A   ; Timer Channel 1 
+                                                                   Register Low
+                      103  
+                      104  ;***************************************************
+                                                    ***************************
+                      105  ;---------------REGISTROS DEL OSCILADOR-------------
+                                                    ---------------------------
+ 0000                 106  OSCSC        EQU     $0036   ;Oscillator Status and 
+                                                               Control Register
+ 0000                 107  ecgst        equ     0       ;Read Only!!!!
+ 0000                 108  ecgon        equ     1       ;
+ 0000                 109  ecfs0        equ     2       ;
+ 0000                 110  ecfs1        equ     3       ;
+ 0000                 111  icfs0        equ     4       ;
+ 0000                 112  icfs1        equ     5       ;
+ 0000                 113  oscopt0      equ     6       ;
+ 0000                 114  oscopt1      equ     7       ;
+                      115  
+ 0000                 116  OSCTRIM      EQU     $0038   ;Oscillator Trim 
+                                                                       Register
+                      117  
+ 0000                 118  OSCSTAT EQU  $0036   ;Oscillator Status and Control 
+                                                         (No Vers A Solo QY/QT)
+                      119  
+                      120  ;***************************************************
+                                                    ***************************
+                      121  ;---------------REGISTROS DEL ADC-------------------
+                                                    ---------------------------
+ 0000                 122  ADSCR        EQU     $003C   ; ADC Status & Control 
+                                                                       Register
+ 0000                 123  coco equ     7       ;
+ 0000                 124  aien equ     6       ;
+ 0000                 125  adco equ     5       ;
+                      126  
+ 0000                 127  ADRH EQU     $003D   ; ADC10 Data Register High
+ 0000                 128  ADRL EQU     $003E   ; ADC10 Data Register Low
+ 0000                 129  ADICLK       EQU     $003F   ; ADC10 Clock Control 
+                                                                       Register
+                      130  
+                      131  ;***************************************************
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 4
+
+
+
+                                                    ***************************
+                      132  ;---------------REGISTROS DEL MODULO SIM------------
+                                                    ---------------------------
+ 0000                 133  BSR  EQU     $FE00   ; Break Status Register
+ 0000                 134  sbsw equ     1       ; break wait bit
+                      135  
+ 0000                 136  SRSR EQU     $FE01   ; SIM Reset Status Register
+ 0000                 137  por  equ     7       ;
+ 0000                 138  pin  equ     6       ;
+ 0000                 139  cop  equ     5       ;
+ 0000                 140  ilop equ     4       ;
+ 0000                 141  ilad equ     3       ;
+ 0000                 142  modrst       equ     2       ;
+ 0000                 143  lvi  equ     1       ;
+                      144  
+ 0000                 145  BRKAR        EQU     $FE02   ; Break Auxiliary 
+                                                                       Register
+ 0000                 146  bdcop        equ     0
+                      147  
+ 0000                 148  BFCR EQU     $FE03   ; Break Flag Control Register
+ 0000                 149  bcfe equ     7       ;
+                      150  
+ 0000                 151  INT1 EQU     $FE04   ; Interrupt Status Register 1
+                      152  
+ 0000                 153  INT2 EQU     $FE05   ; Interrupt Status Register 2
+                      154  
+ 0000                 155  INT3 EQU     $FE06   ; Interrupt Status Register 3
+                      156  
+                      157  ;***************************************************
+                                                    ***************************
+                      158  ;---------------REGISTROS DE LA MEMORIA FLASH-------
+                                                    ---------------------------
+ 0000                 159  FLCR EQU     $FE08   ; FLASH Control Register
+                      160  
+ 0000                 161  FLBPR        EQU     $FFBE   ; FLASH Block Protect
+                      162  
+                      163  ;***************************************************
+                                                    ***************************
+                      164  ;---------------REGISTROS DEL MODULO BREAK----------
+                                                     --------------------------
+ 0000                 165  BRKH EQU     $FE09   ; Break address Hig Register
+                      166  
+ 0000                 167  BRKL EQU     $FE0A   ; Break Address Low Register
+                      168  
+ 0000                 169  BRKSCR       EQU     $FE0B   ; Break Status & 
+                                                               Control Register
+                      170  
+                      171  ;***************************************************
+                                                    ***************************
+                      172  ;---------------REGISTROS DEL MODULO LVI------------
+                                                    ---------------------------
+ 0000                 173  LVISR        EQU     $FE0C   ; LVI Status Register
+                      174  
+                      175  ;***************************************************
+                                                    ***************************
+                      176  ;---------------REGISTROS DEL MODULO OSCILLATOR-----
+                                                    ---------------------------
+ 0000                 177  IOSCTRM EQU  $FFC0   ; Internal Oscillator Trim 
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 5
+
+
+
+                                                  (Factory Prog Value Optional)
+                      178  
+                      179  ;***************************************************
+                                                    ***************************
+                      180  ;---------------REGISTROS DEL MODULO COP WATCHDOG---
+                                                    ---------------------------
+ 0000                 181  COPCTL       EQU     $FFFF   ; COP Control Register
+                      182  
+                      183  ;***************************************************
+                                                    ***************************
+                      184  ;***************************************************
+                                                    ***************************
+                      185  ; RUTINAS DE MANEJO DE LA MEMORIA FLASH SITUADAS EN 
+                                                    LA ROM MONITOR (HC908QTQYx)
+                      186  ;***************************************************
+                                                    ***************************
+                      187  
+ 0000                 188  PRGRNGE              EQU     $2809   ;Programa un 
+                                                  rango de direcciones de Flash
+ 0000                 189  ERARNGE              EQU     $2806   ;Borra una 
+                                                        pagina de Memoria Flash
+ 0000                 190  GETBYTE              EQU     $2800   ;Recibe un 
+                                              Byte en Modo Monitordesde el Port
+ 0000                 191  RDVRRNG              EQU     $2803   ;Usa un Rango 
+                                               de la Flash y lo envia x el Port
+ 0000                 192  DELNUS               EQU     $280C   ;Rutina de 
+                                                  Demora (usa parametros[A][X])
+                      193  
+                      194  ;***************************************************
+                                                    ***************************
+                      195  ;       SyHDe - Soft y Hard Desarrollos, 2000  - 
+                                                          Derechos Reservados -
+                      196  ; Ud.uede usar este archivo gratuitamente mientras 
+                                                     incluya este pie de pagina
+                      197  ;***************************************************
+                                                    ***************************
+                      198  
+                      199  
+                      200  
+                      201  
+ EE00                 202       org     FLASH_INI
+                      203  start:
+ EE00 [01] 9C         204          rsp
+ EE01 [01] 4F         205       clra
+ EE02 [01] 8C         206       clrh
+ EE03 [01] 5F         207       clrx
+ EE04 [02] 9B         208       sei
+                      209  
+ EE05 [04] 6E801E     210          mov     #%10000000,CONFIG2
+ EE08 [04] 6E0D1F     211          mov     #%00001101,CONFIG1
+ EE0B [01] 9D         212          nop
+ EE0C [01] 9D         213          nop
+ EE0D [01] 9D         214          nop
+                      215  
+ EE0E [04] 6E2036     216          mov     #%00100000,OSCSC
+ EE11 [04] 6E8138     217          mov     #$81,OSCTRIM
+                      218  
+ EE14 [05] CDEE8C     219          jsr     demora_qy
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 6
+
+
+
+ EE17 [05] CDEE8C     220          jsr     demora_qy
+ EE1A [05] CDEE8C     221          jsr     demora_qy
+ EE1D [05] CDEE8C     222          jsr     demora_qy
+ EE20 [05] CDEE8C     223          jsr     demora_qy
+ EE23 [05] CDEE8C     224          jsr     demora_qy
+                      225  
+ EE26 [04] 6EFF01     226          mov     #%11111111,PORTB
+ EE29 [04] 6EFF05     227          mov     #%11111111,DDRB
+ EE2C [04] 6EFF01     228          mov     #%11111111,PORTB
+ EE2F [01] 9D         229          nop
+ EE30 [01] 9D         230          nop
+                      231  
+                      232  
+ EE31 [04] 6EFF00     233          mov     #%11111111,PORTA
+ EE34 [04] 6EFF04     234          mov     #%11111111,DDRA
+ EE37 [04] 6EFF00     235          mov     #%11111111,PORTA
+ EE3A [01] 9D         236          nop
+ EE3B [01] 9D         237          nop
+                      238  
+                      239  
+                      240  
+                      241  
+                      242  iniciar:
+                      243    
+ EE3C [05] CDEEC0     244          jsr     apagado_led
+ EE3F [04] 1600       245          bset    col_7,PORTA
+ EE41 [04] 1200       246          bset    col_4,PORTA
+ EE43 [04] 1001       247          bset    col_1,PORTB
+ EE45 [04] 1E01       248          bset    fil_3,PORTB
+ EE47 [05] CDEE7D     249          jsr     retardo_qy
+                      250  
+ EE4A [04] 1700       251          bclr    col_7,PORTA
+ EE4C [04] 1300       252          bclr    col_4,PORTA
+ EE4E [04] 1101       253          bclr    col_1,PORTB
+ EE50 [04] 1F01       254          bclr    fil_3,PORTB
+ EE52 [04] 1801       255          bset    col_8,PORTB
+ EE54 [04] 1401       256          bset    col_5,PORTB
+ EE56 [04] 1201       257          bset    col_2,PORTB
+ EE58 [04] 1C01       258          bset    fil_2,PORTB
+ EE5A [05] CDEE7D     259          jsr     retardo_qy
+                      260          
+                      261          
+ EE5D [04] 1901       262          bclr    col_8,PORTB
+ EE5F [04] 1501       263          bclr    col_5,PORTB
+ EE61 [04] 1301       264          bclr    col_2,PORTB
+ EE63 [04] 1D01       265          bclr    fil_2,PORTB
+ EE65 [04] 1A01       266          bset    col_9,PORTB
+ EE67 [04] 1601       267          bset    col_6,PORTB
+ EE69 [04] 1000       268          bset    col_3,PORTA
+ EE6B [04] 1A00       269          bset    fil_1,PORTA
+ EE6D [05] CDEE7D     270          jsr     retardo_qy
+                      271          
+ EE70 [04] 1B01       272          bclr    col_9,PORTB
+ EE72 [04] 1701       273          bclr    col_6,PORTB
+ EE74 [04] 1100       274          bclr    col_3,PORTA
+ EE76 [04] 1B00       275          bclr    fil_1,PORTA
+ EE78 [05] CDEEB6     276          jsr     demora_240ms
+                      277  
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 7
+
+
+
+ EE7B [03] 20BF       278          bra     iniciar
+                      279  
+                      280  
+                      281  retardo_qy:
+ EE7D [02] AE1B       282          ldx     #$1B
+                      283  retardo_2:
+ EE7F [02] A61B       284          lda     #$1B
+                      285  retardo_1:
+ EE81 [01] 4A         286          deca
+ EE82 [02] A100       287          cmp     #$00
+ EE84 [03] 26FB       288          bne     retardo_1
+ EE86 [01] 5A         289          decx
+ EE87 [02] A300       290          cpx     #$00
+ EE89 [03] 26F4       291          bne     retardo_2
+ EE8B [04] 81         292          rts
+                      293  
+                      294  demora_qy:
+ EE8C [02] AEFF       295          ldx     #$FF
+                      296  dem_2:
+ EE8E [02] A6FF       297          lda     #$FF
+                      298  dem_1:
+ EE90 [01] 4A         299          deca
+ EE91 [02] A100       300          cmp     #$00
+ EE93 [03] 26FB       301          bne     dem_1
+ EE95 [01] 5A         302          decx
+ EE96 [02] A300       303          cpx     #$00
+ EE98 [03] 26F4       304          bne     dem_2
+ EE9A [04] 81         305          rts
+                      306  
+                      307  demora_1000ms:
+ EE9B [05] CDEE8C     308       jsr     demora_qy
+ EE9E [05] CDEE8C     309       jsr     demora_qy
+ EEA1 [05] CDEE8C     310       jsr     demora_qy
+ EEA4 [05] CDEE8C     311       jsr     demora_qy
+ EEA7 [05] CDEE8C     312       jsr     demora_qy
+ EEAA [05] CDEE8C     313       jsr     demora_qy
+                      314  demora_500ms:
+ EEAD [05] CDEE8C     315       jsr     demora_qy
+ EEB0 [05] CDEE8C     316       jsr     demora_qy
+                      317  demora_320ms:
+ EEB3 [05] CDEE8C     318       jsr     demora_qy
+                      319  demora_240ms:
+ EEB6 [05] CDEE8C     320       jsr     demora_qy
+                      321  demora_rapida:
+ EEB9 [05] CDEE8C     322       jsr     demora_qy
+ EEBC [05] CDEE8C     323       jsr     demora_qy
+ EEBF [04] 81         324       rts
+                      325  
+                      326  apagado_led:
+ EEC0 [04] 1101       327          bclr col_1,PORTB
+ EEC2 [04] 1301       328          bclr col_2,PORTB
+ EEC4 [04] 1100       329          bclr col_3,PORTA
+ EEC6 [04] 1300       330          bclr col_4,PORTA
+ EEC8 [04] 1501       331          bclr col_5,PORTB
+ EECA [04] 1701       332          bclr col_6,PORTB
+ EECC [04] 1700       333          bclr col_7,PORTA
+ EECE [04] 1901       334          bclr col_8,PORTB
+ EED0 [04] 1B01       335          bclr col_9,PORTB
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 8
+
+
+
+ EED2 [04] 1B00       336          bclr fil_1,PORTA
+ EED4 [04] 1D01       337          bclr fil_2,PORTB
+ EED6 [04] 1F01       338          bclr fil_3,PORTB
+ EED8 [04] 81         339          rts
+                      340  
+                      341  cruz_1:
+ EED9 [04] 1A01       342          bset    col_9,PORTB
+ EEDB [04] 1601       343          bset    col_6,PORTB
+ EEDD [04] 1000       344          bset    col_3,PORTA
+ EEDF [04] 1E01       345          bset    fil_3,PORTB
+ EEE1 [05] CDEE7D     346          jsr     retardo_qy
+ EEE4 [04] 1B01       347          bclr    col_9,PORTB
+ EEE6 [04] 1701       348          bclr    col_6,PORTB
+ EEE8 [04] 1100       349          bclr    col_3,PORTA
+ EEEA [04] 1F01       350          bclr    fil_3,PORTB
+ EEEC [04] 81         351          rts
+                      352  
+                      353  cruz_2:
+ EEED [04] 1600       354          bset    col_7,PORTA
+ EEEF [04] 1200       355          bset    col_4,PORTA
+ EEF1 [04] 1001       356          bset    col_1,PORTB
+ EEF3 [04] 1E01       357          bset    fil_3,PORTB
+ EEF5 [05] CDEE7D     358          jsr     retardo_qy
+                      359  
+ EEF8 [04] 1700       360          bclr    col_7,PORTA
+ EEFA [04] 1300       361          bclr    col_4,PORTA
+ EEFC [04] 1101       362          bclr    col_1,PORTB
+ EEFE [04] 1F01       363          bclr    fil_3,PORTB
+ EF00 [04] 1801       364          bset    col_8,PORTB
+ EF02 [04] 1401       365          bset    col_5,PORTB
+ EF04 [04] 1201       366          bset    col_2,PORTB
+ EF06 [04] 1C01       367          bset    fil_2,PORTB
+ EF08 [05] CDEE7D     368          jsr     retardo_qy
+                      369          
+                      370          
+ EF0B [04] 1901       371          bclr    col_8,PORTB
+ EF0D [04] 1501       372          bclr    col_5,PORTB
+ EF0F [04] 1301       373          bclr    col_2,PORTB
+ EF11 [04] 1D01       374          bclr    fil_2,PORTB
+ EF13 [04] 1A01       375          bset    col_9,PORTB
+ EF15 [04] 1601       376          bset    col_6,PORTB
+ EF17 [04] 1000       377          bset    col_3,PORTA
+ EF19 [04] 1A00       378          bset    fil_1,PORTA
+                      379          
+ EF1B [05] CDEE7D     380          jsr     retardo_qy
+                      381  
+ EF1E [04] 81         382          rts
+                      383  
+                      384  cruz_1_1000ms:
+ EF1F [05] CDEED9     385          jsr   cruz_1
+ EF22 [05] CDEED9     386          jsr   cruz_1
+ EF25 [05] CDEED9     387          jsr   cruz_1
+ EF28 [05] CDEED9     388          jsr   cruz_1
+ EF2B [05] CDEED9     389          jsr   cruz_1
+ EF2E [05] CDEED9     390          jsr   cruz_1
+ EF31 [05] CDEED9     391          jsr   cruz_1
+ EF34 [05] CDEED9     392          jsr   cruz_1
+ EF37 [05] CDEED9     393          jsr   cruz_1
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 9
+
+
+
+ EF3A [05] CDEED9     394          jsr   cruz_1
+ EF3D [05] CDEED9     395          jsr   cruz_1
+ EF40 [05] CDEED9     396          jsr   cruz_1
+ EF43 [05] CDEED9     397          jsr   cruz_1
+ EF46 [05] CDEED9     398          jsr   cruz_1
+ EF49 [05] CDEED9     399          jsr   cruz_1
+ EF4C [05] CDEED9     400          jsr   cruz_1
+ EF4F [05] CDEED9     401          jsr   cruz_1
+ EF52 [05] CDEED9     402          jsr   cruz_1
+ EF55 [05] CDEED9     403          jsr   cruz_1
+ EF58 [05] CDEED9     404          jsr   cruz_1
+ EF5B [05] CDEED9     405          jsr   cruz_1
+ EF5E [05] CDEED9     406          jsr   cruz_1
+ EF61 [05] CDEED9     407          jsr   cruz_1
+ EF64 [05] CDEED9     408          jsr   cruz_1
+ EF67 [05] CDEED9     409          jsr   cruz_1
+ EF6A [05] CDEED9     410          jsr   cruz_1
+ EF6D [05] CDEED9     411          jsr   cruz_1
+ EF70 [05] CDEED9     412          jsr   cruz_1
+ EF73 [05] CDEED9     413          jsr   cruz_1
+ EF76 [05] CDEED9     414          jsr   cruz_1
+ EF79 [05] CDEED9     415          jsr   cruz_1
+ EF7C [05] CDEED9     416          jsr   cruz_1
+ EF7F [05] CDEED9     417          jsr   cruz_1
+ EF82 [05] CDEED9     418          jsr   cruz_1
+ EF85 [05] CDEED9     419          jsr   cruz_1
+ EF88 [05] CDEED9     420          jsr   cruz_1
+ EF8B [05] CDEED9     421          jsr   cruz_1
+ EF8E [05] CDEED9     422          jsr   cruz_1
+ EF91 [05] CDEED9     423          jsr   cruz_1
+ EF94 [05] CDEED9     424          jsr   cruz_1
+ EF97 [05] CDEED9     425          jsr   cruz_1
+ EF9A [05] CDEED9     426          jsr   cruz_1
+ EF9D [05] CDEED9     427          jsr   cruz_1
+ EFA0 [05] CDEED9     428          jsr   cruz_1
+ EFA3 [05] CDEED9     429          jsr   cruz_1
+ EFA6 [05] CDEED9     430          jsr   cruz_1
+ EFA9 [05] CDEED9     431          jsr   cruz_1
+ EFAC [05] CDEED9     432          jsr   cruz_1
+ EFAF [05] CDEED9     433          jsr   cruz_1
+ EFB2 [05] CDEED9     434          jsr   cruz_1
+ EFB5 [05] CDEED9     435          jsr   cruz_1
+ EFB8 [05] CDEED9     436          jsr   cruz_1
+ EFBB [05] CDEED9     437          jsr   cruz_1
+ EFBE [05] CDEED9     438          jsr   cruz_1
+ EFC1 [05] CDEED9     439          jsr   cruz_1
+ EFC4 [05] CDEED9     440          jsr   cruz_1
+ EFC7 [05] CDEED9     441          jsr   cruz_1
+ EFCA [05] CDEED9     442          jsr   cruz_1
+ EFCD [05] CDEED9     443          jsr   cruz_1
+ EFD0 [05] CDEED9     444          jsr   cruz_1
+ EFD3 [05] CDEED9     445          jsr   cruz_1
+ EFD6 [05] CDEED9     446          jsr   cruz_1
+ EFD9 [05] CDEED9     447          jsr   cruz_1
+ EFDC [05] CDEED9     448          jsr   cruz_1
+ EFDF [05] CDEED9     449          jsr   cruz_1
+ EFE2 [05] CDEED9     450          jsr   cruz_1
+ EFE5 [05] CDEED9     451          jsr   cruz_1
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 10
+
+
+
+ EFE8 [05] CDEED9     452          jsr   cruz_1
+ EFEB [05] CDEED9     453          jsr   cruz_1
+ EFEE [05] CDEED9     454          jsr   cruz_1
+ EFF1 [05] CDEED9     455          jsr   cruz_1
+ EFF4 [05] CDEED9     456          jsr   cruz_1
+ EFF7 [05] CDEED9     457          jsr   cruz_1
+ EFFA [05] CDEED9     458          jsr   cruz_1
+ EFFD [05] CDEED9     459          jsr   cruz_1
+ F000 [05] CDEED9     460          jsr   cruz_1
+ F003 [05] CDEED9     461          jsr   cruz_1
+ F006 [05] CDEED9     462          jsr   cruz_1
+ F009 [05] CDEED9     463          jsr   cruz_1
+ F00C [05] CDEED9     464          jsr   cruz_1
+ F00F [05] CDEED9     465          jsr   cruz_1
+ F012 [05] CDEED9     466          jsr   cruz_1
+ F015 [05] CDEED9     467          jsr   cruz_1
+ F018 [05] CDEED9     468          jsr   cruz_1
+ F01B [05] CDEED9     469          jsr   cruz_1
+ F01E [05] CDEED9     470          jsr   cruz_1
+ F021 [05] CDEED9     471          jsr   cruz_1
+ F024 [05] CDEED9     472          jsr   cruz_1
+ F027 [05] CDEED9     473          jsr   cruz_1
+ F02A [05] CDEED9     474          jsr   cruz_1
+ F02D [05] CDEED9     475          jsr   cruz_1
+ F030 [05] CDEED9     476          jsr   cruz_1
+ F033 [05] CDEED9     477          jsr   cruz_1
+ F036 [05] CDEED9     478          jsr   cruz_1
+ F039 [05] CDEED9     479          jsr   cruz_1
+ F03C [05] CDEED9     480          jsr   cruz_1
+ F03F [05] CDEED9     481          jsr   cruz_1
+ F042 [05] CDEED9     482          jsr   cruz_1
+ F045 [05] CDEED9     483          jsr   cruz_1
+ F048 [05] CDEED9     484          jsr   cruz_1
+ F04B [05] CDEED9     485          jsr   cruz_1
+ F04E [05] CDEED9     486          jsr   cruz_1
+ F051 [05] CDEED9     487          jsr   cruz_1
+ F054 [05] CDEED9     488          jsr   cruz_1
+ F057 [05] CDEED9     489          jsr   cruz_1
+ F05A [05] CDEED9     490          jsr   cruz_1
+ F05D [05] CDEED9     491          jsr   cruz_1
+ F060 [05] CDEED9     492          jsr   cruz_1
+ F063 [05] CDEED9     493          jsr   cruz_1
+ F066 [05] CDEED9     494          jsr   cruz_1
+ F069 [05] CDEED9     495          jsr   cruz_1
+ F06C [05] CDEED9     496          jsr   cruz_1
+ F06F [05] CDEED9     497          jsr   cruz_1
+ F072 [05] CDEED9     498          jsr   cruz_1
+ F075 [05] CDEED9     499          jsr   cruz_1
+ F078 [05] CDEED9     500          jsr   cruz_1
+ F07B [05] CDEED9     501          jsr   cruz_1
+ F07E [05] CDEED9     502          jsr   cruz_1
+ F081 [05] CDEED9     503          jsr   cruz_1
+ F084 [05] CDEED9     504          jsr   cruz_1
+ F087 [05] CDEED9     505          jsr   cruz_1
+ F08A [05] CDEED9     506          jsr   cruz_1
+ F08D [05] CDEED9     507          jsr   cruz_1
+ F090 [05] CDEED9     508          jsr   cruz_1
+ F093 [05] CDEED9     509          jsr   cruz_1
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 11
+
+
+
+ F096 [05] CDEED9     510          jsr   cruz_1
+ F099 [05] CDEED9     511          jsr   cruz_1
+ F09C [05] CDEED9     512          jsr   cruz_1
+ F09F [05] CDEED9     513          jsr   cruz_1
+ F0A2 [05] CDEED9     514          jsr   cruz_1
+ F0A5 [05] CDEED9     515          jsr   cruz_1
+ F0A8 [05] CDEED9     516          jsr   cruz_1
+ F0AB [05] CDEED9     517          jsr   cruz_1
+ F0AE [05] CDEED9     518          jsr   cruz_1
+ F0B1 [05] CDEED9     519          jsr   cruz_1
+ F0B4 [05] CDEED9     520          jsr   cruz_1
+ F0B7 [05] CDEED9     521          jsr   cruz_1
+ F0BA [05] CDEED9     522          jsr   cruz_1
+ F0BD [05] CDEED9     523          jsr   cruz_1
+ F0C0 [05] CDEED9     524          jsr   cruz_1
+ F0C3 [05] CDEED9     525          jsr   cruz_1
+ F0C6 [05] CDEED9     526          jsr   cruz_1
+ F0C9 [05] CDEED9     527          jsr   cruz_1
+ F0CC [05] CDEED9     528          jsr   cruz_1
+ F0CF [05] CDEED9     529          jsr   cruz_1
+ F0D2 [05] CDEED9     530          jsr   cruz_1
+ F0D5 [05] CDEED9     531          jsr   cruz_1
+ F0D8 [05] CDEED9     532          jsr   cruz_1
+ F0DB [05] CDEED9     533          jsr   cruz_1
+ F0DE [05] CDEED9     534          jsr   cruz_1
+ F0E1 [05] CDEED9     535          jsr   cruz_1
+ F0E4 [05] CDEED9     536          jsr   cruz_1
+ F0E7 [05] CDEED9     537          jsr   cruz_1
+ F0EA [05] CDEED9     538          jsr   cruz_1
+ F0ED [05] CDEED9     539          jsr   cruz_1
+ F0F0 [05] CDEED9     540          jsr   cruz_1
+ F0F3 [05] CDEED9     541          jsr   cruz_1
+ F0F6 [05] CDEED9     542          jsr   cruz_1
+ F0F9 [05] CDEED9     543          jsr   cruz_1
+ F0FC [05] CDEED9     544          jsr   cruz_1
+ F0FF [05] CDEED9     545          jsr   cruz_1
+ F102 [05] CDEED9     546          jsr   cruz_1
+ F105 [05] CDEED9     547          jsr   cruz_1
+ F108 [05] CDEED9     548          jsr   cruz_1
+ F10B [05] CDEED9     549          jsr   cruz_1
+ F10E [05] CDEED9     550          jsr   cruz_1
+ F111 [05] CDEED9     551          jsr   cruz_1
+ F114 [05] CDEED9     552          jsr   cruz_1
+ F117 [05] CDEED9     553          jsr   cruz_1
+ F11A [05] CDEED9     554          jsr   cruz_1
+ F11D [05] CDEED9     555          jsr   cruz_1
+ F120 [05] CDEED9     556          jsr   cruz_1
+ F123 [05] CDEED9     557          jsr   cruz_1
+ F126 [05] CDEED9     558          jsr   cruz_1
+ F129 [05] CDEED9     559          jsr   cruz_1
+ F12C [05] CDEED9     560          jsr   cruz_1
+ F12F [05] CDEED9     561          jsr   cruz_1
+ F132 [05] CDEED9     562          jsr   cruz_1
+ F135 [05] CDEED9     563          jsr   cruz_1
+ F138 [05] CDEED9     564          jsr   cruz_1
+ F13B [05] CDEED9     565          jsr   cruz_1
+ F13E [05] CDEED9     566          jsr   cruz_1
+ F141 [05] CDEED9     567          jsr   cruz_1
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 12
+
+
+
+ F144 [05] CDEED9     568          jsr   cruz_1
+ F147 [05] CDEED9     569          jsr   cruz_1
+ F14A [05] CDEED9     570          jsr   cruz_1
+ F14D [05] CDEED9     571          jsr   cruz_1
+ F150 [05] CDEED9     572          jsr   cruz_1
+ F153 [05] CDEED9     573          jsr   cruz_1
+ F156 [05] CDEED9     574          jsr   cruz_1
+ F159 [05] CDEED9     575          jsr   cruz_1
+ F15C [05] CDEED9     576          jsr   cruz_1
+ F15F [05] CDEED9     577          jsr   cruz_1
+ F162 [05] CDEED9     578          jsr   cruz_1
+ F165 [05] CDEED9     579          jsr   cruz_1
+ F168 [05] CDEED9     580          jsr   cruz_1
+ F16B [05] CDEED9     581          jsr   cruz_1
+ F16E [05] CDEED9     582          jsr   cruz_1
+ F171 [05] CDEED9     583          jsr   cruz_1
+ F174 [05] CDEED9     584          jsr   cruz_1
+ F177 [05] CDEED9     585          jsr   cruz_1
+ F17A [05] CDEED9     586          jsr   cruz_1
+ F17D [05] CDEED9     587          jsr   cruz_1
+ F180 [05] CDEED9     588          jsr   cruz_1
+ F183 [05] CDEED9     589          jsr   cruz_1
+ F186 [05] CDEED9     590          jsr   cruz_1
+ F189 [05] CDEED9     591          jsr   cruz_1
+ F18C [05] CDEED9     592          jsr   cruz_1
+ F18F [05] CDEED9     593          jsr   cruz_1
+ F192 [05] CDEED9     594          jsr   cruz_1
+ F195 [05] CDEED9     595          jsr   cruz_1
+ F198 [05] CDEED9     596          jsr   cruz_1
+ F19B [05] CDEED9     597          jsr   cruz_1
+ F19E [05] CDEED9     598          jsr   cruz_1
+ F1A1 [05] CDEED9     599          jsr   cruz_1
+ F1A4 [05] CDEED9     600          jsr   cruz_1
+ F1A7 [05] CDEED9     601          jsr   cruz_1
+ F1AA [05] CDEED9     602          jsr   cruz_1
+ F1AD [05] CDEED9     603          jsr   cruz_1
+ F1B0 [05] CDEED9     604          jsr   cruz_1
+ F1B3 [05] CDEED9     605          jsr   cruz_1
+ F1B6 [05] CDEED9     606          jsr   cruz_1
+ F1B9 [05] CDEED9     607          jsr   cruz_1
+ F1BC [05] CDEED9     608          jsr   cruz_1
+ F1BF [05] CDEED9     609          jsr   cruz_1
+ F1C2 [05] CDEED9     610          jsr   cruz_1
+ F1C5 [05] CDEED9     611          jsr   cruz_1
+ F1C8 [05] CDEED9     612          jsr   cruz_1
+ F1CB [05] CDEED9     613          jsr   cruz_1
+ F1CE [05] CDEED9     614          jsr   cruz_1
+ F1D1 [05] CDEED9     615          jsr   cruz_1
+ F1D4 [05] CDEED9     616          jsr   cruz_1
+ F1D7 [05] CDEED9     617          jsr   cruz_1
+ F1DA [05] CDEED9     618          jsr   cruz_1
+ F1DD [05] CDEED9     619          jsr   cruz_1
+ F1E0 [05] CDEED9     620          jsr   cruz_1
+ F1E3 [05] CDEED9     621          jsr   cruz_1
+ F1E6 [05] CDEED9     622          jsr   cruz_1
+ F1E9 [05] CDEED9     623          jsr   cruz_1
+ F1EC [05] CDEED9     624          jsr   cruz_1
+ F1EF [05] CDEED9     625          jsr   cruz_1
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 13
+
+
+
+ F1F2 [05] CDEED9     626          jsr   cruz_1
+ F1F5 [05] CDEED9     627          jsr   cruz_1
+ F1F8 [05] CDEED9     628          jsr   cruz_1
+ F1FB [05] CDEED9     629          jsr   cruz_1
+ F1FE [05] CDEED9     630          jsr   cruz_1
+ F201 [05] CDEED9     631          jsr   cruz_1
+ F204 [05] CDEED9     632          jsr   cruz_1
+ F207 [05] CDEED9     633          jsr   cruz_1
+ F20A [05] CDEED9     634          jsr   cruz_1
+ F20D [05] CDEED9     635          jsr   cruz_1
+ F210 [05] CDEED9     636          jsr   cruz_1
+ F213 [05] CDEED9     637          jsr   cruz_1
+ F216 [05] CDEED9     638          jsr   cruz_1
+ F219 [05] CDEED9     639          jsr   cruz_1
+ F21C [05] CDEED9     640          jsr   cruz_1
+ F21F [05] CDEED9     641          jsr   cruz_1
+ F222 [05] CDEED9     642          jsr   cruz_1
+ F225 [05] CDEED9     643          jsr   cruz_1
+ F228 [05] CDEED9     644          jsr   cruz_1
+ F22B [05] CDEED9     645          jsr   cruz_1
+ F22E [05] CDEED9     646          jsr   cruz_1
+ F231 [05] CDEED9     647          jsr   cruz_1
+ F234 [05] CDEED9     648          jsr   cruz_1
+ F237 [05] CDEED9     649          jsr   cruz_1
+ F23A [05] CDEED9     650          jsr   cruz_1
+ F23D [05] CDEED9     651          jsr   cruz_1
+ F240 [05] CDEED9     652          jsr   cruz_1
+ F243 [05] CDEED9     653          jsr   cruz_1
+ F246 [05] CDEED9     654          jsr   cruz_1
+ F249 [05] CDEED9     655          jsr   cruz_1
+ F24C [05] CDEED9     656          jsr   cruz_1
+ F24F [05] CDEED9     657          jsr   cruz_1
+ F252 [05] CDEED9     658          jsr   cruz_1
+ F255 [05] CDEED9     659          jsr   cruz_1
+ F258 [05] CDEED9     660          jsr   cruz_1
+ F25B [05] CDEED9     661          jsr   cruz_1
+ F25E [05] CDEED9     662          jsr   cruz_1
+ F261 [05] CDEED9     663          jsr   cruz_1
+ F264 [05] CDEED9     664          jsr   cruz_1
+ F267 [04] 81         665          rts
+                      666  
+                      667  cruz_2_1000ms:
+ F268 [05] CDEEED     668          jsr   cruz_2
+ F26B [05] CDEEED     669          jsr   cruz_2
+ F26E [05] CDEEED     670          jsr   cruz_2
+ F271 [05] CDEEED     671          jsr   cruz_2
+ F274 [05] CDEEED     672          jsr   cruz_2
+ F277 [05] CDEEED     673          jsr   cruz_2
+ F27A [05] CDEEED     674          jsr   cruz_2
+ F27D [05] CDEEED     675          jsr   cruz_2
+ F280 [05] CDEEED     676          jsr   cruz_2
+ F283 [05] CDEEED     677          jsr   cruz_2
+ F286 [05] CDEEED     678          jsr   cruz_2
+ F289 [05] CDEEED     679          jsr   cruz_2
+ F28C [05] CDEEED     680          jsr   cruz_2
+ F28F [05] CDEEED     681          jsr   cruz_2
+ F292 [05] CDEEED     682          jsr   cruz_2
+ F295 [05] CDEEED     683          jsr   cruz_2
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 14
+
+
+
+ F298 [05] CDEEED     684          jsr   cruz_2
+ F29B [05] CDEEED     685          jsr   cruz_2
+ F29E [05] CDEEED     686          jsr   cruz_2
+ F2A1 [05] CDEEED     687          jsr   cruz_2
+ F2A4 [05] CDEEED     688          jsr   cruz_2
+ F2A7 [05] CDEEED     689          jsr   cruz_2
+ F2AA [05] CDEEED     690          jsr   cruz_2
+ F2AD [05] CDEEED     691          jsr   cruz_2
+ F2B0 [05] CDEEED     692          jsr   cruz_2
+ F2B3 [05] CDEEED     693          jsr   cruz_2
+ F2B6 [05] CDEEED     694          jsr   cruz_2
+ F2B9 [05] CDEEED     695          jsr   cruz_2
+ F2BC [05] CDEEED     696          jsr   cruz_2
+ F2BF [05] CDEEED     697          jsr   cruz_2
+ F2C2 [05] CDEEED     698          jsr   cruz_2
+ F2C5 [05] CDEEED     699          jsr   cruz_2
+ F2C8 [05] CDEEED     700          jsr   cruz_2
+ F2CB [05] CDEEED     701          jsr   cruz_2
+ F2CE [05] CDEEED     702          jsr   cruz_2
+ F2D1 [05] CDEEED     703          jsr   cruz_2
+ F2D4 [05] CDEEED     704          jsr   cruz_2
+ F2D7 [05] CDEEED     705          jsr   cruz_2
+ F2DA [05] CDEEED     706          jsr   cruz_2
+ F2DD [05] CDEEED     707          jsr   cruz_2
+ F2E0 [05] CDEEED     708          jsr   cruz_2
+ F2E3 [05] CDEEED     709          jsr   cruz_2
+ F2E6 [05] CDEEED     710          jsr   cruz_2
+ F2E9 [05] CDEEED     711          jsr   cruz_2
+ F2EC [05] CDEEED     712          jsr   cruz_2
+ F2EF [05] CDEEED     713          jsr   cruz_2
+ F2F2 [05] CDEEED     714          jsr   cruz_2
+ F2F5 [05] CDEEED     715          jsr   cruz_2
+ F2F8 [05] CDEEED     716          jsr   cruz_2
+ F2FB [05] CDEEED     717          jsr   cruz_2
+ F2FE [05] CDEEED     718          jsr   cruz_2
+ F301 [05] CDEEED     719          jsr   cruz_2
+ F304 [05] CDEEED     720          jsr   cruz_2
+ F307 [05] CDEEED     721          jsr   cruz_2
+ F30A [05] CDEEED     722          jsr   cruz_2
+ F30D [05] CDEEED     723          jsr   cruz_2
+ F310 [05] CDEEED     724          jsr   cruz_2
+ F313 [05] CDEEED     725          jsr   cruz_2
+ F316 [05] CDEEED     726          jsr   cruz_2
+ F319 [05] CDEEED     727          jsr   cruz_2
+ F31C [05] CDEEED     728          jsr   cruz_2
+ F31F [05] CDEEED     729          jsr   cruz_2
+ F322 [05] CDEEED     730          jsr   cruz_2
+ F325 [05] CDEEED     731          jsr   cruz_2
+ F328 [05] CDEEED     732          jsr   cruz_2
+ F32B [05] CDEEED     733          jsr   cruz_2
+ F32E [05] CDEEED     734          jsr   cruz_2
+ F331 [05] CDEEED     735          jsr   cruz_2
+ F334 [05] CDEEED     736          jsr   cruz_2
+ F337 [05] CDEEED     737          jsr   cruz_2
+ F33A [05] CDEEED     738          jsr   cruz_2
+ F33D [05] CDEEED     739          jsr   cruz_2
+ F340 [05] CDEEED     740          jsr   cruz_2
+ F343 [05] CDEEED     741          jsr   cruz_2
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 15
+
+
+
+ F346 [05] CDEEED     742          jsr   cruz_2
+ F349 [05] CDEEED     743          jsr   cruz_2
+ F34C [05] CDEEED     744          jsr   cruz_2
+ F34F [05] CDEEED     745          jsr   cruz_2
+ F352 [05] CDEEED     746          jsr   cruz_2
+ F355 [05] CDEEED     747          jsr   cruz_2
+ F358 [05] CDEEED     748          jsr   cruz_2
+ F35B [05] CDEEED     749          jsr   cruz_2
+ F35E [05] CDEEED     750          jsr   cruz_2
+ F361 [05] CDEEED     751          jsr   cruz_2
+ F364 [05] CDEEED     752          jsr   cruz_2
+ F367 [05] CDEEED     753          jsr   cruz_2
+ F36A [05] CDEEED     754          jsr   cruz_2
+ F36D [05] CDEEED     755          jsr   cruz_2
+ F370 [05] CDEEED     756          jsr   cruz_2
+ F373 [05] CDEEED     757          jsr   cruz_2
+ F376 [05] CDEEED     758          jsr   cruz_2
+ F379 [05] CDEEED     759          jsr   cruz_2
+ F37C [05] CDEEED     760          jsr   cruz_2
+ F37F [05] CDEEED     761          jsr   cruz_2
+ F382 [05] CDEEED     762          jsr   cruz_2
+ F385 [05] CDEEED     763          jsr   cruz_2
+ F388 [05] CDEEED     764          jsr   cruz_2
+ F38B [05] CDEEED     765          jsr   cruz_2
+ F38E [05] CDEEED     766          jsr   cruz_2
+ F391 [05] CDEEED     767          jsr   cruz_2
+ F394 [05] CDEEED     768          jsr   cruz_2
+ F397 [05] CDEEED     769          jsr   cruz_2
+ F39A [05] CDEEED     770          jsr   cruz_2
+ F39D [05] CDEEED     771          jsr   cruz_2
+ F3A0 [05] CDEEED     772          jsr   cruz_2
+ F3A3 [05] CDEEED     773          jsr   cruz_2
+ F3A6 [05] CDEEED     774          jsr   cruz_2
+ F3A9 [05] CDEEED     775          jsr   cruz_2
+ F3AC [05] CDEEED     776          jsr   cruz_2
+ F3AF [05] CDEEED     777          jsr   cruz_2
+ F3B2 [05] CDEEED     778          jsr   cruz_2
+ F3B5 [05] CDEEED     779          jsr   cruz_2
+ F3B8 [05] CDEEED     780          jsr   cruz_2
+ F3BB [05] CDEEED     781          jsr   cruz_2
+ F3BE [05] CDEEED     782          jsr   cruz_2
+ F3C1 [05] CDEEED     783          jsr   cruz_2
+ F3C4 [05] CDEEED     784          jsr   cruz_2
+ F3C7 [05] CDEEED     785          jsr   cruz_2
+ F3CA [05] CDEEED     786          jsr   cruz_2
+ F3CD [05] CDEEED     787          jsr   cruz_2
+ F3D0 [05] CDEEED     788          jsr   cruz_2
+ F3D3 [05] CDEEED     789          jsr   cruz_2
+ F3D6 [05] CDEEED     790          jsr   cruz_2
+ F3D9 [05] CDEEED     791          jsr   cruz_2
+ F3DC [05] CDEEED     792          jsr   cruz_2
+ F3DF [05] CDEEED     793          jsr   cruz_2
+ F3E2 [05] CDEEED     794          jsr   cruz_2
+ F3E5 [05] CDEEED     795          jsr   cruz_2
+ F3E8 [05] CDEEED     796          jsr   cruz_2
+ F3EB [05] CDEEED     797          jsr   cruz_2
+ F3EE [05] CDEEED     798          jsr   cruz_2
+ F3F1 [05] CDEEED     799          jsr   cruz_2
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 16
+
+
+
+ F3F4 [05] CDEEED     800          jsr   cruz_2
+ F3F7 [05] CDEEED     801          jsr   cruz_2
+ F3FA [05] CDEEED     802          jsr   cruz_2
+ F3FD [05] CDEEED     803          jsr   cruz_2
+ F400 [05] CDEEED     804          jsr   cruz_2
+ F403 [05] CDEEED     805          jsr   cruz_2
+ F406 [05] CDEEED     806          jsr   cruz_2
+ F409 [05] CDEEED     807          jsr   cruz_2
+ F40C [05] CDEEED     808          jsr   cruz_2
+ F40F [05] CDEEED     809          jsr   cruz_2
+ F412 [05] CDEEED     810          jsr   cruz_2
+ F415 [05] CDEEED     811          jsr   cruz_2
+ F418 [05] CDEEED     812          jsr   cruz_2
+ F41B [05] CDEEED     813          jsr   cruz_2
+ F41E [05] CDEEED     814          jsr   cruz_2
+ F421 [05] CDEEED     815          jsr   cruz_2
+ F424 [05] CDEEED     816          jsr   cruz_2
+ F427 [05] CDEEED     817          jsr   cruz_2
+ F42A [05] CDEEED     818          jsr   cruz_2
+ F42D [05] CDEEED     819          jsr   cruz_2
+ F430 [05] CDEEED     820          jsr   cruz_2
+ F433 [05] CDEEED     821          jsr   cruz_2
+ F436 [05] CDEEED     822          jsr   cruz_2
+ F439 [05] CDEEED     823          jsr   cruz_2
+ F43C [05] CDEEED     824          jsr   cruz_2
+ F43F [05] CDEEED     825          jsr   cruz_2
+ F442 [05] CDEEED     826          jsr   cruz_2
+ F445 [05] CDEEED     827          jsr   cruz_2
+ F448 [05] CDEEED     828          jsr   cruz_2
+ F44B [05] CDEEED     829          jsr   cruz_2
+ F44E [05] CDEEED     830          jsr   cruz_2
+ F451 [05] CDEEED     831          jsr   cruz_2
+ F454 [05] CDEEED     832          jsr   cruz_2
+ F457 [05] CDEEED     833          jsr   cruz_2
+ F45A [05] CDEEED     834          jsr   cruz_2
+ F45D [05] CDEEED     835          jsr   cruz_2
+ F460 [05] CDEEED     836          jsr   cruz_2
+ F463 [05] CDEEED     837          jsr   cruz_2
+ F466 [05] CDEEED     838          jsr   cruz_2
+ F469 [05] CDEEED     839          jsr   cruz_2
+ F46C [05] CDEEED     840          jsr   cruz_2
+ F46F [05] CDEEED     841          jsr   cruz_2
+ F472 [05] CDEEED     842          jsr   cruz_2
+ F475 [05] CDEEED     843          jsr   cruz_2
+ F478 [05] CDEEED     844          jsr   cruz_2
+ F47B [05] CDEEED     845          jsr   cruz_2
+ F47E [05] CDEEED     846          jsr   cruz_2
+ F481 [05] CDEEED     847          jsr   cruz_2
+ F484 [05] CDEEED     848          jsr   cruz_2
+ F487 [05] CDEEED     849          jsr   cruz_2
+ F48A [05] CDEEED     850          jsr   cruz_2
+ F48D [05] CDEEED     851          jsr   cruz_2
+ F490 [05] CDEEED     852          jsr   cruz_2
+ F493 [05] CDEEED     853          jsr   cruz_2
+ F496 [05] CDEEED     854          jsr   cruz_2
+ F499 [05] CDEEED     855          jsr   cruz_2
+ F49C [05] CDEEED     856          jsr   cruz_2
+ F49F [05] CDEEED     857          jsr   cruz_2
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 17
+
+
+
+ F4A2 [05] CDEEED     858          jsr   cruz_2
+ F4A5 [05] CDEEED     859          jsr   cruz_2
+ F4A8 [05] CDEEED     860          jsr   cruz_2
+ F4AB [05] CDEEED     861          jsr   cruz_2
+ F4AE [05] CDEEED     862          jsr   cruz_2
+ F4B1 [05] CDEEED     863          jsr   cruz_2
+ F4B4 [05] CDEEED     864          jsr   cruz_2
+ F4B7 [05] CDEEED     865          jsr   cruz_2
+ F4BA [05] CDEEED     866          jsr   cruz_2
+ F4BD [05] CDEEED     867          jsr   cruz_2
+ F4C0 [05] CDEEED     868          jsr   cruz_2
+ F4C3 [05] CDEEED     869          jsr   cruz_2
+ F4C6 [05] CDEEED     870          jsr   cruz_2
+ F4C9 [05] CDEEED     871          jsr   cruz_2
+ F4CC [05] CDEEED     872          jsr   cruz_2
+ F4CF [05] CDEEED     873          jsr   cruz_2
+ F4D2 [05] CDEEED     874          jsr   cruz_2
+ F4D5 [05] CDEEED     875          jsr   cruz_2
+ F4D8 [05] CDEEED     876          jsr   cruz_2
+ F4DB [05] CDEEED     877          jsr   cruz_2
+ F4DE [05] CDEEED     878          jsr   cruz_2
+ F4E1 [05] CDEEED     879          jsr   cruz_2
+ F4E4 [05] CDEEED     880          jsr   cruz_2
+ F4E7 [05] CDEEED     881          jsr   cruz_2
+ F4EA [05] CDEEED     882          jsr   cruz_2
+ F4ED [05] CDEEED     883          jsr   cruz_2
+ F4F0 [05] CDEEED     884          jsr   cruz_2
+ F4F3 [05] CDEEED     885          jsr   cruz_2
+ F4F6 [05] CDEEED     886          jsr   cruz_2
+ F4F9 [05] CDEEED     887          jsr   cruz_2
+ F4FC [05] CDEEED     888          jsr   cruz_2
+ F4FF [05] CDEEED     889          jsr   cruz_2
+ F502 [05] CDEEED     890          jsr   cruz_2
+ F505 [05] CDEEED     891          jsr   cruz_2
+ F508 [05] CDEEED     892          jsr   cruz_2
+ F50B [05] CDEEED     893          jsr   cruz_2
+ F50E [05] CDEEED     894          jsr   cruz_2
+ F511 [05] CDEEED     895          jsr   cruz_2
+ F514 [05] CDEEED     896          jsr   cruz_2
+ F517 [05] CDEEED     897          jsr   cruz_2
+ F51A [05] CDEEED     898          jsr   cruz_2
+ F51D [05] CDEEED     899          jsr   cruz_2
+ F520 [05] CDEEED     900          jsr   cruz_2
+ F523 [05] CDEEED     901          jsr   cruz_2
+ F526 [05] CDEEED     902          jsr   cruz_2
+ F529 [05] CDEEED     903          jsr   cruz_2
+ F52C [05] CDEEED     904          jsr   cruz_2
+ F52F [05] CDEEED     905          jsr   cruz_2
+ F532 [05] CDEEED     906          jsr   cruz_2
+ F535 [05] CDEEED     907          jsr   cruz_2
+ F538 [05] CDEEED     908          jsr   cruz_2
+ F53B [05] CDEEED     909          jsr   cruz_2
+ F53E [05] CDEEED     910          jsr   cruz_2
+ F541 [05] CDEEED     911          jsr   cruz_2
+ F544 [05] CDEEED     912          jsr   cruz_2
+ F547 [05] CDEEED     913          jsr   cruz_2
+ F54A [05] CDEEED     914          jsr   cruz_2
+ F54D [05] CDEEED     915          jsr   cruz_2
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 18
+
+
+
+ F550 [05] CDEEED     916          jsr   cruz_2
+ F553 [05] CDEEED     917          jsr   cruz_2
+ F556 [05] CDEEED     918          jsr   cruz_2
+ F559 [05] CDEEED     919          jsr   cruz_2
+ F55C [05] CDEEED     920          jsr   cruz_2
+ F55F [05] CDEEED     921          jsr   cruz_2
+ F562 [05] CDEEED     922          jsr   cruz_2
+ F565 [05] CDEEED     923          jsr   cruz_2
+ F568 [05] CDEEED     924          jsr   cruz_2
+ F56B [05] CDEEED     925          jsr   cruz_2
+ F56E [05] CDEEED     926          jsr   cruz_2
+ F571 [05] CDEEED     927          jsr   cruz_2
+ F574 [05] CDEEED     928          jsr   cruz_2
+ F577 [05] CDEEED     929          jsr   cruz_2
+ F57A [05] CDEEED     930          jsr   cruz_2
+ F57D [05] CDEEED     931          jsr   cruz_2
+ F580 [05] CDEEED     932          jsr   cruz_2
+ F583 [05] CDEEED     933          jsr   cruz_2
+ F586 [05] CDEEED     934          jsr   cruz_2
+ F589 [05] CDEEED     935          jsr   cruz_2
+ F58C [05] CDEEED     936          jsr   cruz_2
+ F58F [05] CDEEED     937          jsr   cruz_2
+ F592 [05] CDEEED     938          jsr   cruz_2
+ F595 [05] CDEEED     939          jsr   cruz_2
+ F598 [05] CDEEED     940          jsr   cruz_2
+ F59B [05] CDEEED     941          jsr   cruz_2
+ F59E [05] CDEEED     942          jsr   cruz_2
+ F5A1 [05] CDEEED     943          jsr   cruz_2
+ F5A4 [05] CDEEED     944          jsr   cruz_2
+ F5A7 [05] CDEEED     945          jsr   cruz_2
+ F5AA [05] CDEEED     946          jsr   cruz_2
+ F5AD [05] CDEEED     947          jsr   cruz_2
+ F5B0 [04] 81         948          rts
+                      949  
+                      950  adc_isr:
+ F5B1 [01] 9D         951          nop
+ F5B2 [07] 80         952       rti
+                      953  
+                      954  
+                      955  keyb_isr:
+ F5B3 [01] 9D         956          nop
+ F5B4 [07] 80         957          rti
+                      958  
+                      959  
+                      960  tim1_ov_isr:
+ F5B5 [01] 9D         961       nop
+ F5B6 [07] 80         962          rti
+                      963  
+                      964  tim1_1_isr:
+ F5B7 [01] 9D         965          nop
+ F5B8 [07] 80         966       rti
+                      967  
+                      968  tim1_0_isr:
+ F5B9 [01] 9D         969          nop
+ F5BA [07] 80         970       rti
+                      971  
+                      972  
+                      973  irq_isr:
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 19
+
+
+
+ F5BB [01] 9D         974       nop
+ F5BC [07] 80         975       rti
+                      976  
+                      977  swi_isr:
+ F5BD [01] 9D         978          nop
+ F5BE [07] 80         979          rti
+                      980  
+                      981  
+                      982  dummy_isr:
+ F5BF [01] 9D         983          nop
+ F5C0 [07] 80         984          rti
+                      985  
+                      986  
+ FFDE                 987       org     VECTORES
+ FFDE      F5B1       988       fdb     adc_isr         ; ADC Vector
+ FFE0      F5B3       989       fdb     keyb_isr        ; KEYBOARD Vector
+                      990  
+ FFF2                 991       org     $FFF2
+ FFF2      F5B5       992       fdb     tim1_ov_isr     ; TIM1 Overflow Vector
+ FFF4      F5B7       993       fdb     tim1_1_isr      ; TIM1 Channel 1 Vector
+ FFF6      F5B9       994       fdb     tim1_0_isr      ; TIM1 Channel 0 Vector
+                      995  
+ FFFA                 996       org     $FFFA
+ FFFA      F5BB       997       fdb     irq_isr         ; IRQ1  Vector
+ FFFC      F5BD       998       fdb     swi_isr         ; SWI Vector
+ FFFE      EE00       999       fdb     Start           ; Reset
+                     1000  
+                     1001  end
+                     1002   
+
+ Symbol Table 
+
+ACK              0002
+ACKK             0002
+ADCO             0005
+ADC_ISR          F5B1
+ADICLK           003F
+ADRH             003D
+ADRL             003E
+ADSCR            003C
+AIEN             0006
+APAGADO_LED      EEC0
+BCFE             0007
+BDCOP            0000
+BFCR             FE03
+BRKAR            FE02
+BRKH             FE09
+BRKL             FE0A
+BRKSCR           FE0B
+BSR              FE00
+CH0F             0007
+CH0IE            0006
+CH0MAX           0000
+CH1F             0007
+CH1IE            0006
+CH1MAX           0000
+COCO             0007
+COL_1            0000
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 20
+
+
+
+COL_2            0001
+COL_3            0000
+COL_4            0001
+COL_5            0002
+COL_6            0003
+COL_7            0003
+COL_8            0004
+COL_9            0005
+CONFIG1          001F
+CONFIG2          001E
+COP              0005
+COPCTL           FFFF
+CRUZ_1           EED9
+CRUZ_1_1000MS    EF1F
+CRUZ_2           EEED
+CRUZ_2_1000MS    F268
+DDRA             0004
+DDRB             0005
+DELNUS           280C
+DEMORA_1000MS    EE9B
+DEMORA_240MS     EEB6
+DEMORA_320MS     EEB3
+DEMORA_500MS     EEAD
+DEMORA_QY        EE8C
+DEMORA_RAPIDA    EEB9
+DEM_1            EE90
+DEM_2            EE8E
+DUMMY_ISR        F5BF
+ECFS0            0002
+ECFS1            0003
+ECGON            0001
+ECGST            0000
+ELS0A            0002
+ELS0B            0003
+ELS1A            0002
+ELS1B            0003
+END              0000
+ERARNGE          2806
+FIL_1            0005
+FIL_2            0006
+FIL_3            0007
+FLASH_INI        EE00
+FLBPR            FFBE
+FLCR             FE08
+GETBYTE          2800
+ICFS0            0004
+ICFS1            0005
+ILAD             0003
+ILOP             0004
+IMASK            0001
+IMASKK           0001
+INICIAR          EE3C
+INT1             FE04
+INT2             FE05
+INT3             FE06
+INTSCR           001D
+IOSCTRM          FFC0
+IRQF             0003
+
+
+probando2.asm          Assembled with CASM08Z  03/01/2013  19:12:37  PAGE 21
+
+
+
+IRQ_ISR          F5BB
+KBIER            001B
+KBSCR            001A
+KEYB_ISR         F5B3
+KEYF             0003
+LVI              0001
+LVISR            FE0C
+MODE             0000
+MODEK            0000
+MODRST           0002
+MS0A             0004
+MS0B             0005
+MS1A             0004
+MS1B             0005
+OSCOPT0          0006
+OSCOPT1          0007
+OSCSC            0036
+OSCSTAT          0036
+OSCTRIM          0038
+PIN              0006
+POR              0007
+PORTA            0000
+PORTB            0001
+PRGRNGE          2809
+PTA              0000
+PTAPUE           000B
+PTB              0001
+PTBPUE           000C
+RAM_INI          0080
+RDVRRNG          2803
+RETARDO_1        EE81
+RETARDO_2        EE7F
+RETARDO_QY       EE7D
+SBSW             0001
+SRSR             FE01
+START            EE00
+SWI_ISR          F5BD
+TCH0H            0026
+TCH0L            0027
+TCH1H            0029
+TCH1L            002A
+TCNTH            0021
+TCNTL            0022
+TIM1_0_ISR       F5B9
+TIM1_1_ISR       F5B7
+TIM1_OV_ISR      F5B5
+TMODH            0023
+TMODL            0024
+TOF              0007
+TOIE             0006
+TOV0             0001
+TOV1             0001
+TRST             0004
+TSC              0020
+TSC0             0025
+TSC1             0028
+TSTOP            0005
+VECTORES         FFDE

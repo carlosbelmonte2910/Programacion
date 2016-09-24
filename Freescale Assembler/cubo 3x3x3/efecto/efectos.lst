@@ -1,0 +1,1660 @@
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 1
+
+
+
+ 0000                   1  RAM_INI              EQU     $0080
+ 0000                   2  FLASH_INI    EQU     $EE00
+ 0000                   3  VECTORES     EQU     $FFDE
+ 0000                   4  col_1           EQU     0       ;PTB0
+ 0000                   5  col_2           EQU     1       ;PTB1
+ 0000                   6  col_3           EQU     0       ;PTA0
+ 0000                   7  col_4           EQU     1       ;PTA1
+ 0000                   8  col_5           EQU     2       ;PTB2
+ 0000                   9  col_6           EQU     3       ;PTB3
+ 0000                  10  col_7           EQU     3       ;PTA3
+ 0000                  11  col_8           EQU     4       ;PTB4
+ 0000                  12  col_9                EQU     5       ;PTB5
+ 0000                  13  fil_1           EQU     5       ;PTA5
+ 0000                  14  fil_2           EQU     6       ;PTB6
+ 0000                  15  fil_3           EQU     7       ;PTB7
+                       16  
+                       17  
+ 0000                  18  $base                10t
+ 0000                  19  $Include        'QTQY_registers.inc'
+                       20  ;***************************************************
+                                                    ***************************
+                       21  ;                    QTQY_REGISTERS.INC - ARCHIVO 
+                                                                        INCLUDE
+                       22  ; Contiene las Definiciones de los Registros del 
+                                                       MC68HC908QTA/QYA/8/4/2/1
+                       23  ;
+                       24  ;                    SyHDe - Soft y Hard Desarrollos
+                       25  ;***************************************************
+                                                    ***************************
+                       26  
+                       27  ;***************************************************
+                                                    ***************************
+                       28  ;---------------REGISTROS DE PUERTOS ENT/SAL--------
+                                                    ---------------------------
+                       29  ;---------------PUERTO A----------------------------
+                                                    ---------------------------
+ 0000                  30  PTA  EQU     $0000   ; Port A Data register
+ 0000                  31  PORTA        EQU     $0000   ; "
+ 0000                  32  DDRA EQU     $0004   ; Port A Data Direction 
+                                                                       Register
+ 0000                  33  PTAPUE  EQU  $000B   ; Port A Pull Ups Enable
+                       34  
+                       35  ;---------------PUERTO B----------------------------
+                                                    ---------------------------
+ 0000                  36  PTB  EQU     $0001   ; Port B Data register
+ 0000                  37  PORTB        EQU     $0001   ; "
+ 0000                  38  DDRB EQU     $0005   ; Port B Data Direction 
+                                                                       Register
+ 0000                  39  PTBPUE  EQU  $000C   ; Port B Pull Ups Enable
+                       40  
+                       41  ;***************************************************
+                                                    ***************************
+                       42  ;---------------REGISTROS DEL MODULO KEYBOARD-------
+                                                    ---------------------------
+ 0000                  43  KBSCR        EQU     $001A   ; Keyboard Status & 
+                                                               Control register
+ 0000                  44  keyf equ     3       ;
+ 0000                  45  ackk equ     2       ;
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 2
+
+
+
+ 0000                  46  imaskk       equ     1       ;
+ 0000                  47  modek        equ     0       ;
+                       48  
+ 0000                  49  KBIER        EQU     $001B   ; Keyboard interrupt 
+                                                                enable register
+                       50  
+                       51  ;***************************************************
+                                                    ***************************
+                       52  ;---------------REGISTROS DE INTERRUPCION EXTERNA 
+                                                  1----------------------------
+ 0000                  53  INTSCR       EQU     $001D   ; IRQ Status & Control 
+                                                                       Register
+ 0000                  54  irqf equ     3       ;
+ 0000                  55  ack  equ     2       ;
+ 0000                  56  imask        equ     1       ;
+ 0000                  57  mode equ     0       ;
+                       58  
+                       59  ;***************************************************
+                                                    ***************************
+                       60  ;---------------REGISTROS DE CONFIGURACION----------
+                                                    ---------------------------
+ 0000                  61  CONFIG1      EQU     $001F   ; Configuration 
+                                                                     Register 1
+                       62  
+ 0000                  63  CONFIG2      EQU     $001E   ; Configuration 
+                                                                     Register 2
+                       64  
+                       65  ;***************************************************
+                                                    ***************************
+                       66  ;---------------REGISTROS DEL TIMER ----------------
+                                                    ---------------------------
+ 0000                  67  TSC  EQU     $0020   ; Timer Status & Control 
+                                                                       Register
+ 0000                  68  tof  equ     7       ;
+ 0000                  69  toie equ     6       ;
+ 0000                  70  tstop        equ     5       ;
+ 0000                  71  trst equ     4       ;
+                       72  
+ 0000                  73  TCNTH        EQU     $0021   ; Timer Counter 
+                                                                  Register High
+ 0000                  74  TCNTL        EQU     $0022   ; Timer Counter 
+                                                                   Register Low
+ 0000                  75  TMODH        EQU     $0023   ; Timer Counter Modulo 
+                                                                  Register High
+ 0000                  76  TMODL        EQU     $0024   ; Timer Counter Modulo 
+                                                                   Register Low
+                       77  
+ 0000                  78  TSC0 EQU     $0025   ; Timer Channel 0 Status & 
+                                                               Control Register
+ 0000                  79  ch0f equ     7
+ 0000                  80  ch0ie        equ     6       ;
+ 0000                  81  ms0b equ     5       ;
+ 0000                  82  ms0a equ     4       ;
+ 0000                  83  els0b        equ     3       ;
+ 0000                  84  els0a        equ     2       ;
+ 0000                  85  tov0 equ     1       ;
+ 0000                  86  ch0max       equ     0       ;
+                       87  
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 3
+
+
+
+ 0000                  88  TCH0H        EQU     $0026   ; Timer Channel 0 
+                                                                  Register High
+ 0000                  89  TCH0L        EQU     $0027   ; Timer Channel 0 
+                                                                   Register Low
+                       90  
+ 0000                  91  TSC1 EQU     $0028   ; Timer Channel 1 Status & 
+                                                               Control Register
+ 0000                  92  ch1f equ     7
+ 0000                  93  ch1ie        equ     6       ;
+ 0000                  94  ms1b equ     5       ;
+ 0000                  95  ms1a equ     4       ;
+ 0000                  96  els1b        equ     3       ;
+ 0000                  97  els1a        equ     2       ;
+ 0000                  98  tov1 equ     1       ;
+ 0000                  99  ch1max       equ     0       ;
+                      100  
+ 0000                 101  TCH1H        EQU     $0029   ; Timer Channel 1 
+                                                                  Register High
+ 0000                 102  TCH1L        EQU     $002A   ; Timer Channel 1 
+                                                                   Register Low
+                      103  
+                      104  ;***************************************************
+                                                    ***************************
+                      105  ;---------------REGISTROS DEL OSCILADOR-------------
+                                                    ---------------------------
+ 0000                 106  OSCSC        EQU     $0036   ;Oscillator Status and 
+                                                               Control Register
+ 0000                 107  ecgst        equ     0       ;Read Only!!!!
+ 0000                 108  ecgon        equ     1       ;
+ 0000                 109  ecfs0        equ     2       ;
+ 0000                 110  ecfs1        equ     3       ;
+ 0000                 111  icfs0        equ     4       ;
+ 0000                 112  icfs1        equ     5       ;
+ 0000                 113  oscopt0      equ     6       ;
+ 0000                 114  oscopt1      equ     7       ;
+                      115  
+ 0000                 116  OSCTRIM      EQU     $0038   ;Oscillator Trim 
+                                                                       Register
+                      117  
+ 0000                 118  OSCSTAT EQU  $0036   ;Oscillator Status and Control 
+                                                         (No Vers A Solo QY/QT)
+                      119  
+                      120  ;***************************************************
+                                                    ***************************
+                      121  ;---------------REGISTROS DEL ADC-------------------
+                                                    ---------------------------
+ 0000                 122  ADSCR        EQU     $003C   ; ADC Status & Control 
+                                                                       Register
+ 0000                 123  coco equ     7       ;
+ 0000                 124  aien equ     6       ;
+ 0000                 125  adco equ     5       ;
+                      126  
+ 0000                 127  ADRH EQU     $003D   ; ADC10 Data Register High
+ 0000                 128  ADRL EQU     $003E   ; ADC10 Data Register Low
+ 0000                 129  ADICLK       EQU     $003F   ; ADC10 Clock Control 
+                                                                       Register
+                      130  
+                      131  ;***************************************************
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 4
+
+
+
+                                                    ***************************
+                      132  ;---------------REGISTROS DEL MODULO SIM------------
+                                                    ---------------------------
+ 0000                 133  BSR  EQU     $FE00   ; Break Status Register
+ 0000                 134  sbsw equ     1       ; break wait bit
+                      135  
+ 0000                 136  SRSR EQU     $FE01   ; SIM Reset Status Register
+ 0000                 137  por  equ     7       ;
+ 0000                 138  pin  equ     6       ;
+ 0000                 139  cop  equ     5       ;
+ 0000                 140  ilop equ     4       ;
+ 0000                 141  ilad equ     3       ;
+ 0000                 142  modrst       equ     2       ;
+ 0000                 143  lvi  equ     1       ;
+                      144  
+ 0000                 145  BRKAR        EQU     $FE02   ; Break Auxiliary 
+                                                                       Register
+ 0000                 146  bdcop        equ     0
+                      147  
+ 0000                 148  BFCR EQU     $FE03   ; Break Flag Control Register
+ 0000                 149  bcfe equ     7       ;
+                      150  
+ 0000                 151  INT1 EQU     $FE04   ; Interrupt Status Register 1
+                      152  
+ 0000                 153  INT2 EQU     $FE05   ; Interrupt Status Register 2
+                      154  
+ 0000                 155  INT3 EQU     $FE06   ; Interrupt Status Register 3
+                      156  
+                      157  ;***************************************************
+                                                    ***************************
+                      158  ;---------------REGISTROS DE LA MEMORIA FLASH-------
+                                                    ---------------------------
+ 0000                 159  FLCR EQU     $FE08   ; FLASH Control Register
+                      160  
+ 0000                 161  FLBPR        EQU     $FFBE   ; FLASH Block Protect
+                      162  
+                      163  ;***************************************************
+                                                    ***************************
+                      164  ;---------------REGISTROS DEL MODULO BREAK----------
+                                                     --------------------------
+ 0000                 165  BRKH EQU     $FE09   ; Break address Hig Register
+                      166  
+ 0000                 167  BRKL EQU     $FE0A   ; Break Address Low Register
+                      168  
+ 0000                 169  BRKSCR       EQU     $FE0B   ; Break Status & 
+                                                               Control Register
+                      170  
+                      171  ;***************************************************
+                                                    ***************************
+                      172  ;---------------REGISTROS DEL MODULO LVI------------
+                                                    ---------------------------
+ 0000                 173  LVISR        EQU     $FE0C   ; LVI Status Register
+                      174  
+                      175  ;***************************************************
+                                                    ***************************
+                      176  ;---------------REGISTROS DEL MODULO OSCILLATOR-----
+                                                    ---------------------------
+ 0000                 177  IOSCTRM EQU  $FFC0   ; Internal Oscillator Trim 
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 5
+
+
+
+                                                  (Factory Prog Value Optional)
+                      178  
+                      179  ;***************************************************
+                                                    ***************************
+                      180  ;---------------REGISTROS DEL MODULO COP WATCHDOG---
+                                                    ---------------------------
+ 0000                 181  COPCTL       EQU     $FFFF   ; COP Control Register
+                      182  
+                      183  ;***************************************************
+                                                    ***************************
+                      184  ;***************************************************
+                                                    ***************************
+                      185  ; RUTINAS DE MANEJO DE LA MEMORIA FLASH SITUADAS EN 
+                                                    LA ROM MONITOR (HC908QTQYx)
+                      186  ;***************************************************
+                                                    ***************************
+                      187  
+ 0000                 188  PRGRNGE              EQU     $2809   ;Programa un 
+                                                  rango de direcciones de Flash
+ 0000                 189  ERARNGE              EQU     $2806   ;Borra una 
+                                                        pagina de Memoria Flash
+ 0000                 190  GETBYTE              EQU     $2800   ;Recibe un 
+                                              Byte en Modo Monitordesde el Port
+ 0000                 191  RDVRRNG              EQU     $2803   ;Usa un Rango 
+                                               de la Flash y lo envia x el Port
+ 0000                 192  DELNUS               EQU     $280C   ;Rutina de 
+                                                  Demora (usa parametros[A][X])
+                      193  
+                      194  ;***************************************************
+                                                    ***************************
+                      195  ;       SyHDe - Soft y Hard Desarrollos, 2000  - 
+                                                          Derechos Reservados -
+                      196  ; Ud.uede usar este archivo gratuitamente mientras 
+                                                     incluya este pie de pagina
+                      197  ;***************************************************
+                                                    ***************************
+                      198  
+                      199  
+                      200  
+                      201  
+ EE00                 202       org     FLASH_INI
+                      203  start:
+ EE00 [01] 9C         204          rsp
+ EE01 [01] 4F         205       clra
+ EE02 [01] 8C         206       clrh
+ EE03 [01] 5F         207       clrx
+ EE04 [02] 9B         208       sei
+                      209  
+ EE05 [04] 6E801E     210          mov     #%10000000,CONFIG2
+ EE08 [04] 6E0D1F     211          mov     #%00001101,CONFIG1
+ EE0B [01] 9D         212          nop
+ EE0C [01] 9D         213          nop
+ EE0D [01] 9D         214          nop
+                      215  
+ EE0E [04] 6E2036     216          mov     #%00100000,OSCSC
+ EE11 [04] 6E8138     217          mov     #$81,OSCTRIM
+                      218  
+ EE14 [05] CDEE86     219          jsr     demora_qy
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 6
+
+
+
+ EE17 [05] CDEE86     220          jsr     demora_qy
+ EE1A [05] CDEE86     221          jsr     demora_qy
+ EE1D [05] CDEE86     222          jsr     demora_qy
+ EE20 [05] CDEE86     223          jsr     demora_qy
+ EE23 [05] CDEE86     224          jsr     demora_qy
+                      225  
+ EE26 [04] 6E0001     226          mov     #%00000000,PORTB
+ EE29 [04] 6EFF05     227          mov     #%11111111,DDRB
+ EE2C [04] 6E0001     228          mov     #%00000000,PORTB
+ EE2F [01] 9D         229          nop
+ EE30 [01] 9D         230          nop
+                      231  
+                      232  
+ EE31 [04] 6E0000     233          mov     #%00000000,PORTA
+ EE34 [04] 6EFF04     234          mov     #%11111111,DDRA
+ EE37 [04] 6E0000     235          mov     #%00000000,PORTA
+ EE3A [01] 9D         236          nop
+ EE3B [01] 9D         237          nop
+                      238  
+                      239  
+                      240  
+                      241  
+                      242  iniciar:
+ EE3C [05] CDEEBA     243          jsr     apagado_led
+ EE3F [05] CDEE77     244          jsr     retardo_qy
+ EE42 [05] CDEED3     245          jsr     efecto_1
+ EE45 [05] CDEEB0     246          jsr     demora_240ms
+ EE48 [05] CDEF62     247          jsr     efecto_4
+ EE4B [05] CDEE77     248          jsr     retardo_qy
+ EE4E [05] CDEFAC     249          jsr     efecto_5
+ EE51 [05] CDEE77     250          jsr     retardo_qy
+ EE54 [05] CDEFF6     251          jsr     efecto_6
+ EE57 [05] CDEE77     252          jsr     retardo_qy
+ EE5A [05] CDF040     253          jsr     efecto_2
+ EE5D [05] CDEEB0     254          jsr     demora_240ms
+ EE60 [05] CDF11A     255          jsr     efecto_3
+ EE63 [05] CDEEB0     256          jsr     demora_240ms
+ EE66 [05] CDEEBA     257          jsr     apagado_led
+ EE69 [05] CDEE95     258          jsr     demora_1000ms
+ EE6C [05] CDEEBA     259          jsr     apagado_led
+ EE6F [05] CDEE95     260          jsr     demora_1000ms
+ EE72 [05] CDEE95     261          jsr     demora_1000ms
+ EE75 [03] 20C5       262          bra     iniciar
+                      263  
+                      264  
+                      265  retardo_qy:
+ EE77 [02] AE1B       266          ldx     #$1B
+                      267  retardo_2:
+ EE79 [02] A61B       268          lda     #$1B
+                      269  retardo_1:
+ EE7B [01] 4A         270          deca
+ EE7C [02] A100       271          cmp     #$00
+ EE7E [03] 26FB       272          bne     retardo_1
+ EE80 [01] 5A         273          decx
+ EE81 [02] A300       274          cpx     #$00
+ EE83 [03] 26F4       275          bne     retardo_2
+ EE85 [04] 81         276          rts
+                      277  
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 7
+
+
+
+                      278  demora_qy:
+ EE86 [02] AEFF       279          ldx     #$FF
+                      280  dem_2:
+ EE88 [02] A6FF       281          lda     #$FF
+                      282  dem_1:
+ EE8A [01] 4A         283          deca
+ EE8B [02] A100       284          cmp     #$00
+ EE8D [03] 26FB       285          bne     dem_1
+ EE8F [01] 5A         286          decx
+ EE90 [02] A300       287          cpx     #$00
+ EE92 [03] 26F4       288          bne     dem_2
+ EE94 [04] 81         289          rts
+                      290  
+                      291  demora_1000ms:
+ EE95 [05] CDEE86     292       jsr     demora_qy
+ EE98 [05] CDEE86     293       jsr     demora_qy
+ EE9B [05] CDEE86     294       jsr     demora_qy
+ EE9E [05] CDEE86     295       jsr     demora_qy
+ EEA1 [05] CDEE86     296       jsr     demora_qy
+ EEA4 [05] CDEE86     297       jsr     demora_qy
+                      298  demora_500ms:
+ EEA7 [05] CDEE86     299       jsr     demora_qy
+ EEAA [05] CDEE86     300       jsr     demora_qy
+                      301  demora_320ms:
+ EEAD [05] CDEE86     302       jsr     demora_qy
+                      303  demora_240ms:
+ EEB0 [05] CDEE86     304       jsr     demora_qy
+                      305  demora_rapida:
+ EEB3 [05] CDEE86     306       jsr     demora_qy
+ EEB6 [05] CDEE86     307       jsr     demora_qy
+ EEB9 [04] 81         308       rts
+                      309  
+                      310  apagado_led:
+ EEBA [04] 1101       311          bclr col_1,PORTB
+ EEBC [04] 1301       312          bclr col_2,PORTB
+ EEBE [04] 1100       313          bclr col_3,PORTA
+ EEC0 [04] 1300       314          bclr col_4,PORTA
+ EEC2 [04] 1501       315          bclr col_5,PORTB
+ EEC4 [04] 1701       316          bclr col_6,PORTB
+ EEC6 [04] 1700       317          bclr col_7,PORTA
+ EEC8 [04] 1901       318          bclr col_8,PORTB
+ EECA [04] 1B01       319          bclr col_9,PORTB
+ EECC [04] 1B00       320          bclr fil_1,PORTA
+ EECE [04] 1D01       321          bclr fil_2,PORTB
+ EED0 [04] 1F01       322          bclr fil_3,PORTB
+ EED2 [04] 81         323          rts
+                      324  
+                      325  efecto_1:
+ EED3 [05] CDEEBA     326          jsr     apagado_led
+ EED6 [05] CDEEB3     327          jsr     demora_rapida
+ EED9 [04] 1A00       328          bset    fil_1,PORTA
+ EEDB [04] 1001       329          bset col_1,PORTB
+ EEDD [04] 1201       330          bset    col_2,PORTB
+ EEDF [04] 1000       331          bset col_3,PORTA
+ EEE1 [04] 1200       332          bset col_4,PORTA
+ EEE3 [04] 1401       333          bset    col_5,PORTB
+ EEE5 [04] 1601       334          bset col_6,PORTB
+ EEE7 [04] 1600       335          bset col_7,PORTA
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 8
+
+
+
+ EEE9 [04] 1801       336          bset col_8,PORTB
+ EEEB [04] 1A01       337          bset col_9,PORTB
+ EEED [05] CDEEB3     338          jsr     demora_rapida
+                      339  
+ EEF0 [05] CDEEBA     340          jsr     apagado_led
+ EEF3 [05] CDEEB3     341          jsr     demora_rapida
+ EEF6 [04] 1C01       342          bset    fil_2,PORTB
+ EEF8 [04] 1001       343          bset col_1,PORTB
+ EEFA [04] 1201       344          bset    col_2,PORTB
+ EEFC [04] 1000       345          bset col_3,PORTA
+ EEFE [04] 1200       346          bset col_4,PORTA
+ EF00 [04] 1401       347          bset    col_5,PORTB
+ EF02 [04] 1601       348          bset col_6,PORTB
+ EF04 [04] 1600       349          bset col_7,PORTA
+ EF06 [04] 1801       350          bset col_8,PORTB
+ EF08 [04] 1A01       351          bset col_9,PORTB
+ EF0A [05] CDEEB3     352          jsr     demora_rapida
+                      353  
+ EF0D [05] CDEEBA     354          jsr     apagado_led
+ EF10 [05] CDEEB3     355          jsr     demora_rapida
+ EF13 [04] 1E01       356          bset    fil_3,PORTB
+ EF15 [04] 1001       357          bset col_1,PORTB
+ EF17 [04] 1201       358          bset    col_2,PORTB
+ EF19 [04] 1000       359          bset col_3,PORTA
+ EF1B [04] 1200       360          bset col_4,PORTA
+ EF1D [04] 1401       361          bset    col_5,PORTB
+ EF1F [04] 1601       362          bset col_6,PORTB
+ EF21 [04] 1600       363          bset col_7,PORTA
+ EF23 [04] 1801       364          bset col_8,PORTB
+ EF25 [04] 1A01       365          bset col_9,PORTB
+ EF27 [05] CDEEB3     366          jsr     demora_rapida
+                      367  
+ EF2A [05] CDEEBA     368          jsr     apagado_led
+ EF2D [05] CDEEB3     369          jsr     demora_rapida
+ EF30 [04] 1C01       370          bset    fil_2,PORTB
+ EF32 [04] 1001       371          bset col_1,PORTB
+ EF34 [04] 1201       372          bset    col_2,PORTB
+ EF36 [04] 1000       373          bset col_3,PORTA
+ EF38 [04] 1200       374          bset col_4,PORTA
+ EF3A [04] 1401       375          bset    col_5,PORTB
+ EF3C [04] 1601       376          bset col_6,PORTB
+ EF3E [04] 1600       377          bset col_7,PORTA
+ EF40 [04] 1801       378          bset col_8,PORTB
+ EF42 [04] 1A01       379          bset col_9,PORTB
+ EF44 [05] CDEEB3     380          jsr     demora_rapida
+                      381  
+ EF47 [05] CDEEBA     382          jsr     apagado_led
+ EF4A [05] CDEEB3     383          jsr     demora_rapida
+ EF4D [04] 1A00       384          bset    fil_1,PORTA
+ EF4F [04] 1001       385          bset col_1,PORTB
+ EF51 [04] 1201       386          bset    col_2,PORTB
+ EF53 [04] 1000       387          bset col_3,PORTA
+ EF55 [04] 1200       388          bset col_4,PORTA
+ EF57 [04] 1401       389          bset    col_5,PORTB
+ EF59 [04] 1601       390          bset col_6,PORTB
+ EF5B [04] 1600       391          bset col_7,PORTA
+ EF5D [04] 1801       392          bset col_8,PORTB
+ EF5F [04] 1A01       393          bset col_9,PORTB
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 9
+
+
+
+ EF61 [04] 81         394          rts
+                      395  
+                      396  efecto_4:
+ EF62 [05] CDEEBA     397          jsr     apagado_led
+ EF65 [05] CDEEB3     398          jsr     demora_rapida
+ EF68 [04] 1001       399          bset col_1,PORTB 
+ EF6A [04] 1A00       400          bset fil_1,PORTA
+ EF6C [05] CDEEB3     401          jsr     demora_rapida
+ EF6F [04] 1101       402          bclr    col_1,PORTB
+ EF71 [04] 1201       403          bset    col_2,PORTB
+ EF73 [05] CDEEB3     404          jsr     demora_rapida
+ EF76 [04] 1301       405          bclr    col_2,PORTB
+ EF78 [04] 1000       406          bset    col_3,PORTA
+ EF7A [05] CDEEB3     407          jsr     demora_rapida
+ EF7D [04] 1100       408          bclr    col_3,PORTA
+ EF7F [04] 1200       409          bset    col_4,PORTA
+ EF81 [05] CDEEB3     410          jsr     demora_rapida
+ EF84 [04] 1300       411          bclr    col_4,PORTA
+ EF86 [04] 1401       412          bset    col_5,PORTB
+ EF88 [05] CDEEB3     413          jsr     demora_rapida
+ EF8B [04] 1501       414          bclr    col_5,PORTB
+ EF8D [04] 1601       415          bset    col_6,PORTB
+ EF8F [05] CDEEB3     416          jsr     demora_rapida
+ EF92 [04] 1701       417          bclr    col_6,PORTB
+ EF94 [04] 1600       418          bset    col_7,PORTA
+ EF96 [05] CDEEB3     419          jsr     demora_rapida
+ EF99 [04] 1700       420          bclr    col_7,PORTA
+ EF9B [04] 1801       421          bset    col_8,PORTB
+ EF9D [05] CDEEB3     422          jsr     demora_rapida
+ EFA0 [04] 1901       423          bclr    col_8,PORTB
+ EFA2 [04] 1A01       424          bset    col_9,PORTB
+ EFA4 [05] CDEEB3     425          jsr     demora_rapida
+ EFA7 [04] 1B01       426          bclr    col_9,PORTB
+ EFA9 [04] 1B00       427          bclr    fil_1,PORTA
+ EFAB [04] 81         428          rts
+                      429          
+                      430  efecto_5:
+ EFAC [05] CDEEBA     431          jsr     apagado_led
+ EFAF [05] CDEEB3     432          jsr     demora_rapida
+ EFB2 [04] 1A01       433          bset col_9,PORTB 
+ EFB4 [04] 1C01       434          bset fil_2,PORTB
+ EFB6 [05] CDEEB3     435          jsr     demora_rapida
+ EFB9 [04] 1B01       436          bclr    col_9,PORTB
+ EFBB [04] 1801       437          bset    col_8,PORTB
+ EFBD [05] CDEEB3     438          jsr     demora_rapida
+ EFC0 [04] 1901       439          bclr    col_8,PORTB
+ EFC2 [04] 1600       440          bset    col_7,PORTA
+ EFC4 [05] CDEEB3     441          jsr     demora_rapida
+ EFC7 [04] 1700       442          bclr    col_7,PORTA
+ EFC9 [04] 1601       443          bset    col_6,PORTB
+ EFCB [05] CDEEB3     444          jsr     demora_rapida
+ EFCE [04] 1701       445          bclr    col_6,PORTB
+ EFD0 [04] 1401       446          bset    col_5,PORTB
+ EFD2 [05] CDEEB3     447          jsr     demora_rapida
+ EFD5 [04] 1501       448          bclr    col_5,PORTB
+ EFD7 [04] 1200       449          bset    col_4,PORTA
+ EFD9 [05] CDEEB3     450          jsr     demora_rapida
+ EFDC [04] 1300       451          bclr    col_4,PORTA
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 10
+
+
+
+ EFDE [04] 1000       452          bset    col_3,PORTA
+ EFE0 [05] CDEEB3     453          jsr     demora_rapida
+ EFE3 [04] 1100       454          bclr    col_3,PORTA
+ EFE5 [04] 1201       455          bset    col_2,PORTB
+ EFE7 [05] CDEEB3     456          jsr     demora_rapida
+ EFEA [04] 1301       457          bclr    col_2,PORTB
+ EFEC [04] 1001       458          bset    col_1,PORTB
+ EFEE [05] CDEEB3     459          jsr     demora_rapida
+ EFF1 [04] 1101       460          bclr    col_1,PORTB
+ EFF3 [04] 1D01       461          bclr    fil_2,PORTB
+ EFF5 [04] 81         462          rts
+                      463          
+                      464  efecto_6:
+ EFF6 [05] CDEEBA     465          jsr     apagado_led
+ EFF9 [05] CDEEB3     466          jsr     demora_rapida
+ EFFC [04] 1001       467          bset col_1,PORTB 
+ EFFE [04] 1E01       468          bset fil_3,PORTB
+ F000 [05] CDEEB3     469          jsr     demora_rapida
+ F003 [04] 1101       470          bclr    col_1,PORTB
+ F005 [04] 1201       471          bset    col_2,PORTB
+ F007 [05] CDEEB3     472          jsr     demora_rapida
+ F00A [04] 1301       473          bclr    col_2,PORTB
+ F00C [04] 1000       474          bset    col_3,PORTA
+ F00E [05] CDEEB3     475          jsr     demora_rapida
+ F011 [04] 1100       476          bclr    col_3,PORTA
+ F013 [04] 1200       477          bset    col_4,PORTA
+ F015 [05] CDEEB3     478          jsr     demora_rapida
+ F018 [04] 1300       479          bclr    col_4,PORTA
+ F01A [04] 1401       480          bset    col_5,PORTB
+ F01C [05] CDEEB3     481          jsr     demora_rapida
+ F01F [04] 1501       482          bclr    col_5,PORTB
+ F021 [04] 1601       483          bset    col_6,PORTB
+ F023 [05] CDEEB3     484          jsr     demora_rapida
+ F026 [04] 1701       485          bclr    col_6,PORTB
+ F028 [04] 1600       486          bset    col_7,PORTA
+ F02A [05] CDEEB3     487          jsr     demora_rapida
+ F02D [04] 1700       488          bclr    col_7,PORTA
+ F02F [04] 1801       489          bset    col_8,PORTB
+ F031 [05] CDEEB3     490          jsr     demora_rapida
+ F034 [04] 1901       491          bclr    col_8,PORTB
+ F036 [04] 1A01       492          bset    col_9,PORTB
+ F038 [05] CDEEB3     493          jsr     demora_rapida
+ F03B [04] 1B01       494          bclr    col_9,PORTB
+ F03D [04] 1F01       495          bclr    fil_3,PORTB
+ F03F [04] 81         496          rts
+                      497          
+                      498  efecto_2:
+ F040 [05] CDEEBA     499          jsr     apagado_led
+ F043 [05] CDEEB3     500          jsr     demora_rapida
+ F046 [04] 1001       501          bset col_1,PORTB
+ F048 [04] 1201       502          bset col_2,PORTB
+ F04A [04] 1000       503          bset col_3,PORTA
+ F04C [04] 1200       504          bset col_4,PORTA
+ F04E [04] 1401       505          bset col_5,PORTB
+ F050 [04] 1601       506          bset col_6,PORTB
+ F052 [04] 1600       507          bset col_7,PORTA
+ F054 [04] 1801       508          bset col_8,PORTB
+ F056 [04] 1A01       509          bset col_9,PORTB
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 11
+
+
+
+ F058 [04] 1A00       510          bset fil_1,PORTA
+ F05A [04] 1C01       511          bset fil_2,PORTB
+ F05C [04] 1E01       512          bset fil_3,PORTB
+ F05E [05] CDEEB3     513          jsr     demora_rapida
+ F061 [05] CDEEBA     514          jsr     apagado_led
+ F064 [05] CDEEB3     515          jsr     demora_rapida
+ F067 [04] 1001       516          bset col_1,PORTB
+ F069 [04] 1201       517          bset col_2,PORTB
+ F06B [04] 1000       518          bset col_3,PORTA
+ F06D [04] 1200       519          bset col_4,PORTA
+ F06F [04] 1401       520          bset col_5,PORTB
+ F071 [04] 1601       521          bset col_6,PORTB
+ F073 [04] 1600       522          bset col_7,PORTA
+ F075 [04] 1801       523          bset col_8,PORTB
+ F077 [04] 1A01       524          bset col_9,PORTB
+ F079 [04] 1A00       525          bset fil_1,PORTA
+ F07B [04] 1C01       526          bset fil_2,PORTB
+ F07D [04] 1E01       527          bset fil_3,PORTB
+ F07F [04] 81         528          rts
+                      529  
+                      530  diag1:
+ F080 [04] 1A01       531          bset    col_9,PORTB
+ F082 [04] 1601       532          bset    col_6,PORTB
+ F084 [04] 1000       533          bset    col_3,PORTA
+ F086 [04] 1E01       534          bset    fil_3,PORTB
+ F088 [04] 81         535          rts
+                      536  
+                      537  diag2:
+ F089 [04] 1801       538          bset    col_8,PORTB
+ F08B [04] 1401       539          bset    col_5,PORTB
+ F08D [04] 1201       540          bset    col_2,PORTB
+ F08F [04] 1E01       541          bset    fil_3,PORTB
+ F091 [05] CDEE77     542          jsr     retardo_qy
+                      543  
+ F094 [04] 1901       544          bclr    col_8,PORTB
+ F096 [04] 1501       545          bclr    col_5,PORTB
+ F098 [04] 1301       546          bclr    col_2,PORTB
+ F09A [04] 1F01       547          bclr    fil_3,PORTB
+ F09C [04] 1A01       548          bset    col_9,PORTB
+ F09E [04] 1601       549          bset    col_6,PORTB
+ F0A0 [04] 1000       550          bset    col_3,PORTA
+ F0A2 [04] 1C01       551          bset    fil_2,PORTB
+                      552  
+ F0A4 [05] CDEE77     553          jsr     retardo_qy
+ F0A7 [04] 1B01       554          bclr    col_9,PORTB
+ F0A9 [04] 1701       555          bclr    col_6,PORTB
+ F0AB [04] 1100       556          bclr    col_3,PORTA
+ F0AD [04] 1D01       557          bclr    fil_2,PORTB
+ F0AF [04] 81         558          rts
+                      559  
+                      560  diag3:
+                      561  
+ F0B0 [04] 1600       562          bset    col_7,PORTA
+ F0B2 [04] 1200       563          bset    col_4,PORTA
+ F0B4 [04] 1001       564          bset    col_1,PORTB
+ F0B6 [04] 1E01       565          bset    fil_3,PORTB
+ F0B8 [05] CDEE77     566          jsr     retardo_qy
+                      567  
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 12
+
+
+
+ F0BB [04] 1700       568          bclr    col_7,PORTA
+ F0BD [04] 1300       569          bclr    col_4,PORTA
+ F0BF [04] 1101       570          bclr    col_1,PORTB
+ F0C1 [04] 1F01       571          bclr    fil_3,PORTB
+ F0C3 [04] 1801       572          bset    col_8,PORTB
+ F0C5 [04] 1401       573          bset    col_5,PORTB
+ F0C7 [04] 1201       574          bset    col_2,PORTB
+ F0C9 [04] 1C01       575          bset    fil_2,PORTB
+ F0CB [05] CDEE77     576          jsr     retardo_qy
+                      577  
+                      578  
+ F0CE [04] 1901       579          bclr    col_8,PORTB
+ F0D0 [04] 1501       580          bclr    col_5,PORTB
+ F0D2 [04] 1301       581          bclr    col_2,PORTB
+ F0D4 [04] 1D01       582          bclr    fil_2,PORTB
+ F0D6 [04] 1A01       583          bset    col_9,PORTB
+ F0D8 [04] 1601       584          bset    col_6,PORTB
+ F0DA [04] 1000       585          bset    col_3,PORTA
+ F0DC [04] 1A00       586          bset    fil_1,PORTA
+ F0DE [05] CDEE77     587          jsr     retardo_qy
+                      588  
+ F0E1 [04] 1B01       589          bclr    col_9,PORTB
+ F0E3 [04] 1701       590          bclr    col_6,PORTB
+ F0E5 [04] 1100       591          bclr    col_3,PORTA
+ F0E7 [04] 1B00       592          bclr    fil_1,PORTA
+ F0E9 [04] 81         593          rts
+                      594  
+                      595  diag4:
+ F0EA [04] 1801       596          bset    col_8,PORTB
+ F0EC [04] 1401       597          bset    col_5,PORTB
+ F0EE [04] 1201       598          bset    col_2,PORTB
+ F0F0 [04] 1A00       599          bset    fil_1,PORTA
+ F0F2 [05] CDEE77     600          jsr     retardo_qy
+                      601  
+ F0F5 [04] 1901       602          bclr    col_8,PORTB
+ F0F7 [04] 1501       603          bclr    col_5,PORTB
+ F0F9 [04] 1301       604          bclr    col_2,PORTB
+ F0FB [04] 1B00       605          bclr    fil_1,PORTA
+ F0FD [04] 1600       606          bset    col_7,PORTA
+ F0FF [04] 1200       607          bset    col_4,PORTA
+ F101 [04] 1001       608          bset    col_1,PORTB
+ F103 [04] 1C01       609          bset    fil_2,PORTB
+                      610  
+ F105 [05] CDEE77     611          jsr     retardo_qy
+ F108 [04] 1700       612          bclr    col_7,PORTA
+ F10A [04] 1300       613          bclr    col_4,PORTA
+ F10C [04] 1101       614          bclr    col_1,PORTB
+ F10E [04] 1D01       615          bclr    fil_2,PORTB
+ F110 [04] 81         616          rts
+                      617  
+                      618  diag5:
+ F111 [04] 1600       619          bset    col_7,PORTA
+ F113 [04] 1200       620          bset    col_4,PORTA
+ F115 [04] 1001       621          bset    col_1,PORTB
+ F117 [04] 1A00       622          bset    fil_1,PORTA
+ F119 [04] 81         623          rts
+                      624  
+                      625  efecto_3:
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 13
+
+
+
+ F11A [05] CDEEBA     626          jsr     apagado_led
+ F11D [05] CDF080     627          jsr     diag1
+ F120 [05] CDEEAD     628          jsr     demora_320ms
+                      629  
+ F123 [05] CDEEBA     630          jsr     apagado_led
+ F126 [05] CDF145     631          jsr     diagonal_2
+ F129 [05] CDEE77     632          jsr     retardo_qy
+                      633  
+ F12C [05] CDEEBA     634          jsr     apagado_led
+ F12F [05] CDF48E     635          jsr     diagonal_3
+ F132 [05] CDEEB3     636          jsr     demora_rapida
+                      637  
+ F135 [05] CDEEBA     638          jsr     apagado_led
+ F138 [05] CDF633     639          jsr     diagonal_4
+ F13B [05] CDEEAD     640          jsr     demora_320ms
+                      641  
+ F13E [05] CDEEBA     642          jsr     apagado_led
+ F141 [05] CDF111     643          jsr     diag5
+ F144 [04] 81         644          rts
+                      645          
+                      646  diagonal_2:
+ F145 [05] CDF089     647          jsr   diag2
+ F148 [05] CDF089     648          jsr   diag2
+ F14B [05] CDF089     649          jsr   diag2
+ F14E [05] CDF089     650          jsr   diag2
+ F151 [05] CDF089     651          jsr   diag2
+ F154 [05] CDF089     652          jsr   diag2
+ F157 [05] CDF089     653          jsr   diag2
+ F15A [05] CDF089     654          jsr   diag2
+ F15D [05] CDF089     655          jsr   diag2
+ F160 [05] CDF089     656          jsr   diag2
+ F163 [05] CDF089     657          jsr   diag2
+ F166 [05] CDF089     658          jsr   diag2
+ F169 [05] CDF089     659          jsr   diag2
+ F16C [05] CDF089     660          jsr   diag2
+ F16F [05] CDF089     661          jsr   diag2
+ F172 [05] CDF089     662          jsr   diag2
+ F175 [05] CDF089     663          jsr   diag2
+ F178 [05] CDF089     664          jsr   diag2
+ F17B [05] CDF089     665          jsr   diag2
+ F17E [05] CDF089     666          jsr   diag2
+ F181 [05] CDF089     667          jsr   diag2
+ F184 [05] CDF089     668          jsr   diag2
+ F187 [05] CDF089     669          jsr   diag2
+ F18A [05] CDF089     670          jsr   diag2
+ F18D [05] CDF089     671          jsr   diag2
+ F190 [05] CDF089     672          jsr   diag2
+ F193 [05] CDF089     673          jsr   diag2
+ F196 [05] CDF089     674          jsr   diag2
+ F199 [05] CDF089     675          jsr   diag2
+ F19C [05] CDF089     676          jsr   diag2
+ F19F [05] CDF089     677          jsr   diag2
+ F1A2 [05] CDF089     678          jsr   diag2
+ F1A5 [05] CDF089     679          jsr   diag2
+ F1A8 [05] CDF089     680          jsr   diag2
+ F1AB [05] CDF089     681          jsr   diag2
+ F1AE [05] CDF089     682          jsr   diag2
+ F1B1 [05] CDF089     683          jsr   diag2
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 14
+
+
+
+ F1B4 [05] CDF089     684          jsr   diag2
+ F1B7 [05] CDF089     685          jsr   diag2
+ F1BA [05] CDF089     686          jsr   diag2
+ F1BD [05] CDF089     687          jsr   diag2
+ F1C0 [05] CDF089     688          jsr   diag2
+ F1C3 [05] CDF089     689          jsr   diag2
+ F1C6 [05] CDF089     690          jsr   diag2
+ F1C9 [05] CDF089     691          jsr   diag2
+ F1CC [05] CDF089     692          jsr   diag2
+ F1CF [05] CDF089     693          jsr   diag2
+ F1D2 [05] CDF089     694          jsr   diag2
+ F1D5 [05] CDF089     695          jsr   diag2
+ F1D8 [05] CDF089     696          jsr   diag2
+ F1DB [05] CDF089     697          jsr   diag2
+ F1DE [05] CDF089     698          jsr   diag2
+ F1E1 [05] CDF089     699          jsr   diag2
+ F1E4 [05] CDF089     700          jsr   diag2
+ F1E7 [05] CDF089     701          jsr   diag2
+ F1EA [05] CDF089     702          jsr   diag2
+ F1ED [05] CDF089     703          jsr   diag2
+ F1F0 [05] CDF089     704          jsr   diag2
+ F1F3 [05] CDF089     705          jsr   diag2
+ F1F6 [05] CDF089     706          jsr   diag2
+ F1F9 [05] CDF089     707          jsr   diag2
+ F1FC [05] CDF089     708          jsr   diag2
+ F1FF [05] CDF089     709          jsr   diag2
+ F202 [05] CDF089     710          jsr   diag2
+ F205 [05] CDF089     711          jsr   diag2
+ F208 [05] CDF089     712          jsr   diag2
+ F20B [05] CDF089     713          jsr   diag2
+ F20E [05] CDF089     714          jsr   diag2
+ F211 [05] CDF089     715          jsr   diag2
+ F214 [05] CDF089     716          jsr   diag2
+ F217 [05] CDF089     717          jsr   diag2
+ F21A [05] CDF089     718          jsr   diag2
+ F21D [05] CDF089     719          jsr   diag2
+ F220 [05] CDF089     720          jsr   diag2
+ F223 [05] CDF089     721          jsr   diag2
+ F226 [05] CDF089     722          jsr   diag2
+ F229 [05] CDF089     723          jsr   diag2
+ F22C [05] CDF089     724          jsr   diag2
+ F22F [05] CDF089     725          jsr   diag2
+ F232 [05] CDF089     726          jsr   diag2
+ F235 [05] CDF089     727          jsr   diag2
+ F238 [05] CDF089     728          jsr   diag2
+ F23B [05] CDF089     729          jsr   diag2
+ F23E [05] CDF089     730          jsr   diag2
+ F241 [05] CDF089     731          jsr   diag2
+ F244 [05] CDF089     732          jsr   diag2
+ F247 [05] CDF089     733          jsr   diag2
+ F24A [05] CDF089     734          jsr   diag2
+ F24D [05] CDF089     735          jsr   diag2
+ F250 [05] CDF089     736          jsr   diag2
+ F253 [05] CDF089     737          jsr   diag2
+ F256 [05] CDF089     738          jsr   diag2
+ F259 [05] CDF089     739          jsr   diag2
+ F25C [05] CDF089     740          jsr   diag2
+ F25F [05] CDF089     741          jsr   diag2
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 15
+
+
+
+ F262 [05] CDF089     742          jsr   diag2
+ F265 [05] CDF089     743          jsr   diag2
+ F268 [05] CDF089     744          jsr   diag2
+ F26B [05] CDF089     745          jsr   diag2
+ F26E [05] CDF089     746          jsr   diag2
+ F271 [05] CDF089     747          jsr   diag2
+ F274 [05] CDF089     748          jsr   diag2
+ F277 [05] CDF089     749          jsr   diag2
+ F27A [05] CDF089     750          jsr   diag2
+ F27D [05] CDF089     751          jsr   diag2
+ F280 [05] CDF089     752          jsr   diag2
+ F283 [05] CDF089     753          jsr   diag2
+ F286 [05] CDF089     754          jsr   diag2
+ F289 [05] CDF089     755          jsr   diag2
+ F28C [05] CDF089     756          jsr   diag2
+ F28F [05] CDF089     757          jsr   diag2
+ F292 [05] CDF089     758          jsr   diag2
+ F295 [05] CDF089     759          jsr   diag2
+ F298 [05] CDF089     760          jsr   diag2
+ F29B [05] CDF089     761          jsr   diag2
+ F29E [05] CDF089     762          jsr   diag2
+ F2A1 [05] CDF089     763          jsr   diag2
+ F2A4 [05] CDF089     764          jsr   diag2
+ F2A7 [05] CDF089     765          jsr   diag2
+ F2AA [05] CDF089     766          jsr   diag2
+ F2AD [05] CDF089     767          jsr   diag2
+ F2B0 [05] CDF089     768          jsr   diag2
+ F2B3 [05] CDF089     769          jsr   diag2
+ F2B6 [05] CDF089     770          jsr   diag2
+ F2B9 [05] CDF089     771          jsr   diag2
+ F2BC [05] CDF089     772          jsr   diag2
+ F2BF [05] CDF089     773          jsr   diag2
+ F2C2 [05] CDF089     774          jsr   diag2
+ F2C5 [05] CDF089     775          jsr   diag2
+ F2C8 [05] CDF089     776          jsr   diag2
+ F2CB [05] CDF089     777          jsr   diag2
+ F2CE [05] CDF089     778          jsr   diag2
+ F2D1 [05] CDF089     779          jsr   diag2
+ F2D4 [05] CDF089     780          jsr   diag2
+ F2D7 [05] CDF089     781          jsr   diag2
+ F2DA [05] CDF089     782          jsr   diag2
+ F2DD [05] CDF089     783          jsr   diag2
+ F2E0 [05] CDF089     784          jsr   diag2
+ F2E3 [05] CDF089     785          jsr   diag2
+ F2E6 [05] CDF089     786          jsr   diag2
+ F2E9 [05] CDF089     787          jsr   diag2
+ F2EC [05] CDF089     788          jsr   diag2
+ F2EF [05] CDF089     789          jsr   diag2
+ F2F2 [05] CDF089     790          jsr   diag2
+ F2F5 [05] CDF089     791          jsr   diag2
+ F2F8 [05] CDF089     792          jsr   diag2
+ F2FB [05] CDF089     793          jsr   diag2
+ F2FE [05] CDF089     794          jsr   diag2
+ F301 [05] CDF089     795          jsr   diag2
+ F304 [05] CDF089     796          jsr   diag2
+ F307 [05] CDF089     797          jsr   diag2
+ F30A [05] CDF089     798          jsr   diag2
+ F30D [05] CDF089     799          jsr   diag2
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 16
+
+
+
+ F310 [05] CDF089     800          jsr   diag2
+ F313 [05] CDF089     801          jsr   diag2
+ F316 [05] CDF089     802          jsr   diag2
+ F319 [05] CDF089     803          jsr   diag2
+ F31C [05] CDF089     804          jsr   diag2
+ F31F [05] CDF089     805          jsr   diag2
+ F322 [05] CDF089     806          jsr   diag2
+ F325 [05] CDF089     807          jsr   diag2
+ F328 [05] CDF089     808          jsr   diag2
+ F32B [05] CDF089     809          jsr   diag2
+ F32E [05] CDF089     810          jsr   diag2
+ F331 [05] CDF089     811          jsr   diag2
+ F334 [05] CDF089     812          jsr   diag2
+ F337 [05] CDF089     813          jsr   diag2
+ F33A [05] CDF089     814          jsr   diag2
+ F33D [05] CDF089     815          jsr   diag2
+ F340 [05] CDF089     816          jsr   diag2
+ F343 [05] CDF089     817          jsr   diag2
+ F346 [05] CDF089     818          jsr   diag2
+ F349 [05] CDF089     819          jsr   diag2
+ F34C [05] CDF089     820          jsr   diag2
+ F34F [05] CDF089     821          jsr   diag2
+ F352 [05] CDF089     822          jsr   diag2
+ F355 [05] CDF089     823          jsr   diag2
+ F358 [05] CDF089     824          jsr   diag2
+ F35B [05] CDF089     825          jsr   diag2
+ F35E [05] CDF089     826          jsr   diag2
+ F361 [05] CDF089     827          jsr   diag2
+ F364 [05] CDF089     828          jsr   diag2
+ F367 [05] CDF089     829          jsr   diag2
+ F36A [05] CDF089     830          jsr   diag2
+ F36D [05] CDF089     831          jsr   diag2
+ F370 [05] CDF089     832          jsr   diag2
+ F373 [05] CDF089     833          jsr   diag2
+ F376 [05] CDF089     834          jsr   diag2
+ F379 [05] CDF089     835          jsr   diag2
+ F37C [05] CDF089     836          jsr   diag2
+ F37F [05] CDF089     837          jsr   diag2
+ F382 [05] CDF089     838          jsr   diag2
+ F385 [05] CDF089     839          jsr   diag2
+ F388 [05] CDF089     840          jsr   diag2
+ F38B [05] CDF089     841          jsr   diag2
+ F38E [05] CDF089     842          jsr   diag2
+ F391 [05] CDF089     843          jsr   diag2
+ F394 [05] CDF089     844          jsr   diag2
+ F397 [05] CDF089     845          jsr   diag2
+ F39A [05] CDF089     846          jsr   diag2
+ F39D [05] CDF089     847          jsr   diag2
+ F3A0 [05] CDF089     848          jsr   diag2
+ F3A3 [05] CDF089     849          jsr   diag2
+ F3A6 [05] CDF089     850          jsr   diag2
+ F3A9 [05] CDF089     851          jsr   diag2
+ F3AC [05] CDF089     852          jsr   diag2
+ F3AF [05] CDF089     853          jsr   diag2
+ F3B2 [05] CDF089     854          jsr   diag2
+ F3B5 [05] CDF089     855          jsr   diag2
+ F3B8 [05] CDF089     856          jsr   diag2
+ F3BB [05] CDF089     857          jsr   diag2
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 17
+
+
+
+ F3BE [05] CDF089     858          jsr   diag2
+ F3C1 [05] CDF089     859          jsr   diag2
+ F3C4 [05] CDF089     860          jsr   diag2
+ F3C7 [05] CDF089     861          jsr   diag2
+ F3CA [05] CDF089     862          jsr   diag2
+ F3CD [05] CDF089     863          jsr   diag2
+ F3D0 [05] CDF089     864          jsr   diag2
+ F3D3 [05] CDF089     865          jsr   diag2
+ F3D6 [05] CDF089     866          jsr   diag2
+ F3D9 [05] CDF089     867          jsr   diag2
+ F3DC [05] CDF089     868          jsr   diag2
+ F3DF [05] CDF089     869          jsr   diag2
+ F3E2 [05] CDF089     870          jsr   diag2
+ F3E5 [05] CDF089     871          jsr   diag2
+ F3E8 [05] CDF089     872          jsr   diag2
+ F3EB [05] CDF089     873          jsr   diag2
+ F3EE [05] CDF089     874          jsr   diag2
+ F3F1 [05] CDF089     875          jsr   diag2
+ F3F4 [05] CDF089     876          jsr   diag2
+ F3F7 [05] CDF089     877          jsr   diag2
+ F3FA [05] CDF089     878          jsr   diag2
+ F3FD [05] CDF089     879          jsr   diag2
+ F400 [05] CDF089     880          jsr   diag2
+ F403 [05] CDF089     881          jsr   diag2
+ F406 [05] CDF089     882          jsr   diag2
+ F409 [05] CDF089     883          jsr   diag2
+ F40C [05] CDF089     884          jsr   diag2
+ F40F [05] CDF089     885          jsr   diag2
+ F412 [05] CDF089     886          jsr   diag2
+ F415 [05] CDF089     887          jsr   diag2
+ F418 [05] CDF089     888          jsr   diag2
+ F41B [05] CDF089     889          jsr   diag2
+ F41E [05] CDF089     890          jsr   diag2
+ F421 [05] CDF089     891          jsr   diag2
+ F424 [05] CDF089     892          jsr   diag2
+ F427 [05] CDF089     893          jsr   diag2
+ F42A [05] CDF089     894          jsr   diag2
+ F42D [05] CDF089     895          jsr   diag2
+ F430 [05] CDF089     896          jsr   diag2
+ F433 [05] CDF089     897          jsr   diag2
+ F436 [05] CDF089     898          jsr   diag2
+ F439 [05] CDF089     899          jsr   diag2
+ F43C [05] CDF089     900          jsr   diag2
+ F43F [05] CDF089     901          jsr   diag2
+ F442 [05] CDF089     902          jsr   diag2
+ F445 [05] CDF089     903          jsr   diag2
+ F448 [05] CDF089     904          jsr   diag2
+ F44B [05] CDF089     905          jsr   diag2
+ F44E [05] CDF089     906          jsr   diag2
+ F451 [05] CDF089     907          jsr   diag2
+ F454 [05] CDF089     908          jsr   diag2
+ F457 [05] CDF089     909          jsr   diag2
+ F45A [05] CDF089     910          jsr   diag2
+ F45D [05] CDF089     911          jsr   diag2
+ F460 [05] CDF089     912          jsr   diag2
+ F463 [05] CDF089     913          jsr   diag2
+ F466 [05] CDF089     914          jsr   diag2
+ F469 [05] CDF089     915          jsr   diag2
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 18
+
+
+
+ F46C [05] CDF089     916          jsr   diag2
+ F46F [05] CDF089     917          jsr   diag2
+ F472 [05] CDF089     918          jsr   diag2
+ F475 [05] CDF089     919          jsr   diag2
+ F478 [05] CDF089     920          jsr   diag2
+ F47B [05] CDF089     921          jsr   diag2
+ F47E [05] CDF089     922          jsr   diag2
+ F481 [05] CDF089     923          jsr   diag2
+ F484 [05] CDF089     924          jsr   diag2
+ F487 [05] CDF089     925          jsr   diag2
+ F48A [05] CDF089     926          jsr   diag2
+ F48D [04] 81         927          rts
+                      928  
+                      929  diagonal_3:
+ F48E [05] CDF0B0     930          jsr   diag3
+ F491 [05] CDF0B0     931          jsr   diag3
+ F494 [05] CDF0B0     932          jsr   diag3
+ F497 [05] CDF0B0     933          jsr   diag3
+ F49A [05] CDF0B0     934          jsr   diag3
+ F49D [05] CDF0B0     935          jsr   diag3
+ F4A0 [05] CDF0B0     936          jsr   diag3
+ F4A3 [05] CDF0B0     937          jsr   diag3
+ F4A6 [05] CDF0B0     938          jsr   diag3
+ F4A9 [05] CDF0B0     939          jsr   diag3
+ F4AC [05] CDF0B0     940          jsr   diag3
+ F4AF [05] CDF0B0     941          jsr   diag3
+ F4B2 [05] CDF0B0     942          jsr   diag3
+ F4B5 [05] CDF0B0     943          jsr   diag3
+ F4B8 [05] CDF0B0     944          jsr   diag3
+ F4BB [05] CDF0B0     945          jsr   diag3
+ F4BE [05] CDF0B0     946          jsr   diag3
+ F4C1 [05] CDF0B0     947          jsr   diag3
+ F4C4 [05] CDF0B0     948          jsr   diag3
+ F4C7 [05] CDF0B0     949          jsr   diag3
+ F4CA [05] CDF0B0     950          jsr   diag3
+ F4CD [05] CDF0B0     951          jsr   diag3
+ F4D0 [05] CDF0B0     952          jsr   diag3
+ F4D3 [05] CDF0B0     953          jsr   diag3
+ F4D6 [05] CDF0B0     954          jsr   diag3
+ F4D9 [05] CDF0B0     955          jsr   diag3
+ F4DC [05] CDF0B0     956          jsr   diag3
+ F4DF [05] CDF0B0     957          jsr   diag3
+ F4E2 [05] CDF0B0     958          jsr   diag3
+ F4E5 [05] CDF0B0     959          jsr   diag3
+ F4E8 [05] CDF0B0     960          jsr   diag3
+ F4EB [05] CDF0B0     961          jsr   diag3
+ F4EE [05] CDF0B0     962          jsr   diag3
+ F4F1 [05] CDF0B0     963          jsr   diag3
+ F4F4 [05] CDF0B0     964          jsr   diag3
+ F4F7 [05] CDF0B0     965          jsr   diag3
+ F4FA [05] CDF0B0     966          jsr   diag3
+ F4FD [05] CDF0B0     967          jsr   diag3
+ F500 [05] CDF0B0     968          jsr   diag3
+ F503 [05] CDF0B0     969          jsr   diag3
+ F506 [05] CDF0B0     970          jsr   diag3
+ F509 [05] CDF0B0     971          jsr   diag3
+ F50C [05] CDF0B0     972          jsr   diag3
+ F50F [05] CDF0B0     973          jsr   diag3
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 19
+
+
+
+ F512 [05] CDF0B0     974          jsr   diag3
+ F515 [05] CDF0B0     975          jsr   diag3
+ F518 [05] CDF0B0     976          jsr   diag3
+ F51B [05] CDF0B0     977          jsr   diag3
+ F51E [05] CDF0B0     978          jsr   diag3
+ F521 [05] CDF0B0     979          jsr   diag3
+ F524 [05] CDF0B0     980          jsr   diag3
+ F527 [05] CDF0B0     981          jsr   diag3
+ F52A [05] CDF0B0     982          jsr   diag3
+ F52D [05] CDF0B0     983          jsr   diag3
+ F530 [05] CDF0B0     984          jsr   diag3
+ F533 [05] CDF0B0     985          jsr   diag3
+ F536 [05] CDF0B0     986          jsr   diag3
+ F539 [05] CDF0B0     987          jsr   diag3
+ F53C [05] CDF0B0     988          jsr   diag3
+ F53F [05] CDF0B0     989          jsr   diag3
+ F542 [05] CDF0B0     990          jsr   diag3
+ F545 [05] CDF0B0     991          jsr   diag3
+ F548 [05] CDF0B0     992          jsr   diag3
+ F54B [05] CDF0B0     993          jsr   diag3
+ F54E [05] CDF0B0     994          jsr   diag3
+ F551 [05] CDF0B0     995          jsr   diag3
+ F554 [05] CDF0B0     996          jsr   diag3
+ F557 [05] CDF0B0     997          jsr   diag3
+ F55A [05] CDF0B0     998          jsr   diag3
+ F55D [05] CDF0B0     999          jsr   diag3
+ F560 [05] CDF0B0    1000          jsr   diag3
+ F563 [05] CDF0B0    1001          jsr   diag3
+ F566 [05] CDF0B0    1002          jsr   diag3
+ F569 [05] CDF0B0    1003          jsr   diag3
+ F56C [05] CDF0B0    1004          jsr   diag3
+ F56F [05] CDF0B0    1005          jsr   diag3
+ F572 [05] CDF0B0    1006          jsr   diag3
+ F575 [05] CDF0B0    1007          jsr   diag3
+ F578 [05] CDF0B0    1008          jsr   diag3
+ F57B [05] CDF0B0    1009          jsr   diag3
+ F57E [05] CDF0B0    1010          jsr   diag3
+ F581 [05] CDF0B0    1011          jsr   diag3
+ F584 [05] CDF0B0    1012          jsr   diag3
+ F587 [05] CDF0B0    1013          jsr   diag3
+ F58A [05] CDF0B0    1014          jsr   diag3
+ F58D [05] CDF0B0    1015          jsr   diag3
+ F590 [05] CDF0B0    1016          jsr   diag3
+ F593 [05] CDF0B0    1017          jsr   diag3
+ F596 [05] CDF0B0    1018          jsr   diag3
+ F599 [05] CDF0B0    1019          jsr   diag3
+ F59C [05] CDF0B0    1020          jsr   diag3
+ F59F [05] CDF0B0    1021          jsr   diag3
+ F5A2 [05] CDF0B0    1022          jsr   diag3
+ F5A5 [05] CDF0B0    1023          jsr   diag3
+ F5A8 [05] CDF0B0    1024          jsr   diag3
+ F5AB [05] CDF0B0    1025          jsr   diag3
+ F5AE [05] CDF0B0    1026          jsr   diag3
+ F5B1 [05] CDF0B0    1027          jsr   diag3
+ F5B4 [05] CDF0B0    1028          jsr   diag3
+ F5B7 [05] CDF0B0    1029          jsr   diag3
+ F5BA [05] CDF0B0    1030          jsr   diag3
+ F5BD [05] CDF0B0    1031          jsr   diag3
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 20
+
+
+
+ F5C0 [05] CDF0B0    1032          jsr   diag3
+ F5C3 [05] CDF0B0    1033          jsr   diag3
+ F5C6 [05] CDF0B0    1034          jsr   diag3
+ F5C9 [05] CDF0B0    1035          jsr   diag3
+ F5CC [05] CDF0B0    1036          jsr   diag3
+ F5CF [05] CDF0B0    1037          jsr   diag3
+ F5D2 [05] CDF0B0    1038          jsr   diag3
+ F5D5 [05] CDF0B0    1039          jsr   diag3
+ F5D8 [05] CDF0B0    1040          jsr   diag3
+ F5DB [05] CDF0B0    1041          jsr   diag3
+ F5DE [05] CDF0B0    1042          jsr   diag3
+ F5E1 [05] CDF0B0    1043          jsr   diag3
+ F5E4 [05] CDF0B0    1044          jsr   diag3
+ F5E7 [05] CDF0B0    1045          jsr   diag3
+ F5EA [05] CDF0B0    1046          jsr   diag3
+ F5ED [05] CDF0B0    1047          jsr   diag3
+ F5F0 [05] CDF0B0    1048          jsr   diag3
+ F5F3 [05] CDF0B0    1049          jsr   diag3
+ F5F6 [05] CDF0B0    1050          jsr   diag3
+ F5F9 [05] CDF0B0    1051          jsr   diag3
+ F5FC [05] CDF0B0    1052          jsr   diag3
+ F5FF [05] CDF0B0    1053          jsr   diag3
+ F602 [05] CDF0B0    1054          jsr   diag3
+ F605 [05] CDF0B0    1055          jsr   diag3
+ F608 [05] CDF0B0    1056          jsr   diag3
+ F60B [05] CDF0B0    1057          jsr   diag3
+ F60E [05] CDF0B0    1058          jsr   diag3
+ F611 [05] CDF0B0    1059          jsr   diag3
+ F614 [05] CDF0B0    1060          jsr   diag3
+ F617 [05] CDF0B0    1061          jsr   diag3
+ F61A [05] CDF0B0    1062          jsr   diag3
+ F61D [05] CDF0B0    1063          jsr   diag3
+ F620 [05] CDF0B0    1064          jsr   diag3
+ F623 [05] CDF0B0    1065          jsr   diag3
+ F626 [05] CDF0B0    1066          jsr   diag3
+ F629 [05] CDF0B0    1067          jsr   diag3
+ F62C [05] CDF0B0    1068          jsr   diag3
+ F62F [05] CDF0B0    1069          jsr   diag3
+ F632 [04] 81        1070          rts
+                     1071  
+                     1072  diagonal_4:
+ F633 [05] CDF0EA    1073          jsr   diag4
+ F636 [05] CDF0EA    1074          jsr   diag4
+ F639 [05] CDF0EA    1075          jsr   diag4
+ F63C [05] CDF0EA    1076          jsr   diag4
+ F63F [05] CDF0EA    1077          jsr   diag4
+ F642 [05] CDF0EA    1078          jsr   diag4
+ F645 [05] CDF0EA    1079          jsr   diag4
+ F648 [05] CDF0EA    1080          jsr   diag4
+ F64B [05] CDF0EA    1081          jsr   diag4
+ F64E [05] CDF0EA    1082          jsr   diag4
+ F651 [05] CDF0EA    1083          jsr   diag4
+ F654 [05] CDF0EA    1084          jsr   diag4
+ F657 [05] CDF0EA    1085          jsr   diag4
+ F65A [05] CDF0EA    1086          jsr   diag4
+ F65D [05] CDF0EA    1087          jsr   diag4
+ F660 [05] CDF0EA    1088          jsr   diag4
+ F663 [05] CDF0EA    1089          jsr   diag4
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 21
+
+
+
+ F666 [05] CDF0EA    1090          jsr   diag4
+ F669 [05] CDF0EA    1091          jsr   diag4
+ F66C [05] CDF0EA    1092          jsr   diag4
+ F66F [05] CDF0EA    1093          jsr   diag4
+ F672 [05] CDF0EA    1094          jsr   diag4
+ F675 [05] CDF0EA    1095          jsr   diag4
+ F678 [05] CDF0EA    1096          jsr   diag4
+ F67B [05] CDF0EA    1097          jsr   diag4
+ F67E [05] CDF0EA    1098          jsr   diag4
+ F681 [05] CDF0EA    1099          jsr   diag4
+ F684 [05] CDF0EA    1100          jsr   diag4
+ F687 [05] CDF0EA    1101          jsr   diag4
+ F68A [05] CDF0EA    1102          jsr   diag4
+ F68D [05] CDF0EA    1103          jsr   diag4
+ F690 [05] CDF0EA    1104          jsr   diag4
+ F693 [05] CDF0EA    1105          jsr   diag4
+ F696 [05] CDF0EA    1106          jsr   diag4
+ F699 [05] CDF0EA    1107          jsr   diag4
+ F69C [05] CDF0EA    1108          jsr   diag4
+ F69F [05] CDF0EA    1109          jsr   diag4
+ F6A2 [05] CDF0EA    1110          jsr   diag4
+ F6A5 [05] CDF0EA    1111          jsr   diag4
+ F6A8 [05] CDF0EA    1112          jsr   diag4
+ F6AB [05] CDF0EA    1113          jsr   diag4
+ F6AE [05] CDF0EA    1114          jsr   diag4
+ F6B1 [05] CDF0EA    1115          jsr   diag4
+ F6B4 [05] CDF0EA    1116          jsr   diag4
+ F6B7 [05] CDF0EA    1117          jsr   diag4
+ F6BA [05] CDF0EA    1118          jsr   diag4
+ F6BD [05] CDF0EA    1119          jsr   diag4
+ F6C0 [05] CDF0EA    1120          jsr   diag4
+ F6C3 [05] CDF0EA    1121          jsr   diag4
+ F6C6 [05] CDF0EA    1122          jsr   diag4
+ F6C9 [05] CDF0EA    1123          jsr   diag4
+ F6CC [05] CDF0EA    1124          jsr   diag4
+ F6CF [05] CDF0EA    1125          jsr   diag4
+ F6D2 [05] CDF0EA    1126          jsr   diag4
+ F6D5 [05] CDF0EA    1127          jsr   diag4
+ F6D8 [05] CDF0EA    1128          jsr   diag4
+ F6DB [05] CDF0EA    1129          jsr   diag4
+ F6DE [05] CDF0EA    1130          jsr   diag4
+ F6E1 [05] CDF0EA    1131          jsr   diag4
+ F6E4 [05] CDF0EA    1132          jsr   diag4
+ F6E7 [05] CDF0EA    1133          jsr   diag4
+ F6EA [05] CDF0EA    1134          jsr   diag4
+ F6ED [05] CDF0EA    1135          jsr   diag4
+ F6F0 [05] CDF0EA    1136          jsr   diag4
+ F6F3 [05] CDF0EA    1137          jsr   diag4
+ F6F6 [05] CDF0EA    1138          jsr   diag4
+ F6F9 [05] CDF0EA    1139          jsr   diag4
+ F6FC [05] CDF0EA    1140          jsr   diag4
+ F6FF [05] CDF0EA    1141          jsr   diag4
+ F702 [05] CDF0EA    1142          jsr   diag4
+ F705 [05] CDF0EA    1143          jsr   diag4
+ F708 [05] CDF0EA    1144          jsr   diag4
+ F70B [05] CDF0EA    1145          jsr   diag4
+ F70E [05] CDF0EA    1146          jsr   diag4
+ F711 [05] CDF0EA    1147          jsr   diag4
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 22
+
+
+
+ F714 [05] CDF0EA    1148          jsr   diag4
+ F717 [05] CDF0EA    1149          jsr   diag4
+ F71A [05] CDF0EA    1150          jsr   diag4
+ F71D [05] CDF0EA    1151          jsr   diag4
+ F720 [05] CDF0EA    1152          jsr   diag4
+ F723 [05] CDF0EA    1153          jsr   diag4
+ F726 [05] CDF0EA    1154          jsr   diag4
+ F729 [05] CDF0EA    1155          jsr   diag4
+ F72C [05] CDF0EA    1156          jsr   diag4
+ F72F [05] CDF0EA    1157          jsr   diag4
+ F732 [05] CDF0EA    1158          jsr   diag4
+ F735 [05] CDF0EA    1159          jsr   diag4
+ F738 [05] CDF0EA    1160          jsr   diag4
+ F73B [05] CDF0EA    1161          jsr   diag4
+ F73E [05] CDF0EA    1162          jsr   diag4
+ F741 [05] CDF0EA    1163          jsr   diag4
+ F744 [05] CDF0EA    1164          jsr   diag4
+ F747 [05] CDF0EA    1165          jsr   diag4
+ F74A [05] CDF0EA    1166          jsr   diag4
+ F74D [05] CDF0EA    1167          jsr   diag4
+ F750 [05] CDF0EA    1168          jsr   diag4
+ F753 [05] CDF0EA    1169          jsr   diag4
+ F756 [05] CDF0EA    1170          jsr   diag4
+ F759 [05] CDF0EA    1171          jsr   diag4
+ F75C [05] CDF0EA    1172          jsr   diag4
+ F75F [05] CDF0EA    1173          jsr   diag4
+ F762 [05] CDF0EA    1174          jsr   diag4
+ F765 [05] CDF0EA    1175          jsr   diag4
+ F768 [05] CDF0EA    1176          jsr   diag4
+ F76B [05] CDF0EA    1177          jsr   diag4
+ F76E [05] CDF0EA    1178          jsr   diag4
+ F771 [05] CDF0EA    1179          jsr   diag4
+ F774 [05] CDF0EA    1180          jsr   diag4
+ F777 [05] CDF0EA    1181          jsr   diag4
+ F77A [05] CDF0EA    1182          jsr   diag4
+ F77D [05] CDF0EA    1183          jsr   diag4
+ F780 [05] CDF0EA    1184          jsr   diag4
+ F783 [05] CDF0EA    1185          jsr   diag4
+ F786 [05] CDF0EA    1186          jsr   diag4
+ F789 [05] CDF0EA    1187          jsr   diag4
+ F78C [05] CDF0EA    1188          jsr   diag4
+ F78F [05] CDF0EA    1189          jsr   diag4
+ F792 [05] CDF0EA    1190          jsr   diag4
+ F795 [05] CDF0EA    1191          jsr   diag4
+ F798 [05] CDF0EA    1192          jsr   diag4
+ F79B [05] CDF0EA    1193          jsr   diag4
+ F79E [05] CDF0EA    1194          jsr   diag4
+ F7A1 [05] CDF0EA    1195          jsr   diag4
+ F7A4 [05] CDF0EA    1196          jsr   diag4
+ F7A7 [05] CDF0EA    1197          jsr   diag4
+ F7AA [05] CDF0EA    1198          jsr   diag4
+ F7AD [05] CDF0EA    1199          jsr   diag4
+ F7B0 [05] CDF0EA    1200          jsr   diag4
+ F7B3 [05] CDF0EA    1201          jsr   diag4
+ F7B6 [05] CDF0EA    1202          jsr   diag4
+ F7B9 [05] CDF0EA    1203          jsr   diag4
+ F7BC [05] CDF0EA    1204          jsr   diag4
+ F7BF [05] CDF0EA    1205          jsr   diag4
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 23
+
+
+
+ F7C2 [05] CDF0EA    1206          jsr   diag4
+ F7C5 [05] CDF0EA    1207          jsr   diag4
+ F7C8 [05] CDF0EA    1208          jsr   diag4
+ F7CB [05] CDF0EA    1209          jsr   diag4
+ F7CE [05] CDF0EA    1210          jsr   diag4
+ F7D1 [05] CDF0EA    1211          jsr   diag4
+ F7D4 [05] CDF0EA    1212          jsr   diag4
+ F7D7 [04] 81        1213          rts
+                     1214  
+                     1215  cruz_2:
+ F7D8 [04] 81        1216          rts
+                     1217  
+                     1218  cruz_1_1000ms:
+ F7D9 [04] 81        1219          rts
+                     1220  
+                     1221  cruz_2_1000ms:
+ F7DA [04] 81        1222          rts
+                     1223  
+                     1224  adc_isr:
+ F7DB [01] 9D        1225          nop
+ F7DC [07] 80        1226       rti
+                     1227  
+                     1228  
+                     1229  keyb_isr:
+ F7DD [01] 9D        1230          nop
+ F7DE [07] 80        1231          rti
+                     1232  
+                     1233  
+                     1234  tim1_ov_isr:
+ F7DF [01] 9D        1235       nop
+ F7E0 [07] 80        1236          rti
+                     1237  
+                     1238  tim1_1_isr:
+ F7E1 [01] 9D        1239          nop
+ F7E2 [07] 80        1240       rti
+                     1241  
+                     1242  tim1_0_isr:
+ F7E3 [01] 9D        1243          nop
+ F7E4 [07] 80        1244       rti
+                     1245  
+                     1246  
+                     1247  irq_isr:
+ F7E5 [01] 9D        1248       nop
+ F7E6 [07] 80        1249       rti
+                     1250  
+                     1251  swi_isr:
+ F7E7 [01] 9D        1252          nop
+ F7E8 [07] 80        1253          rti
+                     1254  
+                     1255  
+                     1256  dummy_isr:
+ F7E9 [01] 9D        1257          nop
+ F7EA [07] 80        1258          rti
+                     1259  
+                     1260  
+ FFDE                1261       org     VECTORES
+ FFDE      F7DB      1262       fdb     adc_isr         ; ADC Vector
+ FFE0      F7DD      1263       fdb     keyb_isr        ; KEYBOARD Vector
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 24
+
+
+
+                     1264  
+ FFF2                1265       org     $FFF2
+ FFF2      F7DF      1266       fdb     tim1_ov_isr     ; TIM1 Overflow Vector
+ FFF4      F7E1      1267       fdb     tim1_1_isr      ; TIM1 Channel 1 Vector
+ FFF6      F7E3      1268       fdb     tim1_0_isr      ; TIM1 Channel 0 Vector
+                     1269  
+ FFFA                1270       org     $FFFA
+ FFFA      F7E5      1271       fdb     irq_isr         ; IRQ1  Vector
+ FFFC      F7E7      1272       fdb     swi_isr         ; SWI Vector
+ FFFE      EE00      1273       fdb     Start           ; Reset
+                     1274  
+                     1275  end
+                     1276   
+
+ Symbol Table 
+
+ACK              0002
+ACKK             0002
+ADCO             0005
+ADC_ISR          F7DB
+ADICLK           003F
+ADRH             003D
+ADRL             003E
+ADSCR            003C
+AIEN             0006
+APAGADO_LED      EEBA
+BCFE             0007
+BDCOP            0000
+BFCR             FE03
+BRKAR            FE02
+BRKH             FE09
+BRKL             FE0A
+BRKSCR           FE0B
+BSR              FE00
+CH0F             0007
+CH0IE            0006
+CH0MAX           0000
+CH1F             0007
+CH1IE            0006
+CH1MAX           0000
+COCO             0007
+COL_1            0000
+COL_2            0001
+COL_3            0000
+COL_4            0001
+COL_5            0002
+COL_6            0003
+COL_7            0003
+COL_8            0004
+COL_9            0005
+CONFIG1          001F
+CONFIG2          001E
+COP              0005
+COPCTL           FFFF
+CRUZ_1_1000MS    F7D9
+CRUZ_2           F7D8
+CRUZ_2_1000MS    F7DA
+DDRA             0004
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 25
+
+
+
+DDRB             0005
+DELNUS           280C
+DEMORA_1000MS    EE95
+DEMORA_240MS     EEB0
+DEMORA_320MS     EEAD
+DEMORA_500MS     EEA7
+DEMORA_QY        EE86
+DEMORA_RAPIDA    EEB3
+DEM_1            EE8A
+DEM_2            EE88
+DIAG1            F080
+DIAG2            F089
+DIAG3            F0B0
+DIAG4            F0EA
+DIAG5            F111
+DIAGONAL_2       F145
+DIAGONAL_3       F48E
+DIAGONAL_4       F633
+DUMMY_ISR        F7E9
+ECFS0            0002
+ECFS1            0003
+ECGON            0001
+ECGST            0000
+EFECTO_1         EED3
+EFECTO_2         F040
+EFECTO_3         F11A
+EFECTO_4         EF62
+EFECTO_5         EFAC
+EFECTO_6         EFF6
+ELS0A            0002
+ELS0B            0003
+ELS1A            0002
+ELS1B            0003
+END              0000
+ERARNGE          2806
+FIL_1            0005
+FIL_2            0006
+FIL_3            0007
+FLASH_INI        EE00
+FLBPR            FFBE
+FLCR             FE08
+GETBYTE          2800
+ICFS0            0004
+ICFS1            0005
+ILAD             0003
+ILOP             0004
+IMASK            0001
+IMASKK           0001
+INICIAR          EE3C
+INT1             FE04
+INT2             FE05
+INT3             FE06
+INTSCR           001D
+IOSCTRM          FFC0
+IRQF             0003
+IRQ_ISR          F7E5
+KBIER            001B
+KBSCR            001A
+
+
+efectos.asm            Assembled with CASM08Z  05/01/2013  2:06:56  PAGE 26
+
+
+
+KEYB_ISR         F7DD
+KEYF             0003
+LVI              0001
+LVISR            FE0C
+MODE             0000
+MODEK            0000
+MODRST           0002
+MS0A             0004
+MS0B             0005
+MS1A             0004
+MS1B             0005
+OSCOPT0          0006
+OSCOPT1          0007
+OSCSC            0036
+OSCSTAT          0036
+OSCTRIM          0038
+PIN              0006
+POR              0007
+PORTA            0000
+PORTB            0001
+PRGRNGE          2809
+PTA              0000
+PTAPUE           000B
+PTB              0001
+PTBPUE           000C
+RAM_INI          0080
+RDVRRNG          2803
+RETARDO_1        EE7B
+RETARDO_2        EE79
+RETARDO_QY       EE77
+SBSW             0001
+SRSR             FE01
+START            EE00
+SWI_ISR          F7E7
+TCH0H            0026
+TCH0L            0027
+TCH1H            0029
+TCH1L            002A
+TCNTH            0021
+TCNTL            0022
+TIM1_0_ISR       F7E3
+TIM1_1_ISR       F7E1
+TIM1_OV_ISR      F7DF
+TMODH            0023
+TMODL            0024
+TOF              0007
+TOIE             0006
+TOV0             0001
+TOV1             0001
+TRST             0004
+TSC              0020
+TSC0             0025
+TSC1             0028
+TSTOP            0005
+VECTORES         FFDE
