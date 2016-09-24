@@ -1,0 +1,8 @@
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM pseudocompleto\Listar COM pseudocompleto\bin\Debug\Listar COM pseudocompleto.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM pseudocompleto\Listar COM pseudocompleto\bin\Debug\Listar COM pseudocompleto.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM pseudocompleto\Listar COM pseudocompleto\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM pseudocompleto\Listar COM pseudocompleto\obj\Debug\WindowsFormsApplication1.Form1.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM pseudocompleto\Listar COM pseudocompleto\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM pseudocompleto\Listar COM pseudocompleto\obj\Debug\Listar COM pseudocompleto.csproj.GenerateResource.Cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM pseudocompleto\Listar COM pseudocompleto\obj\Debug\Listar COM pseudocompleto.exe
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\Listar COM pseudocompleto\Listar COM pseudocompleto\obj\Debug\Listar COM pseudocompleto.pdb
