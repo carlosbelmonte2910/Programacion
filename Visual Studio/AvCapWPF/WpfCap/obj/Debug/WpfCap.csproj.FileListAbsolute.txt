@@ -1,0 +1,7 @@
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\AvCapWPF\WpfCap\bin\Debug\WpfCap.dll
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\AvCapWPF\WpfCap\bin\Debug\WpfCap.pdb
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\AvCapWPF\WpfCap\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\AvCapWPF\WpfCap\obj\Debug\WpfCap.Properties.Resources.resources
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\AvCapWPF\WpfCap\obj\Debug\WpfCap.csproj.GenerateResource.Cache
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\AvCapWPF\WpfCap\obj\Debug\WpfCap.dll
+C:\Users\Carlos  Belmonte\Documents\Visual Studio 2008\Projects\AvCapWPF\WpfCap\obj\Debug\WpfCap.pdb
